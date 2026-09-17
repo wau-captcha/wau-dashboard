@@ -22,7 +22,7 @@ Tài liệu này là **nguồn chuẩn duy nhất** về giao diện của `wau-
 ## 2. Theme
 
 - Theme theo class: `<html class="dark">`. Script `theme-init` trong `app/layout.tsx` đặt class **trước khi vẽ** (không nháy), đọc `localStorage["wau-theme"]` = `light | dark` (không có = theo hệ thống).
-- Đổi theme bằng `ThemeToggle` hoặc hook `useTheme()` (`components/theme/theme-toggle.tsx`); đồng bộ giữa các tab.
+- Đổi theme bằng `ThemeToggle` hoặc hook `useTheme()` (`components/theme/theme-toggle.tsx`); đồng bộ giữa các tab. Đổi ngôn ngữ: xem [§17](#17-đa-ngôn-ngữ).
 - Có thể bọc một vùng bằng `class="dark"` để ép giao diện tối cục bộ (token định nghĩa trên `.dark`).
 - Token khai báo ở `app/globals.css` (`:root` và `.dark`) và được ánh xạ sang Tailwind qua `@theme inline`, nên dùng thẳng: `bg-background`, `text-muted-foreground`, `border-border`…
 
@@ -230,7 +230,7 @@ Quy ước chung cho mọi component:
 - `className` áp lên phần tử **ngoài cùng** (để chỉnh độ rộng/lề); phần tử bên trong có prop riêng (`inputClassName`, `popupClassName`, `containerClassName`…).
 - Có `data-slot="…"` để nhắm CSS/test.
 - Hỗ trợ cả controlled (`value` + `onValueChange`) và uncontrolled (`defaultValue`).
-- Chuỗi mặc định bằng tiếng Việt, đều ghi đè được qua prop.
+- Chuỗi mặc định theo **ngôn ngữ đang chọn** (bảng `components/ui/ui-text.ts`, đọc qua `useUIText()`), đều ghi đè được qua prop. Component server không đọc được ngôn ngữ nên nhận chuỗi qua prop, mặc định tiếng Anh (vd. `AppHeader navLabel`).
 
 ### 11.1 Hành động
 
@@ -269,6 +269,7 @@ Mọi control đặt trong **`Field`** (`field.tsx`) để có nhãn, mô tả, 
 | `Combobox` | `combobox.tsx` | Như `Select` + ô tìm kiếm. `searchable`: `"auto"` (mặc định, bật khi > 8 lựa chọn) · `true` · `false`. Tìm từ server: `onSearchChange(query)` + `loading`, truyền kết quả vào `options` |
 | `Checkbox` | `checkbox.tsx` | `label`, `description`, `indeterminate` |
 | `Switch` | `switch.tsx` | `label`, `description`, `labelPosition="start"` cho hàng cài đặt |
+| `SegmentedControl` | `segmented-control.tsx` | Một lựa chọn trong vài lựa chọn luôn hiển thị (Base UI `ToggleGroup`, mũi tên để di chuyển); luôn giữ đúng một giá trị; `options` gồm `value`, `label` (chữ/icon), `ariaLabel`, `title`. Nền của `ThemeToggle` và `LanguageSwitcher` |
 
 Lựa chọn cho `Select`/`Combobox` có dạng:
 
@@ -278,7 +279,7 @@ type SelectOption<V extends string | number> = {
 };
 ```
 
-Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết → `Tabs` segmented hoặc radio; danh sách ngắn → `Select`; danh sách dài/động hoặc cần tìm → `Combobox`; bật/tắt có hiệu lực ngay → `Switch`; đồng ý/chọn nhiều trong form → `Checkbox`.
+Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết → `SegmentedControl` (cài đặt/giá trị) hoặc `Tabs` segmented (chuyển nội dung có panel); danh sách ngắn → `Select`; danh sách dài/động hoặc cần tìm → `Combobox`; bật/tắt có hiệu lực ngay → `Switch`; đồng ý/chọn nhiều trong form → `Checkbox`.
 
 ### 11.3 Dữ liệu
 
@@ -300,7 +301,7 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 ```
 
 - Cột: `id`, `header`, `cell(row)`, `accessor(row)` (giá trị để sắp xếp/hiển thị mặc định), `sortable`, `align`, `width`.
-- Mặc định định dạng: số → `1.234.567`, `Date` → `15/09/2026 14:05:09`, boolean → Có/Không, rỗng → "—".
+- Mặc định định dạng theo ngôn ngữ: số → `1,234,567` / `1.234.567`, `Date` → `15/09/2026 14:05:09`, boolean → Yes/No · Có/Không, rỗng → "—".
 - Sắp xếp vòng: tăng → giảm → bỏ; giá trị rỗng luôn ở cuối. Dữ liệu phân trang từ server → `manualSorting`.
 - Trạng thái: không dữ liệu + `loading` → skeleton; có dữ liệu + `loading` → mờ 60%; rỗng → `emptyState` (mặc định "Không có dữ liệu").
 - `density`: `compact` (6×10px) · `regular` (10×16px, mặc định) · `expanded` (14×16px). `stickyHeader` cần giới hạn chiều cao khung.
@@ -324,7 +325,21 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 | `Separator`, `Kbd`, `Spinner` | Đường kẻ; phím tắt; vòng tải (`label` khi đứng riêng) |
 | `Tabs` | `variant="underline"` (điều hướng trong trang) · `"segmented"` (chuyển chế độ xem/khoảng thời gian); `TabsList`, `TabsTab`, `TabsPanel` |
 
-### 11.5 Lớp nổi
+### 11.5 Bố cục trang
+
+| Component | File | Điểm chính |
+|---|---|---|
+| `Logo` | `logo.tsx` | Ô icon `ShieldCheck` nền `primary` + chữ "WAU Captcha"; `href` biến thành link; `children` để gắn badge |
+| `AppHeader` | `app-header.tsx` | Thanh dính `z-sticky`, hàng cao 56px, nội dung `max-w-7xl`; slot `brand`, `nav`, `actions`, `navLabel` (tên vùng điều hướng, truyền bản dịch); trên điện thoại `nav` xuống hàng thứ hai và cuộn ngang để các nút bên phải không đẩy mất menu |
+| `LanguageSwitcher` | `components/i18n/language-switcher.tsx` | `EN · VI` (tên đầy đủ trong `aria-label`), lưu cookie và render lại trang hiện tại, không đổi URL. Đặt cạnh `ThemeToggle` ở mọi khung trang |
+| `NavLink` | `nav-link.tsx` | Link điều hướng (Client): tự đánh dấu trang hiện tại theo `usePathname` (`exact` cho đường dẫn gốc), có `aria-current="page"` |
+| `PageHeader` | `page-header.tsx` | Mở đầu trang hoặc mục: `title` (chữ `title`, font brand), `level` 1 (h1, mặc định) hoặc 2 (h2 cho mục trong trang), `description`, `actions`, `children` (badge cạnh tiêu đề) |
+| `DescriptionList` | `description-list.tsx` | Cặp nhãn – giá trị dạng `<dl>`; `columns` 1/2/3 (một cột trên điện thoại) |
+| `CodeBlock` | `code-block.tsx` | Đoạn mã `font-mono` cuộn ngang; nhãn ngôn ngữ và `CopyButton` nằm trên thanh riêng phía trên (không phủ lên mã) |
+
+Trang chỉ ghép các component trên với class bố cục (`grid`, `flex`, `gap`, `max-w`); không viết markup trang trí trong `app/**`.
+
+### 11.6 Lớp nổi
 
 | Component | Khi nào dùng |
 |---|---|
@@ -337,12 +352,13 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 
 `Providers` (`components/providers.tsx`) đã gắn `TooltipProvider` và `ToastProvider` ở root layout.
 
-### 11.6 Tiện ích
+### 11.7 Tiện ích
 
 | File | Nội dung |
 |---|---|
 | `lib/utils.ts` | `cn()` = clsx + tailwind-merge **đã cấu hình token riêng** (`text-body`, `shadow-focus`, `z-popover`…). Thêm token mới → thêm vào cấu hình này, nếu không class sẽ bị gộp sai |
-| `lib/format.ts` | `DEFAULT_LOCALE = "vi-VN"`, `DEFAULT_TIME_ZONE = "Asia/Ho_Chi_Minh"`, `formatNumber`, `formatCompactNumber`, `formatPercent`, `formatDate`, `formatDateTime` |
+| `lib/format.ts` | `createFormatter(locale)` → `{ intl, number, compact, percent, date, dateTime }` (dùng cái này); các hàm rời `formatNumber`… nhận Intl tag, mặc định `DEFAULT_INTL_LOCALE = "en-GB"`; `DEFAULT_TIME_ZONE = "Asia/Ho_Chi_Minh"` |
+| `components/ui/locale.tsx` | `LocaleProvider` (gắn trong `Providers`), `useLocale()`, `useUIText()`, `useFormatter()` cho Client Component |
 | `lib/date.ts` | Hàm ngày theo lịch địa phương: `addDays`, `addMonths`, `startOfMonth`, `isSameDay`, `toISODate`, `parseDisplayDate`… |
 | `components/ui/control.ts` | Chuỗi class dùng chung: `controlBox`, `controlTrigger`, `controlInput`, `controlHeight`, `popupSurface`, `popupItem`, `popupMotion`. Component control mới **phải** dùng các chuỗi này |
 
@@ -350,12 +366,13 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 
 ## 12. Nội dung & định dạng
 
-- Ngôn ngữ giao diện: **tiếng Việt**, viết hoa chữ đầu câu ("Tạo khóa API", không "Tạo Khóa API"). Dấu thanh kiểu phổ thông: *xóa, khóa, hủy, hòa*.
-- Nhãn nút là động từ ngắn, không dấu chấm cuối. Mô tả/thông báo là câu đầy đủ, có dấu chấm. Placeholder gợi ý dạng dữ liệu ("shop.example.com", "dd/mm/yyyy"), kết thúc bằng "…" khi là lời mời hành động ("Chọn…", "Tìm kiếm…").
-- Giữ nguyên thuật ngữ kỹ thuật của hệ thống: *site key, secret key, token, challenge*; tên loại challenge hiển thị đúng id (`image_distort`, `motion_noise`…) kèm mô tả tiếng Việt.
-- Số: `1.234.567`, thập phân `12,5`, phần trăm `12,3%`, rút gọn `3,4 Tr`. Tiền: `NumberInput format={{ style: "currency", currency: "VND" }}` → `1.500.000 ₫`.
-- Ngày: `15/09/2026`; thời điểm: `15/09/2026 14:05:09` (múi giờ Việt Nam, cố định để server và client hiển thị giống nhau). Khoảng ngày: `01/09/2026 – 15/09/2026`.
-- Luôn định dạng qua `lib/format.ts`, không gọi `toLocaleString()` rải rác (lệch giữa server/client).
+- Hai ngôn ngữ: **tiếng Anh (mặc định)** và **tiếng Việt**. Mọi chữ hiển thị — kể cả `aria-label`, placeholder, `title`, tiêu đề tab, toast — lấy từ từ điển ([§17](#17-đa-ngôn-ngữ)), không viết thẳng trong component/trang.
+- Viết hoa chữ đầu câu ở cả hai ngôn ngữ ("Create API key" / "Tạo khóa API", không "Create API Key" / "Tạo Khóa API"). Tiếng Việt dùng dấu thanh kiểu phổ thông: *xóa, khóa, hủy, hòa*.
+- Nhãn nút là động từ ngắn, không dấu chấm cuối. Mô tả/thông báo là câu đầy đủ, có dấu chấm. Placeholder gợi ý dạng dữ liệu ("shop.example.com", "dd/mm/yyyy"), kết thúc bằng "…" khi là lời mời hành động ("Select…" / "Chọn…").
+- Giữ nguyên thuật ngữ kỹ thuật ở cả hai ngôn ngữ: *site key, secret key, token, challenge, API key*; loại challenge hiển thị tên dịch kèm id `font-mono` (`image_distort`, `motion_noise`…).
+- Số theo ngôn ngữ: `1,234,567` · `12.5` · `12.3%` · `3.4M` (en) / `1.234.567` · `12,5` · `12,3%` · `3,4 Tr` (vi). Tiền: `NumberInput format={{ style: "currency", currency: "VND" }}`.
+- Ngày giống nhau ở hai ngôn ngữ: `15/09/2026`; thời điểm `15/09/2026 14:05:09` (múi giờ Việt Nam, cố định để server và client hiển thị giống nhau). Khoảng ngày: `01/09/2026 – 15/09/2026`. Tiếng Anh dùng Intl `en-GB` chính vì thứ tự ngày trước — `DateInput` đọc lại đúng chuỗi này.
+- Luôn định dạng qua `createFormatter` / `useFormatter`, không gọi `toLocaleString()` rải rác (lệch giữa server/client và giữa hai ngôn ngữ).
 
 ---
 
@@ -372,7 +389,7 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 | `usage_logs.timestamp`, `create_date` | `formatDateTime` |
 | `challenge_types` | `Select`/`Combobox` với `label` = id, `description` = mô tả; loại không có trong gói → `disabled` |
 | Lượt xác minh, tỉ lệ | `StatCard` + `formatNumber` / `formatPercent`; cột số căn phải |
-| Mã lỗi API (`SITE_KEY_INVALID`, `SECRET_KEY_INVALID`, `CHALLENGE_TYPE_NOT_ALLOWED`…) | Thông báo tiếng Việt cho người dùng qua `toast.error`/`Alert`; mã gốc đặt ở `description` bằng `font-mono` khi hữu ích cho debug |
+| Mã lỗi API (`SITE_KEY_INVALID`, `SECRET_KEY_INVALID`, `CHALLENGE_TYPE_NOT_ALLOWED`…) | Thông báo đã dịch theo `reason` (từ điển `errors`) qua `toast.error`/`Alert`; mã gốc đặt ở `description` bằng `font-mono` khi hữu ích cho debug |
 | Thu hồi/xóa khóa | Item `destructive` trong menu → `ConfirmDialog tone="destructive"` → `toast.success` |
 
 ---
@@ -387,6 +404,7 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 - [ ] Hành động phá hủy luôn qua `ConfirmDialog`.
 - [ ] Tương phản chữ: dùng `*-text` cho chữ trạng thái, không dùng màu gốc (`positive`, `warning`…) làm màu chữ trên nền sáng.
 - [ ] Kiểm tra cả giao diện sáng và tối.
+- [ ] Kiểm tra cả tiếng Anh và tiếng Việt: không còn chữ viết cứng, chữ dài hơn không vỡ bố cục (kể cả 400px).
 
 ---
 
@@ -398,8 +416,8 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 | Thang `text-xs/sm/base` | Ghi đè (xs = 14px) | Giữ mặc định Tailwind, dùng thang ngữ nghĩa | Tránh nhầm lẫn cho dev |
 | Viền focus của nút | Chỉ quầng 3px | Thêm viền `focus-border` (mọi nút có viền 1px trong suốt) | Quầng 6% quá mờ, tăng khả năng nhìn thấy focus |
 | Tooltip | Không xác định được từ nguồn | Kiểu popover (nền `popover`, viền, `shadow-md`, chữ 12px) | Đồng nhất với các lớp nổi khác |
-| Thứ tự ngày giờ | — | `dd/MM/yyyy HH:mm:ss` | vi-VN mặc định đặt giờ trước ngày, khó dò theo cột |
-| Ngôn ngữ | Tiếng Anh | Tiếng Việt | Đối tượng người dùng |
+| Thứ tự ngày giờ | — | `dd/MM/yyyy HH:mm:ss` ở cả hai ngôn ngữ | vi-VN mặc định đặt giờ trước ngày, en-US đặt tháng trước ngày; một thứ tự cố định dễ dò theo cột |
+| Ngôn ngữ | Tiếng Anh | Tiếng Anh (mặc định) + tiếng Việt, đổi bằng `LanguageSwitcher` | Người dùng Việt Nam và quốc tế |
 
 ---
 
@@ -409,4 +427,18 @@ Quy tắc chọn control: ≤ 5 lựa chọn cố định, luôn thấy hết �
 2. **Component trước, trang sau.** Mẫu UI lặp lại ≥ 2 lần → tách vào `components/ui/`, dùng Base UI cho mọi thứ có tương tác (menu, popup, focus trap…), không tự viết lại hành vi bàn phím.
 3. Trang không được chứa chuỗi class dài lặp lại hoặc màu thô; chỉ bố cục (`grid`, `flex`, `gap`, `max-w`).
 4. Chỉ thêm `"use client"` cho file cần state/effect/sự kiện; ưu tiên Server Component cho trang và bố cục.
-5. Sau khi sửa component: `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build`, và kiểm tra trực quan ở cả hai theme.
+5. Sau khi sửa component: `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build`, và kiểm tra trực quan ở cả hai theme **và cả hai ngôn ngữ**.
+
+---
+
+## 17. Đa ngôn ngữ
+
+- **Nơi lưu:** cookie `wau_locale` (`en` | `vi`, 1 năm, `httpOnly`). Không có cookie → tiếng Anh; không dò ngôn ngữ trình duyệt. URL không chứa ngôn ngữ.
+- **Server** (trang, layout, `generateMetadata`, Server Action): `const { locale, t, format } = await getI18n()` từ `lib/i18n/server.ts`.
+- **Client:** `const { t, format } = useI18n()` từ `lib/i18n/client.ts`; component trong `components/ui` dùng `useUIText()` / `useFormatter()`.
+- **Từ điển:** `lib/i18n/messages/<nhóm>.ts`, mỗi file chứa `en` (nguồn) và `vi: Translation<typeof en>` — thiếu hoặc thừa khóa là lỗi `tsc`. Chuỗi có tham số viết thành hàm (`keyLimit: (max: number) => ...`). Thêm nhóm mới → khai báo trong `lib/i18n/dictionary.ts`.
+- **Không truyền từ điển qua props** từ Server sang Client Component (hàm không tuần tự hóa được): client tự lấy bằng `useI18n()`.
+- **Form với `useActionState`:** action trả `FormMessage` trung lập (`lib/form-message.ts`), client dịch lúc render bằng `formMessageText` — state của form sống qua lần đổi ngôn ngữ, chuỗi dịch sẵn trong action sẽ bị kẹt ở ngôn ngữ cũ. Toast dịch ngay trong action được, vì hiện rồi biến mất.
+- **Đổi ngôn ngữ:** `LanguageSwitcher` → Server Action `setLocaleAction` ghi cookie + `refresh()`; trang render lại tại chỗ, giữ phiên đăng nhập và state client.
+- **Trang `/demo`:** nội dung mô tả giữ tiếng Việt (trang nội bộ cho lập trình viên); component bên trong vẫn theo ngôn ngữ đang chọn để xem trước cả hai bản.
+

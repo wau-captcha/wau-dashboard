@@ -4,6 +4,7 @@ import { Toast } from "@base-ui/react/toast";
 import { CircleAlert, CircleCheck, Info, TriangleAlert, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "./button";
+import { useUIText } from "./locale";
 import { Spinner } from "./spinner";
 
 export type ToastType = "default" | "success" | "error" | "warning" | "info" | "loading";
@@ -52,7 +53,7 @@ type PromiseMessages<T> = {
 
 /**
  * Transient notifications, callable from anywhere (event handlers, async code).
- * `toast.success("Đã lưu")`, `toast.error("Không thể xóa", { description })`, `toast.promise(save(), {...})`.
+ * `toast.success("Saved")`, `toast.error("Couldn't delete", { description })`, `toast.promise(save(), {...})`.
  * Requires <ToastProvider> (mounted in app Providers).
  */
 export const toast = Object.assign((title: ReactNode, options?: ToastOptions) => show("default", title, options), {
@@ -95,6 +96,7 @@ function ToastIcon({ type }: { type?: string }) {
 
 function ToastList() {
   const { toasts } = Toast.useToastManager();
+  const text = useUIText().toast;
 
   return toasts.map((item) => (
     <Toast.Root
@@ -116,7 +118,7 @@ function ToastList() {
         {item.actionProps && <Button variant="outline" size="xs" className="mt-2 w-fit" {...item.actionProps} />}
       </div>
       <Toast.Close
-        aria-label="Đóng thông báo"
+        aria-label={text.close}
         className="absolute right-2.5 top-2.5 flex size-6 cursor-pointer items-center justify-center rounded-sm text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:shadow-focus"
       >
         <X className="size-3.5" />

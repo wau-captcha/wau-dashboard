@@ -12,6 +12,7 @@ import {
   controlInput,
   type ControlSize,
 } from "./control";
+import { useUIText } from "./locale";
 
 export type TextInputProps = Omit<Input.Props, "className" | "size"> & {
   size?: ControlSize;
@@ -51,6 +52,7 @@ export function TextInput({
   readOnly,
   ...props
 }: TextInputProps) {
+  const text = useUIText().textInput;
   const [revealed, setRevealed] = useState(false);
   const [uncontrolledValue, setUncontrolledValue] = useState(() => String(defaultValue ?? ""));
   const currentValue = value !== undefined ? String(value) : uncontrolledValue;
@@ -92,7 +94,7 @@ export function TextInput({
       {showClear && (
         <button
           type="button"
-          aria-label="Xóa nội dung"
+          aria-label={text.clear}
           onMouseDown={(event) => event.preventDefault()}
           onClick={clear}
           className={cn(controlIconButton, !isPassword && !endAdornment && "mr-2")}
@@ -103,7 +105,7 @@ export function TextInput({
       {isPassword && (
         <button
           type="button"
-          aria-label={revealed ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+          aria-label={revealed ? text.hidePassword : text.showPassword}
           aria-pressed={revealed}
           disabled={disabled}
           onMouseDown={(event) => event.preventDefault()}

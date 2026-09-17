@@ -1,7 +1,8 @@
-import { ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Badge } from "@/components/ui/badge";
+import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
 export type DemoNavItem = { id: string; label: string };
@@ -11,16 +12,15 @@ export function DemoShell({ nav, children }: { nav: DemoNavItem[]; children: Rea
     <div className="min-h-full">
       <header className="sticky top-0 z-sticky border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-          <div className="flex items-center gap-2.5">
-            <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <ShieldCheck className="size-4" />
-            </span>
-            <span className="font-brand text-heading font-semibold tracking-tight text-foreground">WAU Captcha</span>
+          <Logo href="/demo">
             <Badge tone="primary" size="sm">
               UI Kit
             </Badge>
+          </Logo>
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <ThemeToggle />
           </div>
-          <ThemeToggle />
         </div>
       </header>
       <div className="mx-auto flex max-w-7xl gap-10 px-4 sm:px-6">

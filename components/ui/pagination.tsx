@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
+import { useFormatter, useUIText } from "./locale";
 import { Select } from "./select";
 
 export type PaginationProps = {
@@ -49,6 +49,8 @@ export function Pagination({
   pageSizeOptions = [10, 20, 50, 100],
   className,
 }: PaginationProps) {
+  const text = useUIText().pagination;
+  const format = useFormatter();
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const current = Math.min(Math.max(1, page), pageCount);
   const from = total === 0 ? 0 : (current - 1) * pageSize + 1;
@@ -64,25 +66,25 @@ export function Pagination({
     >
       <p className="tabular-nums">
         {total === 0 ? (
-          "Không có bản ghi"
+          text.empty
         ) : (
           <>
-            Hiển thị{" "}
+            {text.showing}{" "}
             <span className="font-medium text-foreground">
-              {formatNumber(from)}–{formatNumber(to)}
+              {format.number(from)}–{format.number(to)}
             </span>{" "}
-            trong <span className="font-medium text-foreground">{formatNumber(total)}</span>
+            {text.of} <span className="font-medium text-foreground">{format.number(total)}</span>
           </>
         )}
       </p>
       <div className="flex flex-wrap items-center gap-4">
         {onPageSizeChange && (
           <div className="flex items-center gap-2">
-            <span className="whitespace-nowrap">Số dòng</span>
+            <span className="whitespace-nowrap">{text.pageSize}</span>
             <Select<number>
               size="sm"
               className="w-20"
-              aria-label="Số dòng mỗi trang"
+              aria-label={text.pageSizeLabel}
               options={pageSizeOptions.map((size) => ({ value: size, label: String(size) }))}
               value={pageSize}
               onValueChange={(size: number | null) => {
@@ -91,11 +93,11 @@ export function Pagination({
             />
           </div>
         )}
-        <nav aria-label="Phân trang" className="flex items-center gap-1">
+        <nav aria-label={text.navigation} className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Trang trước"
+            aria-label={text.previous}
             disabled={current <= 1}
             onClick={() => onPageChange(current - 1)}
           >
@@ -111,7 +113,7 @@ export function Pagination({
                 key={item}
                 variant={item === current ? "outline" : "ghost"}
                 size="sm"
-                aria-label={`Trang ${item}`}
+                aria-label={text.page(item)}
                 aria-current={item === current ? "page" : undefined}
                 onClick={() => onPageChange(item)}
                 className={cn("min-w-8 px-2 tabular-nums", item === current && "text-foreground")}
@@ -123,7 +125,7 @@ export function Pagination({
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="Trang sau"
+            aria-label={text.next}
             disabled={current >= pageCount}
             onClick={() => onPageChange(current + 1)}
           >

@@ -3,16 +3,16 @@
 import { NumberField } from "@base-ui/react/number-field";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { ReactNode } from "react";
-import { DEFAULT_LOCALE } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { controlAdornment, controlBox, controlHeight, controlInput, type ControlSize } from "./control";
+import { useFormatter, useUIText } from "./locale";
 
 export type NumberInputProps = Omit<NumberField.Root.Props, "className" | "render" | "children" | "style"> & {
   size?: ControlSize;
   placeholder?: string;
   /** Icon or text before the value, e.g. "₫". */
   startAdornment?: ReactNode;
-  /** Icon or text after the value, e.g. "giây". */
+  /** Icon or text after the value, e.g. "sec". */
   endAdornment?: ReactNode;
   /** Hides the increment/decrement buttons. Arrow keys still step the value. */
   hideStepper?: boolean;
@@ -41,14 +41,17 @@ export function NumberInput({
   invalid,
   className,
   inputClassName,
-  locale = DEFAULT_LOCALE,
+  locale,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   "aria-describedby": ariaDescribedBy,
   ...props
 }: NumberInputProps) {
+  const text = useUIText().numberInput;
+  const format = useFormatter();
+
   return (
-    <NumberField.Root data-slot="number-input" locale={locale} className={cn("w-full min-w-0", className)} {...props}>
+    <NumberField.Root data-slot="number-input" locale={locale ?? format.intl} className={cn("w-full min-w-0", className)} {...props}>
       <NumberField.Group className={cn(controlBox, controlHeight[size])}>
         {startAdornment && <span className={cn(controlAdornment, "pl-3")}>{startAdornment}</span>}
         <NumberField.Input
@@ -62,10 +65,10 @@ export function NumberInput({
         {endAdornment && <span className={cn(controlAdornment, hideStepper ? "pr-3" : "pr-2")}>{endAdornment}</span>}
         {!hideStepper && (
           <span className="flex h-full w-7 shrink-0 flex-col border-l border-input">
-            <NumberField.Increment aria-label="Tăng" className={stepperButton}>
+            <NumberField.Increment aria-label={text.increment} className={stepperButton}>
               <ChevronUp className="size-3.5" />
             </NumberField.Increment>
-            <NumberField.Decrement aria-label="Giảm" className={cn(stepperButton, "border-t border-input")}>
+            <NumberField.Decrement aria-label={text.decrement} className={cn(stepperButton, "border-t border-input")}>
               <ChevronDown className="size-3.5" />
             </NumberField.Decrement>
           </span>

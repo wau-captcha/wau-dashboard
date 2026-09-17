@@ -31,7 +31,8 @@ import {
 import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
 import { TextInput } from "@/components/ui/text-input";
 import { toast } from "@/components/ui/toast";
-import { formatDate, formatDateTime, formatNumber, formatPercent } from "@/lib/format";
+import { useFormatter } from "@/components/ui/locale";
+import { formatDate, formatDateTime } from "@/lib/format";
 import { DemoBlock, DemoSection } from "../demo-shell";
 import { apiKeys, delay, keyStatusMeta, usageLogs, type DemoApiKey, type DemoUsageLog } from "../mock-data";
 
@@ -310,6 +311,7 @@ function UsageLogsTable() {
 }
 
 export function TablesSection() {
+  const format = useFormatter();
   const totals = monthlySummary.reduce(
     (sum, row) => ({ total: sum.total + row.total, success: sum.success + row.success }),
     { total: 0, success: 0 },
@@ -363,18 +365,18 @@ export function TablesSection() {
               {monthlySummary.map((row) => (
                 <TableRow key={row.type}>
                   <TableCell className="font-mono text-foreground">{row.type}</TableCell>
-                  <TableCell className="text-right">{formatNumber(row.total)}</TableCell>
-                  <TableCell className="text-right">{formatNumber(row.success)}</TableCell>
-                  <TableCell className="text-right">{formatPercent(row.success / row.total)}</TableCell>
+                  <TableCell className="text-right">{format.number(row.total)}</TableCell>
+                  <TableCell className="text-right">{format.number(row.success)}</TableCell>
+                  <TableCell className="text-right">{format.percent(row.success / row.total)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TableCell>Tổng</TableCell>
-                <TableCell className="text-right">{formatNumber(totals.total)}</TableCell>
-                <TableCell className="text-right">{formatNumber(totals.success)}</TableCell>
-                <TableCell className="text-right">{formatPercent(totals.success / totals.total)}</TableCell>
+                <TableCell className="text-right">{format.number(totals.total)}</TableCell>
+                <TableCell className="text-right">{format.number(totals.success)}</TableCell>
+                <TableCell className="text-right">{format.percent(totals.success / totals.total)}</TableCell>
               </TableRow>
             </TableFooter>
             <TableCaption className="py-3">Tổng hợp tháng 9/2026</TableCaption>

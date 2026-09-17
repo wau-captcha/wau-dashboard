@@ -2,8 +2,9 @@
 
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useSyncExternalStore } from "react";
+import { useUIText } from "@/components/ui/locale";
+import { SegmentedControl, type SegmentedOption } from "@/components/ui/segmented-control";
 import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
-import { cn } from "@/lib/utils";
 
 const THEME_CHANGE_EVENT = "wau-theme-change";
 const darkQuery = "(prefers-color-scheme: dark)";
@@ -63,39 +64,18 @@ export function useTheme() {
   return { theme, setTheme };
 }
 
-const options: { value: Theme; label: string; Icon: typeof Sun }[] = [
-  { value: "light", label: "Giao diện sáng", Icon: Sun },
-  { value: "dark", label: "Giao diện tối", Icon: Moon },
-  { value: "system", label: "Theo hệ thống", Icon: Monitor },
-];
+const icons: Record<Theme, typeof Sun> = { light: Sun, dark: Moon, system: Monitor };
 
 /** Three-way light / dark / system switch. */
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
+  const text = useUIText().theme;
+  const options: SegmentedOption<Theme>[] = (["light", "dark", "system"] as const).map((value) => {
+    const Icon = icons[value];
+    return { value, label: <Icon />, ariaLabel: text[value], title: text[value] };
+  });
 
   return (
-    <div
-      role="group"
-      aria-label="Giao diện"
-      className={cn("inline-flex items-center gap-0.5 rounded-md border border-border bg-muted p-0.5", className)}
-    >
-      {options.map(({ value, label, Icon }) => (
-        <button
-          key={value}
-          type="button"
-          aria-label={label}
-          aria-pressed={theme === value}
-          title={label}
-          onClick={() => setTheme(value)}
-          className={cn(
-            "flex h-6 cursor-pointer items-center justify-center rounded-sm px-2 text-muted-foreground outline-none transition-colors",
-            "hover:text-accent-foreground focus-visible:shadow-focus",
-            theme === value && "bg-background text-accent-foreground shadow-sm",
-          )}
-        >
-          <Icon className="size-3.5" />
-        </button>
-      ))}
-    </div>
+    <SegmentedControl aria-label={text.group} options={options} value={theme} onValueChange={setTheme} className={className} />
   );
 }

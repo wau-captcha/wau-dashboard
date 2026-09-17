@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import { useState, type ComponentProps, type ReactElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
+import { useUIText } from "./locale";
 
 export const Dialog = BaseDialog.Root;
 export const DialogTrigger = BaseDialog.Trigger;
@@ -37,6 +38,7 @@ export type DialogContentProps = Omit<BaseDialog.Popup.Props, "className"> & {
 };
 
 export function DialogContent({ size = "md", showCloseButton = true, className, children, ...props }: DialogContentProps) {
+  const text = useUIText().dialog;
   return (
     <BaseDialog.Portal>
       <BaseDialog.Backdrop className={backdropClassName} />
@@ -45,7 +47,7 @@ export function DialogContent({ size = "md", showCloseButton = true, className, 
         {showCloseButton && (
           <BaseDialog.Close render={<Button variant="ghost" size="icon-sm" className="absolute right-3 top-3" />}>
             <X />
-            <span className="sr-only">Đóng</span>
+            <span className="sr-only">{text.close}</span>
           </BaseDialog.Close>
         )}
       </BaseDialog.Popup>
@@ -91,7 +93,7 @@ export function DialogFooter({ className, ...props }: ComponentProps<"div">) {
 }
 
 export type ConfirmDialogProps = {
-  /** Element that opens the dialog, e.g. <Button variant="destructive-outline">Xóa</Button>. Omit when controlled. */
+  /** Element that opens the dialog, e.g. <Button variant="destructive-outline">Delete</Button>. Omit when controlled. */
   trigger?: ReactElement;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -117,11 +119,12 @@ export function ConfirmDialog({
   title,
   description,
   children,
-  confirmLabel = "Xác nhận",
-  cancelLabel = "Hủy",
+  confirmLabel,
+  cancelLabel,
   tone = "default",
   onConfirm,
 }: ConfirmDialogProps) {
+  const text = useUIText().dialog;
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const isOpen = open ?? uncontrolledOpen;
@@ -162,9 +165,9 @@ export function ConfirmDialog({
           </div>
           {children}
           <div className="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end">
-            <BaseAlertDialog.Close render={<Button variant="outline" disabled={pending} />}>{cancelLabel}</BaseAlertDialog.Close>
+            <BaseAlertDialog.Close render={<Button variant="outline" disabled={pending} />}>{cancelLabel ?? text.cancel}</BaseAlertDialog.Close>
             <Button variant={tone === "destructive" ? "destructive" : "primary"} loading={pending} onClick={confirm}>
-              {confirmLabel}
+              {confirmLabel ?? text.confirm}
             </Button>
           </div>
         </BaseAlertDialog.Popup>

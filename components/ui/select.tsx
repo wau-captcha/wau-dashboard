@@ -22,6 +22,7 @@ import {
   type SelectionProps,
   type SelectOption,
 } from "./options";
+import { useUIText } from "./locale";
 
 export type SelectBaseProps<V extends OptionValue> = {
   options: readonly SelectOption<V>[];
@@ -53,7 +54,7 @@ export type SelectProps<V extends OptionValue = string> = SelectBaseProps<V> & S
 export function Select<V extends OptionValue = string>(props: SelectProps<V>) {
   const {
     options,
-    placeholder = "Chọn…",
+    placeholder,
     size = "md",
     clearable,
     invalid,
@@ -67,6 +68,7 @@ export function Select<V extends OptionValue = string>(props: SelectProps<V>) {
     "aria-label": ariaLabel,
     renderOption,
   } = props;
+  const text = useUIText().select;
   const selection = useSelection(props);
   const items = useMemo(() => options.map(({ value, label }) => ({ value, label })), [options]);
   const groups = useMemo(() => groupOptions(options), [options]);
@@ -109,7 +111,7 @@ export function Select<V extends OptionValue = string>(props: SelectProps<V>) {
         >
           {/* mr-6 leaves room for the clear button, which sits over the trigger just before the chevron. */}
           <span className={cn("min-w-0 flex-1 truncate", !hasValue && "text-muted-foreground", showClear && "mr-6")}>
-            {hasValue ? joinOptionLabels(labels) : placeholder}
+            {hasValue ? joinOptionLabels(labels) : (placeholder ?? text.placeholder)}
           </span>
           <BaseSelect.Icon className="flex shrink-0 text-muted-foreground transition-transform duration-150 group-data-[popup-open]:rotate-180">
             <ChevronDown className="size-4" />
@@ -127,7 +129,7 @@ export function Select<V extends OptionValue = string>(props: SelectProps<V>) {
             >
               <BaseSelect.List>
                 {options.length === 0 && (
-                  <div className="px-2 py-4 text-center text-body text-muted-foreground">Không có lựa chọn</div>
+                  <div className="px-2 py-4 text-center text-body text-muted-foreground">{text.noOptions}</div>
                 )}
                 {groups
                   ? groups.map((group) => (
@@ -149,7 +151,7 @@ export function Select<V extends OptionValue = string>(props: SelectProps<V>) {
       {showClear && (
         <button
           type="button"
-          aria-label="Xóa lựa chọn"
+          aria-label={text.clear}
           onClick={() => selection.setValues([])}
           className={cn(controlIconButton, "absolute right-8 top-1/2 -translate-y-1/2")}
         >

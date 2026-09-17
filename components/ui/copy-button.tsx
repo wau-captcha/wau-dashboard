@@ -3,6 +3,7 @@
 import { Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button, type ButtonProps } from "./button";
+import { useUIText } from "./locale";
 import { Tooltip } from "./tooltip";
 
 export type CopyButtonProps = Omit<ButtonProps, "onClick" | "value"> & {
@@ -35,14 +36,17 @@ async function writeClipboard(text: string) {
 /** Copies `value` to the clipboard and confirms with a check icon. Icon-only by default. */
 export function CopyButton({
   value,
-  label = "Sao chép",
-  copiedLabel = "Đã sao chép",
+  label: labelProp,
+  copiedLabel: copiedLabelProp,
   onCopied,
   variant = "ghost",
   size = "icon-sm",
   children,
   ...props
 }: CopyButtonProps) {
+  const text = useUIText().copy;
+  const label = labelProp ?? text.copy;
+  const copiedLabel = copiedLabelProp ?? text.copied;
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {

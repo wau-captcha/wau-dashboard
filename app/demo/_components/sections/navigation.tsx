@@ -2,9 +2,12 @@
 
 import { ChartColumn, KeyRound, Settings } from "lucide-react";
 import { useState } from "react";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { useFormatter } from "@/components/ui/locale";
 import { Pagination } from "@/components/ui/pagination";
+import { SegmentedControl, type SegmentedOption } from "@/components/ui/segmented-control";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@/components/ui/tabs";
-import { formatNumber } from "@/lib/format";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
 
 const ranges = [
@@ -14,7 +17,17 @@ const ranges = [
   { value: "90d", label: "90 ngày", requests: 402118 },
 ];
 
+type Density = "compact" | "regular" | "expanded";
+
+const densityOptions: SegmentedOption<Density>[] = [
+  { value: "compact", label: "Gọn" },
+  { value: "regular", label: "Vừa" },
+  { value: "expanded", label: "Rộng" },
+];
+
 export function NavigationSection() {
+  const format = useFormatter();
+  const [density, setDensity] = useState<Density>("regular");
   const [range, setRange] = useState("7d");
   const [page, setPage] = useState(4);
   const [pageSize, setPageSize] = useState(20);
@@ -66,9 +79,29 @@ export function NavigationSection() {
             </TabsList>
           </Tabs>
           <p className="text-body text-muted-foreground">
-            {current.label}: <span className="font-medium text-foreground">{formatNumber(current.requests)}</span> lượt xác
+            {current.label}: <span className="font-medium text-foreground">{format.number(current.requests)}</span> lượt xác
             minh
           </p>
+        </div>
+      </DemoBlock>
+
+      <DemoBlock
+        title="SegmentedControl"
+        description="Một lựa chọn trong vài lựa chọn luôn hiển thị; ThemeToggle và LanguageSwitcher dựng trên nó. Mũi tên để di chuyển."
+      >
+        <div className="flex flex-wrap items-start gap-6">
+          <div>
+            <DemoLabel>Chữ · {density}</DemoLabel>
+            <SegmentedControl aria-label="Mật độ bảng" options={densityOptions} value={density} onValueChange={setDensity} />
+          </div>
+          <div>
+            <DemoLabel>ThemeToggle</DemoLabel>
+            <ThemeToggle />
+          </div>
+          <div>
+            <DemoLabel>LanguageSwitcher (đổi ngôn ngữ thật)</DemoLabel>
+            <LanguageSwitcher />
+          </div>
         </div>
       </DemoBlock>
 

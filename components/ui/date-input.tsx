@@ -2,7 +2,7 @@
 
 import { Input } from "@base-ui/react/input";
 import { CalendarDays, X } from "lucide-react";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent } from "react";
 import {
   addDays,
   addMonths,
@@ -14,7 +14,7 @@ import {
   toISODate,
   type WeekStart,
 } from "@/lib/date";
-import { DEFAULT_LOCALE, formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Calendar, type DateRange } from "./calendar";
 import {
@@ -25,6 +25,7 @@ import {
   controlTrigger,
   type ControlSize,
 } from "./control";
+import { useFormatter, useUIText } from "./locale";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 type DateConstraints = {
@@ -32,6 +33,7 @@ type DateConstraints = {
   max?: Date;
   isDateDisabled?: (date: Date) => boolean;
   weekStartsOn?: WeekStart;
+  /** Intl tag for the calendar; defaults to the active language. */
   locale?: string;
 };
 
@@ -77,7 +79,7 @@ export function DateInput({
   max,
   isDateDisabled,
   weekStartsOn,
-  locale = DEFAULT_LOCALE,
+  locale: localeProp,
   size = "md",
   placeholder = "dd/mm/yyyy",
   clearable = true,
@@ -90,6 +92,9 @@ export function DateInput({
   className,
   "aria-label": ariaLabel,
 }: DateInputProps) {
+  const labels = useUIText().dateInput;
+  const format = useFormatter();
+  const locale = localeProp ?? format.intl;
   const [uncontrolledValue, setUncontrolledValue] = useState<Date | null>(defaultValue);
   const current = value !== undefined ? value : uncontrolledValue;
   const [text, setText] = useState(() => (current ? formatDate(current, locale) : ""));
@@ -155,7 +160,7 @@ export function DateInput({
         {clearable && current && !disabled && !readOnly && (
           <button
             type="button"
-            aria-label="Xóa ngày"
+            aria-label={labels.clearDate}
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => commit(null)}
             className={controlIconButton}
@@ -163,7 +168,7 @@ export function DateInput({
             <X className="size-3.5" />
           </button>
         )}
-        <PopoverTrigger aria-label="Mở lịch" disabled={disabled || readOnly} className={cn(controlIconButton, "mr-2")}>
+        <PopoverTrigger aria-label={labels.openCalendar} disabled={disabled || readOnly} className={cn(controlIconButton, "mr-2")}>
           <CalendarDays />
         </PopoverTrigger>
       </div>
@@ -199,17 +204,23 @@ export type DateRangePreset = {
   getRange: (today: Date) => DateRange;
 };
 
-/** Common ranges for reports and usage filters. */
-export const dateRangePresets: DateRangePreset[] = [
-  { label: "Hôm nay", getRange: (today) => ({ from: today, to: today }) },
-  { label: "7 ngày qua", getRange: (today) => ({ from: addDays(today, -6), to: today }) },
-  { label: "30 ngày qua", getRange: (today) => ({ from: addDays(today, -29), to: today }) },
-  { label: "Tháng này", getRange: (today) => ({ from: startOfMonth(today), to: today }) },
-  {
-    label: "Tháng trước",
-    getRange: (today) => ({ from: addMonths(startOfMonth(today), -1), to: addDays(startOfMonth(today), -1) }),
-  },
-];
+/** Common ranges for reports and usage filters, labelled in the active language. */
+export function useDateRangePresets(): DateRangePreset[] {
+  const labels = useUIText().dateInput.presets;
+  return useMemo(
+    () => [
+      { label: labels.today, getRange: (today) => ({ from: today, to: today }) },
+      { label: labels.last7Days, getRange: (today) => ({ from: addDays(today, -6), to: today }) },
+      { label: labels.last30Days, getRange: (today) => ({ from: addDays(today, -29), to: today }) },
+      { label: labels.thisMonth, getRange: (today) => ({ from: startOfMonth(today), to: today }) },
+      {
+        label: labels.lastMonth,
+        getRange: (today) => ({ from: addMonths(startOfMonth(today), -1), to: addDays(startOfMonth(today), -1) }),
+      },
+    ],
+    [labels],
+  );
+}
 
 const EMPTY_RANGE: DateRange = { from: null, to: null };
 
@@ -218,7 +229,7 @@ export type DateRangeInputProps = DateConstraints & {
   defaultValue?: DateRange;
   /** Fires once both ends are picked, a preset is chosen, or the range is cleared. */
   onValueChange?: (range: DateRange) => void;
-  /** Quick picks shown beside the calendar, e.g. `dateRangePresets`. */
+  /** Quick picks shown beside the calendar, e.g. `useDateRangePresets()`. */
   presets?: DateRangePreset[];
   numberOfMonths?: 1 | 2;
   size?: ControlSize;
@@ -243,9 +254,9 @@ export function DateRangeInput({
   max,
   isDateDisabled,
   weekStartsOn,
-  locale = DEFAULT_LOCALE,
+  locale: localeProp,
   size = "md",
-  placeholder = "Chọn khoảng ngày",
+  placeholder: placeholderProp,
   clearable = true,
   disabled,
   invalid,
@@ -253,6 +264,10 @@ export function DateRangeInput({
   className,
   "aria-label": ariaLabel,
 }: DateRangeInputProps) {
+  const text = useUIText().dateInput;
+  const format = useFormatter();
+  const locale = localeProp ?? format.intl;
+  const placeholder = placeholderProp ?? text.rangePlaceholder;
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const current = value ?? uncontrolledValue;
   const [draft, setDraft] = useState<DateRange>(current);
@@ -345,7 +360,7 @@ export function DateRangeInput({
       {clearable && hasValue && !disabled && (
         <button
           type="button"
-          aria-label="Xóa khoảng ngày"
+          aria-label={text.clearRange}
           onClick={() => commit(EMPTY_RANGE)}
           className={cn(controlIconButton, "absolute right-2 top-1/2 -translate-y-1/2")}
         >

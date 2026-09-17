@@ -5,6 +5,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { CopyButton } from "./copy-button";
+import { useUIText } from "./locale";
 import { Tooltip } from "./tooltip";
 
 export type SecretValueProps = {
@@ -26,6 +27,7 @@ export function maskSecret(value: string) {
 
 /** Read-only monospace value with optional reveal and copy, e.g. site_key / secret_key. */
 export function SecretValue({ value, masked = false, copyable = true, className, "aria-label": ariaLabel }: SecretValueProps) {
+  const text = useUIText().secret;
   const [revealed, setRevealed] = useState(false);
   const hidden = masked && !revealed;
 
@@ -42,11 +44,11 @@ export function SecretValue({ value, masked = false, copyable = true, className,
         {hidden ? maskSecret(value) : value}
       </code>
       {masked && (
-        <Tooltip content={revealed ? "Ẩn" : "Hiện"} closeOnClick={false}>
+        <Tooltip content={revealed ? text.hide : text.show} closeOnClick={false}>
           <Button
             variant="ghost"
             size="icon-xs"
-            aria-label={revealed ? "Ẩn giá trị" : "Hiện giá trị"}
+            aria-label={revealed ? text.hideValue : text.showValue}
             aria-pressed={revealed}
             onClick={() => setRevealed((shown) => !shown)}
           >

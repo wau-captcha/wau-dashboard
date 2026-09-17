@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import { Providers } from "@/components/providers";
+import { getI18n } from "@/lib/i18n/server";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -15,15 +16,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: { default: "WAU Captcha", template: "%s · WAU Captcha" },
-  description: "Bảng điều khiển quản lý WAU Captcha",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getI18n();
+  return {
+    title: { default: t.common.app.name, template: `%s · ${t.common.app.name}` },
+    description: t.common.app.description,
+  };
+}
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // The language comes from a cookie, so every route renders per request.
+  const { locale } = await getI18n();
+
   return (
     <html
-      lang="vi"
+      lang={locale}
       suppressHydrationWarning
       className={`${jakarta.variable} ${geistMono.variable} h-full antialiased`}
     >
@@ -32,7 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Script id="theme-init" strategy="beforeInteractive">
           {themeInitScript}
         </Script>
-        <Providers>
+        <Providers locale={locale}>
           {/* Isolated so portalled popups always stack above page content. */}
           <div className="isolate flex flex-1 flex-col">{children}</div>
         </Providers>

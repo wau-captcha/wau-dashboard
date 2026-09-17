@@ -17,7 +17,7 @@ export type TooltipProps = {
   sideOffset?: number;
   /** Hover delay in ms. */
   delay?: number;
-  /** Keep false when clicking the trigger changes the tooltip text (e.g. "Đã sao chép"). */
+  /** Keep false when clicking the trigger changes the tooltip text (e.g. "Copied"). */
   closeOnClick?: boolean;
   disabled?: boolean;
   className?: string;

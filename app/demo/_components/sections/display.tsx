@@ -17,7 +17,7 @@ import { SecretValue } from "@/components/ui/secret-value";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
-import { formatNumber, formatPercent } from "@/lib/format";
+import { getI18n } from "@/lib/i18n/server";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
 import { apiKeys, keyStatusMeta } from "../mock-data";
 
@@ -27,7 +27,8 @@ const challengeCards = [
   { id: "slide_puzzle", description: "Kéo mảnh ghép vào đúng vị trí trên ảnh nền.", tier: "Premium" },
 ];
 
-export function DisplaySection() {
+export async function DisplaySection() {
+  const { format } = await getI18n();
   const key = apiKeys[0];
 
   return (
@@ -113,7 +114,7 @@ export function DisplaySection() {
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             label="Lượt xác minh (30 ngày)"
-            value={formatNumber(142871)}
+            value={format.number(142871)}
             icon={<Activity />}
             hint={
               <Badge tone="positive" size="sm">
@@ -121,7 +122,7 @@ export function DisplaySection() {
               </Badge>
             }
           />
-          <StatCard label="Tỉ lệ thành công" value={formatPercent(0.972)} icon={<ShieldCheck />} hint="Trung bình 30 ngày" />
+          <StatCard label="Tỉ lệ thành công" value={format.percent(0.972)} icon={<ShieldCheck />} hint="Trung bình 30 ngày" />
           <StatCard label="Khóa đang hoạt động" value="5" icon={<KeyRound />} hint="trên 8 khóa" />
           <StatCard
             label="Thời gian phản hồi"

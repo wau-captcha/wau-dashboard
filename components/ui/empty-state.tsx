@@ -7,7 +7,7 @@ export type EmptyStateProps = Omit<ComponentProps<"div">, "title"> & {
   description?: ReactNode;
   /** Defaults to an inbox icon. */
   icon?: ReactNode;
-  /** Buttons that resolve the empty state, e.g. "Tạo khóa API". */
+  /** Buttons that resolve the empty state, e.g. "Create API key". */
   action?: ReactNode;
 };
 

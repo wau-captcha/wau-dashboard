@@ -2,10 +2,11 @@
 
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
-import { DEFAULT_LOCALE, formatDateTime, formatNumber } from "@/lib/format";
+import type { Formatter } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
 import { EmptyState } from "./empty-state";
+import { useFormatter, useUIText } from "./locale";
 import { Skeleton } from "./skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, type TableDensity } from "./table";
 
@@ -74,11 +75,11 @@ function compareValues(a: Exclude<CellValue, null | undefined>, b: Exclude<CellV
   return collator.compare(String(a), String(b));
 }
 
-function formatCellValue(value: CellValue): ReactNode {
+function formatCellValue(value: CellValue, format: Formatter, text: { yes: string; no: string }): ReactNode {
   if (isEmptyValue(value)) return <span className="text-faint-foreground">—</span>;
-  if (value instanceof Date) return formatDateTime(value);
-  if (typeof value === "number") return formatNumber(value);
-  if (typeof value === "boolean") return value ? "Có" : "Không";
+  if (value instanceof Date) return format.dateTime(value);
+  if (typeof value === "number") return format.number(value);
+  if (typeof value === "boolean") return value ? text.yes : text.no;
   return value;
 }
 
@@ -111,6 +112,8 @@ export function DataTable<T>({
   tableClassName,
   "aria-label": ariaLabel,
 }: DataTableProps<T>) {
+  const text = useUIText().table;
+  const format = useFormatter();
   const [uncontrolledSort, setUncontrolledSort] = useState<SortState>(defaultSort);
   const sortState = sort !== undefined ? sort : uncontrolledSort;
   const [uncontrolledSelection, setUncontrolledSelection] = useState<string[]>([]);
@@ -121,7 +124,7 @@ export function DataTable<T>({
     if (manualSorting || !sortState) return data;
     const accessor = columns.find((column) => column.id === sortState.columnId)?.accessor;
     if (!accessor) return data;
-    const collator = new Intl.Collator(DEFAULT_LOCALE, { numeric: true, sensitivity: "base" });
+    const collator = new Intl.Collator(format.intl, { numeric: true, sensitivity: "base" });
     return [...data].sort((x, y) => {
       const a = accessor(x);
       const b = accessor(y);
@@ -130,7 +133,7 @@ export function DataTable<T>({
       const result = compareValues(a, b, collator);
       return sortState.direction === "asc" ? result : -result;
     });
-  }, [columns, data, manualSorting, sortState]);
+  }, [columns, data, manualSorting, sortState, format.intl]);
 
   const rowIds = rows.map((row, index) => getRowId(row, index));
   const selectableIds = selectable ? rowIds.filter((_, index) => isRowSelectable?.(rows[index]) ?? true) : [];
@@ -180,7 +183,7 @@ export function DataTable<T>({
           {selectable && (
             <TableHead className="w-10 pr-0">
               <Checkbox
-                aria-label="Chọn tất cả"
+                aria-label={text.selectAll}
                 checked={allSelected}
                 indeterminate={selectedCount > 0 && !allSelected}
                 disabled={selectableIds.length === 0}
@@ -257,7 +260,7 @@ export function DataTable<T>({
         ) : rows.length === 0 ? (
           <TableRow className="hover:bg-transparent">
             <TableCell colSpan={columnCount} className="whitespace-normal p-0">
-              {emptyState ?? <EmptyState title="Không có dữ liệu" description="Chưa có bản ghi nào để hiển thị." />}
+              {emptyState ?? <EmptyState title={text.emptyTitle} description={text.emptyDescription} />}
             </TableCell>
           </TableRow>
         ) : (
@@ -284,7 +287,7 @@ export function DataTable<T>({
                 {selectable && (
                   <TableCell className="pr-0" onClick={(event) => event.stopPropagation()}>
                     <Checkbox
-                      aria-label="Chọn dòng"
+                      aria-label={text.selectRow}
                       checked={selected}
                       disabled={!(isRowSelectable?.(row) ?? true)}
                       onCheckedChange={(checked) => toggleRow(id, checked)}
@@ -293,7 +296,7 @@ export function DataTable<T>({
                 )}
                 {columns.map((column) => (
                   <TableCell key={column.id} className={cn(alignClass[column.align ?? "left"], column.className)}>
-                    {column.cell ? column.cell(row, index) : formatCellValue(column.accessor?.(row))}
+                    {column.cell ? column.cell(row, index) : formatCellValue(column.accessor?.(row), format, text)}
                   </TableCell>
                 ))}
               </TableRow>

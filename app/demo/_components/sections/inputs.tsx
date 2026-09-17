@@ -7,10 +7,11 @@ import { Field } from "@/components/ui/field";
 import { NumberInput } from "@/components/ui/number-input";
 import { TextInput } from "@/components/ui/text-input";
 import { Textarea } from "@/components/ui/textarea";
-import { formatNumber } from "@/lib/format";
+import { useFormatter } from "@/components/ui/locale";
 import { DemoBlock, DemoSection } from "../demo-shell";
 
 export function InputsSection() {
+  const format = useFormatter();
   const [username, setUsername] = useState("john_doe");
   const [ttl, setTtl] = useState<number | null>(120);
   const [quota, setQuota] = useState<number | null>(1500000);
@@ -90,7 +91,7 @@ export function InputsSection() {
           <Field label="TTL challenge" description={`30–600 giây · giá trị: ${ttl ?? "trống"}`}>
             <NumberInput value={ttl} onValueChange={setTtl} min={30} max={600} step={10} endAdornment="giây" />
           </Field>
-          <Field label="Hạn mức tháng" description={`Giá trị thô: ${quota === null ? "trống" : formatNumber(quota)}`}>
+          <Field label="Hạn mức tháng" description={`Giá trị thô: ${quota === null ? "trống" : format.number(quota)}`}>
             <NumberInput
               value={quota}
               onValueChange={setQuota}

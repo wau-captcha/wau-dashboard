@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Calendar, type DateRange } from "@/components/ui/calendar";
-import { DateInput, DateRangeInput, dateRangePresets } from "@/components/ui/date-input";
+import { DateInput, DateRangeInput, useDateRangePresets } from "@/components/ui/date-input";
 import { Field } from "@/components/ui/field";
 import { formatDate } from "@/lib/format";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
@@ -16,6 +16,7 @@ const describeRange = (range: DateRange) =>
   range.from ? `${formatDate(range.from)} – ${range.to ? formatDate(range.to) : "…"}` : "chưa chọn";
 
 export function DatesSection() {
+  const presets = useDateRangePresets();
   const [expiresAt, setExpiresAt] = useState<Date | null>(new Date(2026, 8, 30));
   const [reportRange, setReportRange] = useState<DateRange>({ from: new Date(2026, 8, 1), to: new Date(2026, 8, 15) });
   const [day, setDay] = useState<Date | null>(new Date(2026, 8, 15));
@@ -56,7 +57,7 @@ export function DatesSection() {
       <DemoBlock title="DateRangeInput" description="Chọn đủ hai đầu hoặc bấm một lựa chọn nhanh thì popup tự đóng.">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Kỳ báo cáo" nativeLabel={false} description={`Giá trị: ${describeRange(reportRange)}`}>
-            <DateRangeInput value={reportRange} onValueChange={setReportRange} presets={dateRangePresets} />
+            <DateRangeInput value={reportRange} onValueChange={setReportRange} presets={presets} />
           </Field>
           <Field label="Hai tháng, không có lựa chọn nhanh" nativeLabel={false}>
             <DateRangeInput numberOfMonths={2} />

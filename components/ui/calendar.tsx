@@ -15,8 +15,9 @@ import {
   startOfWeek,
   type WeekStart,
 } from "@/lib/date";
-import { DEFAULT_LOCALE, getDateFormatter } from "@/lib/format";
+import { getDateFormatter } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { useFormatter, useUIText } from "./locale";
 
 export type DateRange = { from: Date | null; to: Date | null };
 
@@ -31,6 +32,7 @@ type CalendarBaseProps = {
   numberOfMonths?: 1 | 2;
   /** 1 = Monday (default), 0 = Sunday. */
   weekStartsOn?: WeekStart;
+  /** Intl tag for month and weekday names; defaults to the active language. */
   locale?: string;
   className?: string;
 };
@@ -58,7 +60,10 @@ const navButton =
  * Keyboard: arrows move by day/week, Home/End to week edges, PageUp/PageDown by month (Shift: by year).
  */
 export function Calendar(props: CalendarProps) {
-  const { min, max, isDateDisabled, numberOfMonths = 1, weekStartsOn = 1, locale = DEFAULT_LOCALE, className } = props;
+  const { min, max, isDateDisabled, numberOfMonths = 1, weekStartsOn = 1, locale: localeProp, className } = props;
+  const text = useUIText().calendar;
+  const format = useFormatter();
+  const locale = localeProp ?? format.intl;
   const range = props.mode === "range" ? props.value : null;
   const selectedDate = props.mode === "range" ? null : props.value;
   const anchor = range ? range.from : selectedDate;
@@ -228,7 +233,7 @@ export function Calendar(props: CalendarProps) {
               <div className="absolute left-0 flex items-center gap-0.5">
                 <button
                   type="button"
-                  aria-label="Năm trước"
+                  aria-label={text.previousYear}
                   disabled={min !== undefined && compareMonth(addMonths(month, -12), min) < 0}
                   onClick={() => shiftMonths(-12)}
                   className={navButton}
@@ -237,7 +242,7 @@ export function Calendar(props: CalendarProps) {
                 </button>
                 <button
                   type="button"
-                  aria-label="Tháng trước"
+                  aria-label={text.previousMonth}
                   disabled={min !== undefined && compareMonth(addMonths(month, -1), min) < 0}
                   onClick={() => shiftMonths(-1)}
                   className={navButton}
@@ -253,7 +258,7 @@ export function Calendar(props: CalendarProps) {
               <div className="absolute right-0 flex items-center gap-0.5">
                 <button
                   type="button"
-                  aria-label="Tháng sau"
+                  aria-label={text.nextMonth}
                   disabled={max !== undefined && compareMonth(addMonths(lastMonth, 1), max) > 0}
                   onClick={() => shiftMonths(1)}
                   className={navButton}
@@ -262,7 +267,7 @@ export function Calendar(props: CalendarProps) {
                 </button>
                 <button
                   type="button"
-                  aria-label="Năm sau"
+                  aria-label={text.nextYear}
                   disabled={max !== undefined && compareMonth(addMonths(lastMonth, 12), max) > 0}
                   onClick={() => shiftMonths(12)}
                   className={navButton}

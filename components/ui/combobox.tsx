@@ -22,6 +22,7 @@ import {
   type SelectOption,
 } from "./options";
 import { Select, type SelectProps } from "./select";
+import { useUIText } from "./locale";
 import { Spinner } from "./spinner";
 
 /** With `searchable="auto"`, lists longer than this get a search box. */
@@ -55,7 +56,7 @@ export function Combobox<V extends OptionValue = string>(props: ComboboxProps<V>
 function SearchableCombobox<V extends OptionValue>(props: ComboboxProps<V>) {
   const {
     options,
-    placeholder = "Chọn…",
+    placeholder,
     size = "md",
     clearable,
     invalid,
@@ -68,11 +69,12 @@ function SearchableCombobox<V extends OptionValue>(props: ComboboxProps<V>) {
     popupClassName,
     "aria-label": ariaLabel,
     renderOption,
-    searchPlaceholder = "Tìm kiếm…",
-    emptyMessage = "Không tìm thấy kết quả",
+    searchPlaceholder,
+    emptyMessage,
     onSearchChange,
     loading,
   } = props;
+  const text = useUIText().select;
   const selection = useSelection(props);
   const [query, setQuery] = useState("");
   // Keeps labels of selected options that a remote search has since filtered out of `options`.
@@ -142,7 +144,7 @@ function SearchableCombobox<V extends OptionValue>(props: ComboboxProps<V>) {
         >
           {/* mr-6 leaves room for the clear button, which sits over the trigger just before the chevron. */}
           <span className={cn("min-w-0 flex-1 truncate", !hasValue && "text-muted-foreground", showClear && "mr-6")}>
-            {hasValue ? joinOptionLabels(selectedOptions.map((option) => option.label)) : placeholder}
+            {hasValue ? joinOptionLabels(selectedOptions.map((option) => option.label)) : (placeholder ?? text.placeholder)}
           </span>
           <ChevronDown className="size-4 shrink-0 text-muted-foreground transition-transform duration-150 group-data-[popup-open]:rotate-180" />
         </BaseCombobox.Trigger>
@@ -160,13 +162,13 @@ function SearchableCombobox<V extends OptionValue>(props: ComboboxProps<V>) {
               <div className="flex h-10 shrink-0 items-center gap-2 border-b border-border px-3">
                 <Search className="size-4 shrink-0 text-muted-foreground" />
                 <BaseCombobox.Input
-                  placeholder={searchPlaceholder}
+                  placeholder={searchPlaceholder ?? text.searchPlaceholder}
                   className="h-full w-full min-w-0 bg-transparent text-body text-foreground outline-none placeholder:text-muted-foreground/50 pointer-coarse:text-base"
                 />
                 {loading && <Spinner className="text-muted-foreground" />}
               </div>
               <BaseCombobox.Empty>
-                {!loading && <div className="px-3 py-6 text-center text-body text-muted-foreground">{emptyMessage}</div>}
+                {!loading && <div className="px-3 py-6 text-center text-body text-muted-foreground">{emptyMessage ?? text.noResults}</div>}
               </BaseCombobox.Empty>
               <BaseCombobox.List className="min-h-0 flex-1 overflow-y-auto p-1 scrollbar-thin data-[empty]:p-0">
                 {groups
@@ -189,7 +191,7 @@ function SearchableCombobox<V extends OptionValue>(props: ComboboxProps<V>) {
       {showClear && (
         <button
           type="button"
-          aria-label="Xóa lựa chọn"
+          aria-label={text.clear}
           onClick={() => selection.setValues([])}
           className={cn(controlIconButton, "absolute right-8 top-1/2 -translate-y-1/2")}
         >
