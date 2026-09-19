@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import Script from "next/script";
+import { InlineScript } from "@/components/inline-script";
 import { Providers } from "@/components/providers";
 import { getI18n } from "@/lib/i18n/server";
 import { themeInitScript } from "@/lib/theme";
@@ -34,11 +34,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${jakarta.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <head>
         {/* Sets the theme class before first paint, hence suppressHydrationWarning on <html>. */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeInitScript}
-        </Script>
+        <InlineScript html={themeInitScript} />
+      </head>
+      <body className="min-h-full flex flex-col">
         <Providers locale={locale}>
           {/* Isolated so portalled popups always stack above page content. */}
           <div className="isolate flex flex-1 flex-col">{children}</div>

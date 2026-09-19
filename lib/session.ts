@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { SESSION_COOKIE } from "./session-cookie";
 
 export { SESSION_COOKIE };
@@ -30,4 +31,18 @@ export async function setSessionCookie(token: string, expiresInSeconds: number) 
 export async function clearSessionCookie() {
   const store = await cookies();
   store.delete(SESSION_COOKIE);
+}
+
+/**
+ * Signs the browser out because wau-services no longer accepts its session, e.g. the account
+ * was deleted. Server Functions drop the cookie right away; a page render cannot change cookies
+ * (that throws), so it goes through the /session-expired route handler instead.
+ */
+export async function endSession(): Promise<never> {
+  try {
+    await clearSessionCookie();
+  } catch {
+    redirect("/session-expired");
+  }
+  redirect("/login");
 }

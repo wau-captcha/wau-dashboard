@@ -7,8 +7,10 @@ const en = {
   description: "Your sign-in details and plan.",
   info: {
     title: "Details",
-    username: "Username",
+    displayName: "Display name",
     email: "Email",
+    signInMethod: "Sign-in method",
+    google: "Google",
     plan: "Plan",
     joined: "Joined",
   },
@@ -35,8 +37,10 @@ const vi: Translation<typeof en> = {
   description: "Thông tin đăng nhập và gói dịch vụ của bạn.",
   info: {
     title: "Thông tin",
-    username: "Tên đăng nhập",
+    displayName: "Tên hiển thị",
     email: "Email",
+    signInMethod: "Phương thức đăng nhập",
+    google: "Google",
     plan: "Gói dịch vụ",
     joined: "Ngày tham gia",
   },

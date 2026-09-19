@@ -9,7 +9,8 @@ import { THEME_STORAGE_KEY, type Theme } from "@/lib/theme";
 const THEME_CHANGE_EVENT = "wau-theme-change";
 const darkQuery = "(prefers-color-scheme: dark)";
 
-function readTheme(): Theme {
+/** The stored preference; "system" when there is none. */
+export function readTheme(): Theme {
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
     return stored === "light" || stored === "dark" ? stored : "system";
@@ -18,7 +19,8 @@ function readTheme(): Theme {
   }
 }
 
-function applyTheme(theme: Theme) {
+/** Sets <html class="dark"> to match a preference. */
+export function applyTheme(theme: Theme) {
   const dark = theme === "dark" || (theme === "system" && window.matchMedia(darkQuery).matches);
   document.documentElement.classList.toggle("dark", dark);
 }

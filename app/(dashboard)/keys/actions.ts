@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import { createApiKey, deleteApiKey, rotateSecretKey, updateApiKey } from "@/lib/api/api-keys";
 import { errorMessage, toApiFailure } from "@/lib/api/errors";
 import { getCurrentUser } from "@/lib/dal";
@@ -26,6 +26,8 @@ async function mutate(id: string, run: () => Promise<unknown>): Promise<KeyActio
   try {
     await run();
   } catch (error) {
+    // A rejected session signs the browser out through a redirect.
+    unstable_rethrow(error);
     return { error: errorMessage(error, t.errors) };
   }
   refreshKeys(id);
@@ -41,6 +43,7 @@ export async function createKeyAction(_previous: KeyFormState, formData: FormDat
   try {
     id = (await createApiKey(name)).id;
   } catch (error) {
+    unstable_rethrow(error);
     return formFailure(toApiFailure(error));
   }
   refreshKeys(id);
@@ -57,6 +60,7 @@ export async function renameKeyAction(_previous: KeyFormState, formData: FormDat
   try {
     await updateApiKey(id, { name });
   } catch (error) {
+    unstable_rethrow(error);
     return formFailure(toApiFailure(error));
   }
   refreshKeys(id);

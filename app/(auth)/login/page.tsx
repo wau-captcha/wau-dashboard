@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert } from "@/components/ui/alert";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getOptionalUser } from "@/lib/dal";
+import { getGoogleClientId, getGoogleNonce } from "@/lib/google";
 import { getI18n } from "@/lib/i18n/server";
-import { LoginForm } from "../_components/login-form";
+import { GoogleSignIn } from "../_components/google-sign-in";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -11,21 +13,33 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
-  // A still-valid session means there is nothing to log in to.
-  if (await getOptionalUser()) redirect("/overview");
-  const [{ next }, { t }] = await Promise.all([searchParams, getI18n()]);
+  // A still-valid session means there is nothing to sign in to. If wau-services is down the
+  // page still renders, and signing in reports the problem.
+  if (await getOptionalUser().catch(() => null)) redirect("/overview");
+  const [{ next }, { t }, nonce] = await Promise.all([searchParams, getI18n(), getGoogleNonce()]);
+  const text = t.auth.login;
+  const clientId = getGoogleClientId();
 
   return (
     <Card>
       <CardHeader>
         <div className="min-w-0">
-          <CardTitle>{t.auth.login.title}</CardTitle>
-          <CardDescription>{t.auth.login.description}</CardDescription>
+          <CardTitle>{text.title}</CardTitle>
+          <CardDescription>{text.description}</CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        <LoginForm next={next} />
+        {clientId ? (
+          <GoogleSignIn clientId={clientId} nonce={nonce} next={next} />
+        ) : (
+          <Alert tone="warning" title={text.notConfiguredTitle}>
+            {text.notConfigured}
+          </Alert>
+        )}
       </CardContent>
+      <CardFooter className="justify-center">
+        <CardDescription className="mt-0 text-center">{text.newAccount}</CardDescription>
+      </CardFooter>
     </Card>
   );
 }

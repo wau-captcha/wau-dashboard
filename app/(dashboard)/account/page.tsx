@@ -29,8 +29,9 @@ export default async function AccountPage() {
         <CardContent>
           <DescriptionList
             items={[
-              { label: text.info.username, value: user.username },
+              { label: text.info.displayName, value: user.username },
               { label: text.info.email, value: user.email },
+              { label: text.info.signInMethod, value: text.info.google },
               {
                 label: text.info.plan,
                 value: <Badge tone={user.tier_id === "premium" ? "primary" : "neutral"}>{user.tier_name}</Badge>,

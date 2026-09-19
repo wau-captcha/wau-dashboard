@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AppShellSection } from "./_components/sections/app-shell";
+import { AuthSection } from "./_components/sections/auth";
 import { DemoShell, type DemoNavItem } from "./_components/demo-shell";
 import { ButtonsSection } from "./_components/sections/buttons";
 import { DatesSection } from "./_components/sections/dates";
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
 const nav: DemoNavItem[] = [
   { id: "foundations", label: "Nền tảng" },
   { id: "app-shell", label: "Khung ứng dụng" },
+  { id: "auth", label: "Đăng nhập" },
   { id: "buttons", label: "Nút" },
   { id: "inputs", label: "Nhập liệu" },
   { id: "dates", label: "Ngày tháng" },
@@ -47,6 +49,7 @@ export default function DemoPage() {
       </div>
       <FoundationsSection />
       <AppShellSection />
+      <AuthSection />
       <ButtonsSection />
       <InputsSection />
       <DatesSection />

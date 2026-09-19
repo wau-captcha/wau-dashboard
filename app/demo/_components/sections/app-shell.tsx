@@ -55,7 +55,7 @@ export function AppShellSection() {
           <DemoLabel>columns=2</DemoLabel>
           <DescriptionList
             items={[
-              { label: "Tên đăng nhập", value: "john_doe" },
+              { label: "Tên hiển thị", value: "John Doe" },
               { label: "Email", value: "john@example.com" },
               { label: "Gói", value: <Badge>Free</Badge> },
               { label: "Ngày tạo", value: formatDateTime(new Date("2026-09-01T09:12:00+07:00")) },

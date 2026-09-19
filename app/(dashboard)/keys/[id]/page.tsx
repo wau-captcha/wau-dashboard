@@ -9,7 +9,7 @@ import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { SecretValue } from "@/components/ui/secret-value";
 import { getApiKey } from "@/lib/api/api-keys";
-import { ApiError } from "@/lib/api/client";
+import { ApiError, servicesUrl } from "@/lib/api/client";
 import type { ApiKey } from "@/lib/api/types";
 import { getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
@@ -26,9 +26,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-/** Shown to the user, so it must be the address their site can reach. */
-const publicGatewayUrl = process.env.PUBLIC_GATEWAY_URL ?? process.env.GATEWAY_URL ?? "http://127.0.0.1:8080";
 
 async function loadKey(id: string): Promise<ApiKey> {
   try {
@@ -105,7 +102,7 @@ export default async function KeyDetailPage({
         <UsageSummary usage={usage} />
       </div>
 
-      <IntegrationGuide siteKey={apiKey.site_key} gatewayUrl={publicGatewayUrl} />
+      <IntegrationGuide siteKey={apiKey.site_key} servicesUrl={servicesUrl()} />
     </>
   );
 }

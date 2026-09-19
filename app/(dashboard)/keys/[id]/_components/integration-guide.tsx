@@ -7,22 +7,23 @@ import { useI18n } from "@/lib/i18n/client";
 
 export type IntegrationGuideProps = {
   siteKey: string;
-  gatewayUrl: string;
+  /** Public address of wau-services. */
+  servicesUrl: string;
 };
 
 /** Ready-to-paste calls for the three endpoints a site needs. */
-export function IntegrationGuide({ siteKey, gatewayUrl }: IntegrationGuideProps) {
+export function IntegrationGuide({ siteKey, servicesUrl }: IntegrationGuideProps) {
   const text = useI18n().t.keyDetail.guide;
 
   const newChallenge = `// ${text.createComment}
 const response = await fetch(
-  "${gatewayUrl}/challenge/new?site_key=${siteKey}",
+  "${servicesUrl}/challenge/new?site_key=${siteKey}",
 );
-const { challenge_id, challenge_type, media } = await response.json();
-// ${text.mediaComment}`;
+const { challenge_id, challenge_type, image, mime_type } = await response.json();
+// ${text.imageComment}`;
 
   const verify = `// ${text.verifyComment}
-const response = await fetch("${gatewayUrl}/challenge/verify", {
+const response = await fetch("${servicesUrl}/challenge/verify", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ challenge_id, answer }),
@@ -31,7 +32,7 @@ const { success, token } = await response.json();
 // ${text.tokenComment}`;
 
   const siteVerify = `# ${text.siteVerifyComment}
-curl -X POST "${gatewayUrl}/siteverify?token=$TOKEN" \\
+curl -X POST "${servicesUrl}/siteverify?token=$TOKEN" \\
   -H "Authorization: Bearer $WAU_SECRET_KEY"
 
 # {"success": true, "challenge_type": "image_distort", ...}`;

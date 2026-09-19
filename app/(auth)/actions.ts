@@ -1,56 +1,48 @@
 "use server";
 
+import { refresh } from "next/cache";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { login, register } from "@/lib/api/auth";
+import { signInWithGoogle } from "@/lib/api/auth";
 import { toApiFailure } from "@/lib/api/errors";
 import { formFailure, type FormFeedback } from "@/lib/form-message";
 import { setSessionCookie } from "@/lib/session";
+import { GOOGLE_NONCE_COOKIE, GOOGLE_NONCE_HEADER } from "@/lib/session-cookie";
 
-export type AuthFormState = FormFeedback & {
-  /** Values echoed back so the user does not retype them. */
-  values?: Record<string, string>;
+export type GoogleSignInInput = {
+  /** ID token from Google Identity Services. */
+  credential: string;
+  /** Where to go once signed in. */
+  next?: string;
 };
 
-/** Only same-site paths are accepted, so the form cannot bounce users elsewhere. */
-function safeNext(value: FormDataEntryValue | null): string {
+/** Only same-site paths are accepted, so the link cannot bounce users elsewhere. */
+function safeNext(value: unknown): string {
   const next = typeof value === "string" ? value : "";
-  return next.startsWith("/") && !next.startsWith("//") ? next : "/overview";
+  return next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\") ? next : "/overview";
 }
 
-function failure(error: unknown, values: Record<string, string>): AuthFormState {
-  return { ...formFailure(toApiFailure(error)), values };
-}
-
-export async function loginAction(_previous: AuthFormState, formData: FormData): Promise<AuthFormState> {
-  const identifier = String(formData.get("identifier") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
-  if (!identifier || !password) {
-    return { error: { kind: "loginRequired" }, values: { identifier } };
+export async function googleSignInAction(_previous: FormFeedback, input: GoogleSignInInput): Promise<FormFeedback> {
+  const [store, requestHeaders] = await Promise.all([cookies(), headers()]);
+  // The proxy only issues a nonce when the browser had none, so the page's nonce has expired.
+  const nonce = requestHeaders.has(GOOGLE_NONCE_HEADER) ? undefined : store.get(GOOGLE_NONCE_COOKIE)?.value;
+  if (!nonce) {
+    // The page outlived its nonce; the proxy issued a new one, so re-render with it.
+    refresh();
+    return { error: { kind: "googleSessionExpired" } };
   }
 
   try {
-    const reply = await login({ identifier, password });
+    const credential = typeof input?.credential === "string" ? input.credential : "";
+    const reply = await signInWithGoogle({ idToken: credential, nonce });
     await setSessionCookie(reply.access_token, reply.expires_in);
   } catch (error) {
-    return failure(error, { identifier });
+    // Re-render too, so the button picks up the nonce this browser holds now.
+    refresh();
+    return formFailure(toApiFailure(error));
   }
+  // A nonce is good for one sign-in.
+  store.delete({ name: GOOGLE_NONCE_COOKIE, path: "/" });
   // redirect throws, so it must run outside the try block.
-  redirect(safeNext(formData.get("next")));
-}
-
-export async function registerAction(_previous: AuthFormState, formData: FormData): Promise<AuthFormState> {
-  const username = String(formData.get("username") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
-  if (!username || !email || !password) {
-    return { error: { kind: "registerRequired" }, values: { username, email } };
-  }
-
-  try {
-    const reply = await register({ username, email, password });
-    await setSessionCookie(reply.access_token, reply.expires_in);
-  } catch (error) {
-    return failure(error, { username, email });
-  }
-  redirect("/overview");
+  redirect(safeNext(input?.next));
 }

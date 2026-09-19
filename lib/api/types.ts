@@ -2,6 +2,7 @@
 
 export type User = {
   id: string;
+  /** Display name taken from the Google profile; not unique. */
   username: string;
   email: string;
   tier_id: string;
