@@ -2,15 +2,17 @@ import { Activity, CircleCheck, KeyRound, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { StatCard } from "@/components/ui/card";
+import { Card, CardContent, StatCard } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { listApiKeys, listChallengeTypes } from "@/lib/api/api-keys";
-import { getUsage } from "@/lib/api/usage";
+import { getQuota, getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
 import { parseRange, usageTotals } from "@/lib/usage-view";
-import { RangeTabs } from "../_components/range-tabs";
-import { UsageSummary } from "../_components/usage-summary";
+import { QuotaMeter } from "@/app/_components/quota-meter";
+import { RangeTabs } from "@/app/_components/range-tabs";
+import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
+import { UsageSummary } from "@/app/_components/usage-summary";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -19,11 +21,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function OverviewPage({ searchParams }: { searchParams: Promise<{ days?: string }> }) {
   const days = parseRange((await searchParams).days);
-  const [{ t, format }, keys, usage, challengeTypes] = await Promise.all([
+  const [{ t, format }, keys, usage, challengeTypes, quota] = await Promise.all([
     getI18n(),
     listApiKeys(),
     getUsage({ days }),
     listChallengeTypes(),
+    getQuota(),
   ]);
   const text = t.usage.overview;
   const activeKeys = keys.api_keys.filter((key) => key.is_active).length;
@@ -32,6 +35,12 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
   return (
     <>
       <PageHeader title={text.title} description={text.description(days)} actions={<RangeTabs value={days} />} />
+
+      <Card>
+        <CardContent>
+          <QuotaMeter used={quota.used} limit={quota.limit} minutesToReset={quota.minutes_to_reset} />
+        </CardContent>
+      </Card>
 
       {keys.api_keys.length === 0 ? (
         <EmptyState
@@ -56,6 +65,10 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
               icon={<KeyRound />}
             />
             <StatCard label={text.challengeTypes} value={format.number(challengeTypes.length)} icon={<ShieldCheck />} />
+          </div>
+          <div className="grid gap-6">
+            <UsageByKeyChart usage={usage} days={days} keys={keys.api_keys} />
+            <UsageByTypeChart usage={usage} days={days} />
           </div>
           <UsageSummary usage={usage} />
         </>

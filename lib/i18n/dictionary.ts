@@ -1,5 +1,6 @@
 import type { Locale } from "./config";
 import { account } from "./messages/account";
+import { admin } from "./messages/admin";
 import { auth } from "./messages/auth";
 import { challengeTypes } from "./messages/challenge-types";
 import { common } from "./messages/common";
@@ -21,6 +22,7 @@ export type Dictionary = {
   account: typeof account.en;
   errors: typeof errors.en;
   challengeTypes: typeof challengeTypes.en;
+  admin: typeof admin.en;
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -33,6 +35,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     account: account.en,
     errors: errors.en,
     challengeTypes: challengeTypes.en,
+    admin: admin.en,
   },
   vi: {
     common: common.vi,
@@ -43,6 +46,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     account: account.vi,
     errors: errors.vi,
     challengeTypes: challengeTypes.vi,
+    admin: admin.vi,
   },
 };
 

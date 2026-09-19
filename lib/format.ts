@@ -51,6 +51,11 @@ export function formatDate(value: DateLike, locale = DEFAULT_INTL_LOCALE) {
   return getDateFormatter(locale, { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(value));
 }
 
+/** A calendar date as day and short month for chart axes: "20 Aug" (en) / "20 thg 8" (vi). */
+export function formatDayMonth(value: DateLike, locale = DEFAULT_INTL_LOCALE) {
+  return getDateFormatter(locale, { day: "numeric", month: "short" }).format(new Date(value));
+}
+
 /**
  * Formats an instant, such as an API timestamp, in DEFAULT_TIME_ZONE as "15/09/2026 14:05:09".
  * Assembled from parts so every locale reads date first, then a 24-hour time.
@@ -80,6 +85,7 @@ export type Formatter = {
   compact: (value: number) => string;
   percent: (ratio: number) => string;
   date: (value: DateLike) => string;
+  dayMonth: (value: DateLike) => string;
   dateTime: (value: DateLike, options?: { seconds?: boolean }) => string;
 };
 
@@ -96,6 +102,7 @@ export function createFormatter(locale: Locale): Formatter {
       compact: (value) => formatCompactNumber(value, intl),
       percent: (ratio) => formatPercent(ratio, intl),
       date: (value) => formatDate(value, intl),
+      dayMonth: (value) => formatDayMonth(value, intl),
       dateTime: (value, options) => formatDateTime(value, options, intl),
     };
     boundFormatters.set(locale, formatter);

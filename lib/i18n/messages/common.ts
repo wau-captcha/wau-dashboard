@@ -18,6 +18,8 @@ const en = {
   status: {
     active: "Active",
     paused: "Paused",
+    suspended: "Suspended",
+    banned: "Banned",
   },
   loadError: {
     title: "Couldn't load data",
@@ -44,6 +46,8 @@ const vi: Translation<typeof en> = {
   status: {
     active: "Hoạt động",
     paused: "Tạm dừng",
+    suspended: "Bị đình chỉ",
+    banned: "Đã khóa",
   },
   loadError: {
     title: "Không tải được dữ liệu",

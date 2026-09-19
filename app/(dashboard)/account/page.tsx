@@ -4,9 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { listChallengeTypes } from "@/lib/api/api-keys";
+import { getQuota } from "@/lib/api/usage";
 import { getCurrentUser } from "@/lib/dal";
 import { getI18n } from "@/lib/i18n/server";
 import { LogoutButton } from "../_components/logout-button";
+import { QuotaMeter } from "@/app/_components/quota-meter";
 import { ChallengeTypesTable } from "./_components/challenge-types-table";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,7 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AccountPage() {
-  const [{ t, format }, user, challengeTypes] = await Promise.all([getI18n(), getCurrentUser(), listChallengeTypes()]);
+  const [{ t, format }, user, challengeTypes, quota] = await Promise.all([
+    getI18n(),
+    getCurrentUser(),
+    listChallengeTypes(),
+    getQuota(),
+  ]);
   const text = t.account;
 
   return (
@@ -39,6 +46,12 @@ export default async function AccountPage() {
               { label: text.info.joined, value: format.dateTime(user.create_date) },
             ]}
           />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent>
+          <QuotaMeter used={quota.used} limit={quota.limit} minutesToReset={quota.minutes_to_reset} />
         </CardContent>
       </Card>
 

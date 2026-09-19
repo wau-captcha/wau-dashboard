@@ -61,9 +61,13 @@ export function KeysTable({ keys }: { keys: ApiKey[] }) {
     {
       id: "status",
       header: text.columns.status,
-      accessor: (key) => key.is_active,
+      accessor: (key) => (key.is_suspended ? 0 : key.is_active ? 2 : 1),
       cell: (key) =>
-        key.is_active ? (
+        key.is_suspended ? (
+          <Badge tone="negative" dot>
+            {t.common.status.suspended}
+          </Badge>
+        ) : key.is_active ? (
           <Badge tone="positive" dot>
             {t.common.status.active}
           </Badge>
@@ -98,9 +102,12 @@ export function KeysTable({ keys }: { keys: ApiKey[] }) {
             <DropdownMenuItem onClick={() => router.push(`/keys/${key.id}`)}>
               <Eye /> {text.rowActions.view}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => toggleActive(key)}>
-              {key.is_active ? <Pause /> : <Play />} {key.is_active ? text.rowActions.pause : text.rowActions.activate}
-            </DropdownMenuItem>
+            {/* A suspended key stays blocked whatever its own switch says. */}
+            {!key.is_suspended && (
+              <DropdownMenuItem onClick={() => toggleActive(key)}>
+                {key.is_active ? <Pause /> : <Play />} {key.is_active ? text.rowActions.pause : text.rowActions.activate}
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem variant="destructive" onClick={() => setKeyToDelete(key)}>
               <Trash2 /> {text.rowActions.delete}
             </DropdownMenuItem>

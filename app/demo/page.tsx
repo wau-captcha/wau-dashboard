@@ -3,6 +3,7 @@ import { AppShellSection } from "./_components/sections/app-shell";
 import { AuthSection } from "./_components/sections/auth";
 import { DemoShell, type DemoNavItem } from "./_components/demo-shell";
 import { ButtonsSection } from "./_components/sections/buttons";
+import { ChartsSection } from "./_components/sections/charts";
 import { DatesSection } from "./_components/sections/dates";
 import { DisplaySection } from "./_components/sections/display";
 import { FeedbackSection } from "./_components/sections/feedback";
@@ -29,6 +30,7 @@ const nav: DemoNavItem[] = [
   { id: "selection", label: "Lựa chọn" },
   { id: "form", label: "Form mẫu" },
   { id: "display", label: "Hiển thị" },
+  { id: "charts", label: "Biểu đồ" },
   { id: "navigation", label: "Tabs & phân trang" },
   { id: "tables", label: "Bảng dữ liệu" },
   { id: "overlays", label: "Lớp nổi" },
@@ -56,6 +58,7 @@ export default function DemoPage() {
       <SelectionSection />
       <FormExampleSection />
       <DisplaySection />
+      <ChartsSection />
       <NavigationSection />
       <TablesSection />
       <OverlaysSection />

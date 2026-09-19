@@ -9,7 +9,16 @@ const en = {
     newAccount: "No account yet? Signing in with Google creates one for you.",
     sessionExpired: "Your sign-in attempt expired. Please try again.",
     notConfiguredTitle: "Google sign-in isn't set up",
+    bannedTitle: "Your account has been locked",
+    banned: "An administrator locked this account, so you were signed out. Contact support if you think this is a mistake.",
     notConfigured: "Set GOOGLE_CLIENT_ID in the dashboard environment, then restart it.",
+  },
+  adminLogin: {
+    metaTitle: "Admin sign-in",
+    metaDescription: "Sign in to the WAU Captcha admin console.",
+    title: "Admin sign-in",
+    description: "Use the Google account of an administrator. This session is separate from the dashboard's.",
+    userLogin: "Not an administrator? Sign in to the dashboard",
   },
   google: {
     loading: "Loading Google sign-in",
@@ -29,7 +38,16 @@ const vi: Translation<typeof en> = {
     newAccount: "Chưa có tài khoản? Hệ thống tự tạo khi bạn đăng nhập bằng Google.",
     sessionExpired: "Lượt đăng nhập đã hết hạn, vui lòng thử lại.",
     notConfiguredTitle: "Chưa cấu hình đăng nhập Google",
+    bannedTitle: "Tài khoản của bạn đã bị khóa",
+    banned: "Quản trị viên đã khóa tài khoản này nên bạn đã bị đăng xuất. Hãy liên hệ hỗ trợ nếu bạn cho rằng đây là nhầm lẫn.",
     notConfigured: "Hãy đặt GOOGLE_CLIENT_ID trong biến môi trường của dashboard rồi khởi động lại.",
+  },
+  adminLogin: {
+    metaTitle: "Đăng nhập quản trị",
+    metaDescription: "Đăng nhập trang quản trị WAU Captcha.",
+    title: "Đăng nhập quản trị",
+    description: "Dùng tài khoản Google của quản trị viên. Phiên này tách riêng với phiên dashboard.",
+    userLogin: "Không phải quản trị viên? Đăng nhập dashboard",
   },
   google: {
     loading: "Đang tải đăng nhập Google",

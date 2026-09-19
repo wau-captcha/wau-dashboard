@@ -76,15 +76,18 @@
   --error-border: #ff2d55;
   --error-shadow: 0 0 0 3px #ff2d551a;
 
-  /* Charts */
-  --chart-1: #0088fe;
-  --chart-2: #00c49f;
-  --chart-3: #ffbb28;
-  --chart-4: #ff8042;
-  --chart-5: #ff6347;
-  --chart-6: #4682b4;
-  --chart-7: #9acd32;
-  --chart-8: #da70d6;
+  /* Charts: categorical slots in fixed order, validated for colour-vision deficiency on the card
+     surface of each theme (dataviz validate_palette.js). Never reorder or add slots. */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --chart-6: #008300;
+  --chart-7: #4a3aa7;
+  --chart-8: #e34948;
+  /* Series folded into "Other". */
+  --chart-other: #a8a7a1;
 }
 
 .dark {
@@ -130,6 +133,16 @@
 
   --focus-border: #fcfcfe4d;
   --focus-shadow: 0 0 0 3px #fcfcfe0f;
+
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
+  --chart-5: #d55181;
+  --chart-6: #008300;
+  --chart-7: #9085e9;
+  --chart-8: #e66767;
+  --chart-other: #5f5e5a;
 }
 
 @theme inline {
@@ -191,6 +204,7 @@
   --color-chart-6: var(--chart-6);
   --color-chart-7: var(--chart-7);
   --color-chart-8: var(--chart-8);
+  --color-chart-other: var(--chart-other);
 
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-brand: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

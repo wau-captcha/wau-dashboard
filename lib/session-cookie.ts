@@ -1,6 +1,12 @@
 /** Shared between the server session helpers and the proxy, which cannot import server-only code. */
 export const SESSION_COOKIE = "wau_session";
 
+/** The admin console: its pages, its sign-in and the only path its session cookie is sent to. */
+export const ADMIN_PATH = "/admin";
+
+/** Administrators sign in apart from users and get a different token, kept in its own cookie. */
+export const ADMIN_SESSION_COOKIE = "wau_admin_session";
+
 /**
  * Nonce that binds a Google ID token to the browser that asked for it. The proxy issues it on
  * /login, the sign-in action sends it with the token and wau-services checks that both match.

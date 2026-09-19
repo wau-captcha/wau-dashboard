@@ -25,6 +25,13 @@ const en = {
     deleteHint: "Remove this key from your account. Sites using it can no longer create captchas.",
   },
   usageTitle: "Usage",
+  suspended: {
+    title: "This key is suspended",
+    admin: "An administrator suspended it. It can't create or verify captchas until the suspension is lifted.",
+    scraping:
+      "It was suspended automatically: most captchas it requested today were never answered, which looks like scraping. Contact support to have it reviewed.",
+    switchHint: "A suspended key can't be activated.",
+  },
   guide: {
     title: "Integration guide",
     description: "Use the site key in the browser. Keep the secret key on your server and never ship it to users.",
@@ -70,6 +77,13 @@ const vi: Translation<typeof en> = {
     deleteHint: "Xóa khóa khỏi tài khoản. Trang đang dùng khóa này sẽ không tạo được captcha nữa.",
   },
   usageTitle: "Lượt dùng",
+  suspended: {
+    title: "Khóa này đang bị đình chỉ",
+    admin: "Quản trị viên đã đình chỉ khóa này. Khóa không thể tạo hay xác minh captcha cho tới khi được gỡ đình chỉ.",
+    scraping:
+      "Khóa bị đình chỉ tự động: phần lớn captcha khóa này yêu cầu hôm nay không hề được trả lời, dấu hiệu của việc cào dữ liệu. Hãy liên hệ hỗ trợ để được xem xét.",
+    switchHint: "Không thể kích hoạt khóa đang bị đình chỉ.",
+  },
   guide: {
     title: "Hướng dẫn tích hợp",
     description:

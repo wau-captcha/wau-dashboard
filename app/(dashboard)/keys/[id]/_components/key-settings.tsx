@@ -80,10 +80,10 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
 
         <Switch
           label={text.active}
-          description={text.activeHint}
+          description={apiKey.is_suspended ? t.keyDetail.suspended.switchHint : text.activeHint}
           labelPosition="start"
-          checked={apiKey.is_active}
-          disabled={pending}
+          checked={apiKey.is_active && !apiKey.is_suspended}
+          disabled={pending || apiKey.is_suspended}
           onCheckedChange={toggleActive}
         />
 

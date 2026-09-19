@@ -6,17 +6,22 @@ import { getOptionalUser } from "@/lib/dal";
 import { getGoogleClientId, getGoogleNonce } from "@/lib/google";
 import { getI18n } from "@/lib/i18n/server";
 import { GoogleSignIn } from "../_components/google-sign-in";
+import { googleSignInAction } from "../actions";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
   return { title: t.auth.login.metaTitle, description: t.auth.login.metaDescription };
 }
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string; reason?: string }>;
+}) {
   // A still-valid session means there is nothing to sign in to. If wau-services is down the
   // page still renders, and signing in reports the problem.
   if (await getOptionalUser().catch(() => null)) redirect("/overview");
-  const [{ next }, { t }, nonce] = await Promise.all([searchParams, getI18n(), getGoogleNonce()]);
+  const [{ next, reason }, { t }, nonce] = await Promise.all([searchParams, getI18n(), getGoogleNonce()]);
   const text = t.auth.login;
   const clientId = getGoogleClientId();
 
@@ -28,9 +33,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <CardDescription>{text.description}</CardDescription>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="grid gap-4">
+        {reason === "banned" && (
+          <Alert tone="negative" title={text.bannedTitle}>
+            {text.banned}
+          </Alert>
+        )}
         {clientId ? (
-          <GoogleSignIn clientId={clientId} nonce={nonce} next={next} />
+          <GoogleSignIn clientId={clientId} nonce={nonce} next={next} action={googleSignInAction} />
         ) : (
           <Alert tone="warning" title={text.notConfiguredTitle}>
             {text.notConfigured}

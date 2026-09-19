@@ -1,32 +1,38 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
+  ADMIN_PATH,
+  ADMIN_SESSION_COOKIE,
   GOOGLE_NONCE_COOKIE,
   GOOGLE_NONCE_HEADER,
   GOOGLE_NONCE_MAX_AGE_SECONDS,
   SESSION_COOKIE,
 } from "@/lib/session-cookie";
 
+const ADMIN_LOGIN = `${ADMIN_PATH}/login`;
+
 /** Pages reachable without signing in. */
-const publicPaths = ["/login", "/session-expired", "/demo"];
+const publicPaths = ["/login", "/session-expired", "/demo", ADMIN_LOGIN, `${ADMIN_PATH}/session-expired`];
 
 /**
- * Optimistic gate: visitors with no session cookie never reach a dashboard page.
- * Whether the token is still valid is decided by the data layer on the server.
+ * Optimistic gate: visitors with no session cookie never reach a dashboard page, and those
+ * with no administrator session never reach the admin console, which has its own sign-in.
+ * Whether a token is still valid is decided by the data layer on the server.
  */
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  if (pathname === "/login") {
+  if (pathname === "/login" || pathname === ADMIN_LOGIN) {
     return withGoogleNonce(request);
   }
   if (publicPaths.some((path) => pathname === path || pathname.startsWith(path + "/"))) {
     return NextResponse.next();
   }
-  if (request.cookies.has(SESSION_COOKIE)) {
+  const admin = pathname === ADMIN_PATH || pathname.startsWith(ADMIN_PATH + "/");
+  if (request.cookies.has(admin ? ADMIN_SESSION_COOKIE : SESSION_COOKIE)) {
     return NextResponse.next();
   }
 
-  const login = new URL("/login", request.url);
-  if (pathname !== "/") login.searchParams.set("next", pathname + search);
+  const login = new URL(admin ? ADMIN_LOGIN : "/login", request.url);
+  if (pathname !== "/" && pathname !== ADMIN_PATH) login.searchParams.set("next", pathname + search);
   return NextResponse.redirect(login);
 }
 

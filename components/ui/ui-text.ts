@@ -37,6 +37,12 @@ const en = {
     emptyTitle: "No data",
     emptyDescription: "There are no records to show yet.",
   },
+  seriesTable: {
+    min: "Min",
+    max: "Max",
+    avg: "Avg",
+    total: "Total",
+  },
   dateInput: {
     openCalendar: "Open calendar",
     clearDate: "Clear date",
@@ -122,6 +128,12 @@ const vi: Translation<UIText> = {
     selectRow: "Chọn dòng",
     emptyTitle: "Không có dữ liệu",
     emptyDescription: "Chưa có bản ghi nào để hiển thị.",
+  },
+  seriesTable: {
+    min: "Thấp nhất",
+    max: "Cao nhất",
+    avg: "Trung bình",
+    total: "Tổng",
   },
   dateInput: {
     openCalendar: "Mở lịch",

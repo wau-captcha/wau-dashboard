@@ -2,14 +2,25 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { SESSION_COOKIE } from "./session-cookie";
+import { ADMIN_PATH, ADMIN_SESSION_COOKIE, SESSION_COOKIE } from "./session-cookie";
 
 export { SESSION_COOKIE };
 
+/**
+ * Dashboard users and administrators sign in apart and hold separate sessions. The admin
+ * cookie is only sent to the admin console.
+ */
+export type SessionKind = "user" | "admin";
+
+const sessionCookies = {
+  user: { name: SESSION_COOKIE, path: "/" },
+  admin: { name: ADMIN_SESSION_COOKIE, path: ADMIN_PATH },
+} as const;
+
 /** The access token of the current visitor, if they have one. */
-export async function getSessionToken(): Promise<string | null> {
+export async function getSessionToken(kind: SessionKind = "user"): Promise<string | null> {
   const store = await cookies();
-  return store.get(SESSION_COOKIE)?.value ?? null;
+  return store.get(sessionCookies[kind].name)?.value ?? null;
 }
 
 /**
@@ -17,32 +28,47 @@ export async function getSessionToken(): Promise<string | null> {
  * token only ever travels between this server and the gateway.
  * Only callable from a Server Action or a Route Handler.
  */
-export async function setSessionCookie(token: string, expiresInSeconds: number) {
+export async function setSessionCookie(token: string, expiresInSeconds: number, kind: SessionKind = "user") {
   const store = await cookies();
-  store.set(SESSION_COOKIE, token, {
+  const { name, path } = sessionCookies[kind];
+  store.set(name, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    path: "/",
+    path,
     expires: new Date(Date.now() + expiresInSeconds * 1000),
   });
 }
 
-export async function clearSessionCookie() {
+export async function clearSessionCookie(kind: SessionKind = "user") {
   const store = await cookies();
-  store.delete(SESSION_COOKIE);
+  store.delete(sessionCookies[kind]);
 }
+
+/** Why a session was ended, shown on the login page. */
+export type SessionEndReason = "banned";
 
 /**
  * Signs the browser out because wau-services no longer accepts its session, e.g. the account
- * was deleted. Server Functions drop the cookie right away; a page render cannot change cookies
- * (that throws), so it goes through the /session-expired route handler instead.
+ * was deleted or banned. Server Functions drop the cookie right away; a page render cannot
+ * change cookies (that throws), so it goes through the /session-expired route handler instead.
  */
-export async function endSession(): Promise<never> {
+export async function endSession(reason?: SessionEndReason): Promise<never> {
+  const query = reason ? `?reason=${reason}` : "";
   try {
     await clearSessionCookie();
   } catch {
-    redirect("/session-expired");
+    redirect(`/session-expired${query}`);
   }
-  redirect("/login");
+  redirect(`/login${query}`);
+}
+
+/** endSession for the admin console: the administrator was removed, or the token expired. */
+export async function endAdminSession(): Promise<never> {
+  try {
+    await clearSessionCookie("admin");
+  } catch {
+    redirect(`${ADMIN_PATH}/session-expired`);
+  }
+  redirect(`${ADMIN_PATH}/login`);
 }

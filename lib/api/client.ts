@@ -1,7 +1,7 @@
 import "server-only";
 
 import { headers } from "next/headers";
-import { endSession, getSessionToken } from "@/lib/session";
+import { endAdminSession, endSession, getSessionToken, type SessionKind } from "@/lib/session";
 
 /**
  * Public entry point of wau-services (the gateway). This server calls it for the dashboard;
@@ -34,6 +34,8 @@ export type ApiFetchOptions = {
   body?: unknown;
   /** Attach the session token (default true). If wau-services rejects it, the browser is signed out. */
   auth?: boolean;
+  /** Whose session token to attach: the dashboard user's (default) or the administrator's. */
+  session?: SessionKind;
   /**
    * Use this token instead of the cookie, e.g. right after signing in. Its rejection is thrown
    * to the caller rather than signing the browser out.
@@ -42,12 +44,12 @@ export type ApiFetchOptions = {
 };
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
-  const { method = "GET", body, auth = true, token } = options;
+  const { method = "GET", body, auth = true, session = "user", token } = options;
   const base = servicesUrl();
   const requestHeaders = new Headers({ Accept: "application/json" });
   if (body !== undefined) requestHeaders.set("Content-Type", "application/json");
 
-  const bearer = token ?? (auth ? await getSessionToken() : null);
+  const bearer = token ?? (auth ? await getSessionToken(session) : null);
   if (bearer) requestHeaders.set("Authorization", `Bearer ${bearer}`);
 
   const incoming = await headers();
@@ -86,7 +88,9 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
   }
 
   // The session cookie no longer works. Callers that catch errors must rethrow this redirect.
-  if (response.status === 401 && bearer && !token) return endSession();
+  if (response.status === 401 && bearer && !token) return session === "admin" ? endAdminSession() : endSession();
+  // An administrator banned the account: its session ends at once, and the login page says why.
+  if (payload.reason === "ACCOUNT_BANNED" && bearer && !token && session === "user") return endSession("banned");
 
   if (!response.ok) {
     const metadata = (payload.metadata ?? {}) as Record<string, string>;

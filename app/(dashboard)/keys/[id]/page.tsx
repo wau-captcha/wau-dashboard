@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, StatCard } from "@/components/ui/card";
@@ -15,8 +16,9 @@ import { getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
 import { keyDisplayName } from "@/lib/key-name";
 import { parseRange, usageTotals } from "@/lib/usage-view";
-import { RangeTabs } from "../../_components/range-tabs";
-import { UsageSummary } from "../../_components/usage-summary";
+import { RangeTabs } from "@/app/_components/range-tabs";
+import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
+import { UsageSummary } from "@/app/_components/usage-summary";
 import { IntegrationGuide } from "./_components/integration-guide";
 import { KeySettings } from "./_components/key-settings";
 
@@ -63,7 +65,11 @@ export default async function KeyDetailPage({
           </Link>
         }
       >
-        {apiKey.is_active ? (
+        {apiKey.is_suspended ? (
+          <Badge tone="negative" dot>
+            {t.common.status.suspended}
+          </Badge>
+        ) : apiKey.is_active ? (
           <Badge tone="positive" dot>
             {t.common.status.active}
           </Badge>
@@ -73,6 +79,12 @@ export default async function KeyDetailPage({
           </Badge>
         )}
       </PageHeader>
+
+      {apiKey.is_suspended && (
+        <Alert tone="negative" title={text.suspended.title}>
+          {apiKey.suspend_reason === "scraping" ? text.suspended.scraping : text.suspended.admin}
+        </Alert>
+      )}
 
       <Card>
         <CardHeader>
@@ -99,6 +111,8 @@ export default async function KeyDetailPage({
           <StatCard label={t.usage.stats.successful} value={totals.success} />
           <StatCard label={t.usage.stats.rate} value={totals.rate} />
         </div>
+        <UsageByKeyChart usage={usage} days={days} keys={[apiKey]} />
+        <UsageByTypeChart usage={usage} days={days} />
         <UsageSummary usage={usage} />
       </div>
 
