@@ -50,7 +50,7 @@ export function UserKeysTable({ userId, keys }: { userId: string; keys: AdminApi
               {t.common.status.suspended}
             </Badge>
             <span className="text-overline text-muted-foreground">
-              {key.suspend_reason === "scraping" ? text.suspendedForScraping : text.suspendedByAdmin}
+              {key.suspend_reason === "SCRAPING" ? text.suspendedForScraping : text.suspendedByAdmin}
             </span>
           </span>
         ) : key.is_active ? (

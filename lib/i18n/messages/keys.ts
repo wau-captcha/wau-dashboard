@@ -38,6 +38,7 @@ const en = {
     activated: "Key activated",
     deleted: "API key deleted",
     rotated: "New secret key created",
+    revoked: "Previous secret key revoked",
   },
   deleteDialog: {
     title: "Delete API key?",
@@ -88,6 +89,7 @@ const vi: Translation<typeof en> = {
     activated: "Đã kích hoạt khóa",
     deleted: "Đã xóa khóa API",
     rotated: "Đã tạo secret key mới",
+    revoked: "Đã thu hồi secret key cũ",
   },
   deleteDialog: {
     title: "Xóa khóa API?",

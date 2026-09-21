@@ -44,11 +44,25 @@ export type ApiKey = {
   create_date: string;
   /** Blocked by an administrator or the scraping check; only an administrator can lift it. */
   is_suspended: boolean;
+  /** Addresses allowed to use the site key; empty lets every address. Only GetApiKey fills it. */
+  allowed_origins?: AllowedOrigin[];
+  /** The secret key the last reset replaced, while it still works. */
+  previous_secret_key?: string;
+  previous_secret_key_expires_at?: string;
   suspend_reason: SuspendReason;
 };
 
 /** Why a key is suspended; empty when it is not. */
-export type SuspendReason = "" | "admin" | "scraping";
+export type SuspendReason = "" | "ADMIN" | "SCRAPING";
+
+/** One address, or network, allowed to use a site key. */
+export type AllowedOrigin = {
+  /** IPv4 or IPv6 network, e.g. "203.0.113.4/32" or "203.0.113.0/24". */
+  ip_address: string;
+  description?: string;
+  /** Missing on a row that has not been saved yet. */
+  create_date?: string;
+};
 
 export type ApiKeySet = {
   api_keys: ApiKey[];

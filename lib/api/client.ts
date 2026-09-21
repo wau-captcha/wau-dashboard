@@ -30,7 +30,7 @@ export class ApiError extends Error {
 }
 
 export type ApiFetchOptions = {
-  method?: "GET" | "POST" | "PATCH" | "DELETE";
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: unknown;
   /** Attach the session token (default true). If wau-services rejects it, the browser is signed out. */
   auth?: boolean;

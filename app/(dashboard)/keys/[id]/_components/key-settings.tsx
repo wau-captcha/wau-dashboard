@@ -1,28 +1,32 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useActionState, useTransition } from "react";
-import { Alert } from "@/components/ui/alert";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfirmDialog } from "@/components/ui/dialog";
-import { Field } from "@/components/ui/field";
+import { InlineEdit } from "@/components/ui/inline-edit";
+import { SecretValue } from "@/components/ui/secret-value";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { TextInput } from "@/components/ui/text-input";
 import { toast } from "@/components/ui/toast";
 import type { ApiKey } from "@/lib/api/types";
 import { formMessageText, type FormMessage } from "@/lib/form-message";
 import { useI18n } from "@/lib/i18n/client";
 import { keyDisplayName } from "@/lib/key-name";
-import { deleteKeyAction, renameKeyAction, rotateSecretAction, setKeyActiveAction, type KeyFormState } from "../../actions";
+import {
+  deleteKeyAction,
+  renameKeyAction,
+  revokePreviousSecretAction,
+  rotateSecretAction,
+  setKeyActiveAction,
+} from "../../actions";
 
 export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
-  const { t } = useI18n();
+  const { t, format } = useI18n();
   const text = t.keyDetail.settings;
-  const say = (message?: FormMessage) => (message ? formMessageText(message, t) : undefined);
   const router = useRouter();
-  const [state, formAction, renaming] = useActionState<KeyFormState, FormData>(renameKeyAction, {});
+  const [nameError, setNameError] = useState<FormMessage>();
   const [pending, startTransition] = useTransition();
 
   function toggleActive(next: boolean) {
@@ -33,22 +37,22 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
     });
   }
 
-  async function rotate() {
-    const { error } = await rotateSecretAction(apiKey.id);
+  async function rename(name: string) {
+    const { error, fieldErrors } = await renameKeyAction(apiKey.id, name);
+    setNameError(error ?? fieldErrors?.name);
+  }
+
+  async function run(action: () => Promise<{ error?: string }>, success: string) {
+    const { error } = await action();
     if (error) {
       toast.error(error);
       throw new Error(error);
     }
-    toast.success(t.keys.toast.rotated);
+    toast.success(success);
   }
 
   async function remove() {
-    const { error } = await deleteKeyAction(apiKey.id);
-    if (error) {
-      toast.error(error);
-      throw new Error(error);
-    }
-    toast.success(t.keys.toast.deleted);
+    await run(() => deleteKeyAction(apiKey.id), t.keys.toast.deleted);
     router.push("/keys");
   }
 
@@ -61,20 +65,14 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
         </div>
       </CardHeader>
       <CardContent className="grid gap-5">
-        {state.error && (
-          <Alert tone="negative" role="alert">
-            {say(state.error)}
-          </Alert>
-        )}
-        <form action={formAction} className="flex flex-wrap items-end gap-3">
-          <input type="hidden" name="id" value={apiKey.id} />
-          <Field label={text.name} error={say(state.fieldErrors?.name)} className="min-w-64 flex-1">
-            <TextInput name="name" defaultValue={apiKey.name} maxLength={64} required />
-          </Field>
-          <Button type="submit" variant="outline" loading={renaming}>
-            {text.save}
-          </Button>
-        </form>
+        <InlineEdit
+          label={text.name}
+          value={apiKey.name}
+          maxLength={64}
+          error={nameError && formMessageText(nameError, t)}
+          onSave={rename}
+          className="max-w-xl"
+        />
 
         <Separator />
 
@@ -96,9 +94,34 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
             title={text.rotateTitle}
             description={text.rotateDescription}
             confirmLabel={text.rotateConfirm}
-            onConfirm={rotate}
+            onConfirm={() => run(() => rotateSecretAction(apiKey.id), t.keys.toast.rotated)}
           />
         </div>
+
+        {apiKey.previous_secret_key && apiKey.previous_secret_key_expires_at && (
+          <>
+            <Separator />
+            <div className="grid gap-3">
+              <div className="min-w-0">
+                <p className="font-medium text-foreground">{text.previousTitle}</p>
+                <p className="text-body text-muted-foreground">
+                  {text.previousHint(format.dateTime(apiKey.previous_secret_key_expires_at))}
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <SecretValue value={apiKey.previous_secret_key} masked className="min-w-64 flex-1" />
+                <ConfirmDialog
+                  trigger={<Button variant="destructive-outline">{text.previousRevoke}</Button>}
+                  tone="destructive"
+                  title={text.previousRevokeTitle}
+                  description={text.previousRevokeDescription}
+                  confirmLabel={text.previousRevokeConfirm}
+                  onConfirm={() => run(() => revokePreviousSecretAction(apiKey.id), t.keys.toast.revoked)}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         <Separator />
 

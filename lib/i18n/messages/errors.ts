@@ -20,6 +20,8 @@ const en = {
   },
   fields: {
     name: "Key names need 1 to 64 characters.",
+    ip_address: "Each source is an IPv4 or IPv6 address, with an optional prefix length: 203.0.113.4 or 203.0.113.0/24.",
+    description: "A description may be at most 100 characters.",
   },
   generic: "Something went wrong. Please try again.",
 };
@@ -43,6 +45,8 @@ const vi: Translation<typeof en> = {
   },
   fields: {
     name: "Tên khóa phải có từ 1 đến 64 ký tự.",
+    ip_address: "Mỗi nguồn là một địa chỉ IPv4 hoặc IPv6, kèm độ dài prefix nếu cần: 203.0.113.4 hoặc 203.0.113.0/24.",
+    description: "Mô tả dài tối đa 100 ký tự.",
   },
   generic: "Đã có lỗi xảy ra, vui lòng thử lại.",
 };

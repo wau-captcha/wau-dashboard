@@ -37,6 +37,10 @@ const en = {
     emptyTitle: "No data",
     emptyDescription: "There are no records to show yet.",
   },
+  inlineEdit: {
+    save: "Save",
+    cancel: "Cancel",
+  },
   seriesTable: {
     min: "Min",
     max: "Max",
@@ -128,6 +132,10 @@ const vi: Translation<UIText> = {
     selectRow: "Chọn dòng",
     emptyTitle: "Không có dữ liệu",
     emptyDescription: "Chưa có bản ghi nào để hiển thị.",
+  },
+  inlineEdit: {
+    save: "Lưu",
+    cancel: "Hủy",
   },
   seriesTable: {
     min: "Thấp nhất",

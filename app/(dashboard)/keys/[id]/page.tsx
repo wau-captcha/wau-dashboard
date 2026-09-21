@@ -20,6 +20,7 @@ import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
 import { UsageSummary } from "@/app/_components/usage-summary";
 import { IntegrationGuide } from "./_components/integration-guide";
+import { AllowedOrigins } from "./_components/allowed-origins";
 import { KeySettings } from "./_components/key-settings";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -82,7 +83,7 @@ export default async function KeyDetailPage({
 
       {apiKey.is_suspended && (
         <Alert tone="negative" title={text.suspended.title}>
-          {apiKey.suspend_reason === "scraping" ? text.suspended.scraping : text.suspended.admin}
+          {apiKey.suspend_reason === "SCRAPING" ? text.suspended.scraping : text.suspended.admin}
         </Alert>
       )}
 
@@ -103,6 +104,8 @@ export default async function KeyDetailPage({
       </Card>
 
       <KeySettings apiKey={apiKey} />
+
+      <AllowedOrigins apiKey={apiKey} />
 
       <div className="grid gap-6">
         <PageHeader level={2} title={text.usageTitle} actions={<RangeTabs value={days} />} />

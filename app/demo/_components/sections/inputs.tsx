@@ -4,6 +4,7 @@ import { Globe, Mail, Search } from "lucide-react";
 import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
+import { InlineEdit } from "@/components/ui/inline-edit";
 import { NumberInput } from "@/components/ui/number-input";
 import { TextInput } from "@/components/ui/text-input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +14,8 @@ import { DemoBlock, DemoSection } from "../demo-shell";
 export function InputsSection() {
   const format = useFormatter();
   const [username, setUsername] = useState("john_doe");
+  const [keyName, setKeyName] = useState("Web shop");
+  const [budget, setBudget] = useState("");
   const [ttl, setTtl] = useState<number | null>(120);
   const [quota, setQuota] = useState<number | null>(1500000);
 
@@ -22,6 +25,22 @@ export function InputsSection() {
       title="Nhập liệu"
       description="TextInput, Textarea và NumberInput luôn đặt trong Field để có nhãn, mô tả, thông báo lỗi và liên kết trợ năng."
     >
+      <DemoBlock
+        title="InlineEdit"
+        description="Sửa tại chỗ: hai nút chỉ hiện khi nội dung khác giá trị đã lưu. Enter để lưu, Esc để hoàn tác."
+      >
+        <div className="grid gap-4 sm:grid-cols-2">
+          <InlineEdit label="Tên khóa" value={keyName} maxLength={64} onSave={setKeyName} />
+          <InlineEdit
+            label="Ngân sách"
+            description="Để trống nghĩa là không giới hạn."
+            value={budget}
+            placeholder="Leave blank for unlimited"
+            startAdornment="$"
+            onSave={setBudget}
+          />
+        </div>
+      </DemoBlock>
       <DemoBlock title="TextInput" description="Icon hoặc chữ hai bên, nút xóa, hiện/ẩn mật khẩu, hai kích thước.">
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Tên đăng nhập" description={`Giá trị hiện tại: "${username}"`}>

@@ -33,8 +33,22 @@ export function updateApiKey(id: string, patch: { name?: string; isActive?: bool
   });
 }
 
+/** Replaces the addresses allowed to use the site key; an empty list allows every address. */
+export function setAllowedOrigins(id: string, origins: { ip_address: string; description: string }[]) {
+  return apiFetch<ApiKey>(`/v1/api-keys/${encodeURIComponent(id)}/allowed-origins`, {
+    method: "PUT",
+    body: { id, allowed_origins: origins },
+  });
+}
+
+/** Issues a new secret key; the replaced one keeps working until it expires. */
 export function rotateSecretKey(id: string) {
   return apiFetch<ApiKey>(`/v1/api-keys/${encodeURIComponent(id)}/rotate-secret`, { method: "POST" });
+}
+
+/** Stops the replaced secret key before its grace period is over. */
+export function revokePreviousSecret(id: string) {
+  return apiFetch<ApiKey>(`/v1/api-keys/${encodeURIComponent(id)}/revoke-previous-secret`, { method: "POST" });
 }
 
 export async function deleteApiKey(id: string) {
