@@ -37,13 +37,13 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             <NavLink href="/admin/users">{nav.users}</NavLink>
           </>
         }
-        actions={
+        settings={
           <>
             <LanguageSwitcher />
-            <ThemeToggle className="hidden sm:inline-flex" />
-            <AdminMenu admin={admin} />
+            <ThemeToggle />
           </>
         }
+        actions={<AdminMenu admin={admin} />}
       />
       <main className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 sm:px-6">{children}</main>
     </div>

@@ -29,16 +29,22 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
               {nav.home}
             </NavLink>
             <NavLink href="/docs">{nav.docs}</NavLink>
+            {/* On phones the bar has no room for the button below, so the menu offers it. */}
+            <NavLink href={user ? "/overview" : "/login"} className="sm:hidden">
+              {user ? nav.dashboard : nav.signIn}
+            </NavLink>
+          </>
+        }
+        settings={
+          <>
+            <LanguageSwitcher />
+            <ThemeToggle />
           </>
         }
         actions={
-          <>
-            <LanguageSwitcher />
-            <ThemeToggle className="hidden sm:inline-flex" />
-            <Link href={user ? "/overview" : "/login"} className={buttonVariants({ size: "sm" })}>
-              {user ? nav.dashboard : nav.signIn}
-            </Link>
-          </>
+          <Link href={user ? "/overview" : "/login"} className={buttonVariants({ size: "sm", className: "max-sm:hidden" })}>
+            {user ? nav.dashboard : nav.signIn}
+          </Link>
         }
       />
       <main className="flex-1">{children}</main>

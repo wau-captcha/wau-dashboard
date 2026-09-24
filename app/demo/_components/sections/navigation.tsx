@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { useFormatter } from "@/components/ui/locale";
 import { Pagination } from "@/components/ui/pagination";
 import { SegmentedControl, type SegmentedOption } from "@/components/ui/segmented-control";
+import { TableOfContents } from "@/components/ui/table-of-contents";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@/components/ui/tabs";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
 
@@ -127,6 +128,21 @@ export function NavigationSection() {
             <Pagination page={smallPage} pageSize={10} total={45} onPageChange={setSmallPage} />
           </div>
         </div>
+      </DemoBlock>
+
+      <DemoBlock
+        title="Table of contents"
+        description="Liên kết tới các phần của trang, tô sáng phần đang đọc khi cuộn. Dưới lg thu gọn sau một nút. Cột bên trái của trang này cũng là nó."
+      >
+        <TableOfContents
+          label="Trên trang này"
+          items={[
+            { id: "foundations", title: "Nền tảng" },
+            { id: "buttons", title: "Nút" },
+            { id: "navigation", title: "Tabs & phân trang" },
+            { id: "tables", title: "Bảng dữ liệu" },
+          ]}
+        />
       </DemoBlock>
     </DemoSection>
   );

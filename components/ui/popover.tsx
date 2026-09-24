@@ -44,7 +44,7 @@ export function PopoverContent({
         <BasePopover.Popup
           data-slot="popover-content"
           className={cn(
-            "w-72 rounded-lg border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none",
+            "w-72 max-w-[calc(100vw-1rem)] rounded-lg border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none",
             popupMotion,
             className,
           )}

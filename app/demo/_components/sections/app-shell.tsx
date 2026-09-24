@@ -23,7 +23,11 @@ export function AppShellSection() {
       title="Khung ứng dụng"
       description="Thanh điều hướng, tiêu đề trang, danh sách thông tin và khối mã dùng chung cho mọi trang nghiệp vụ."
     >
-      <DemoBlock title="AppHeader + Logo + NavLink" contentClassName="p-0 overflow-hidden">
+      <DemoBlock
+        title="AppHeader + Logo + NavLink"
+        description="Luôn một hàng. Dưới lg, điều hướng và phần cài đặt (settings) chuyển vào menu mở từ nút ☰; actions luôn ở trên thanh."
+        contentClassName="p-0 overflow-hidden"
+      >
         <AppHeader
           className="static"
           brand={<Logo href="/demo" />}
@@ -34,7 +38,7 @@ export function AppShellSection() {
               <NavLink href="/demo">Demo</NavLink>
             </>
           }
-          actions={<ThemeToggle />}
+          settings={<ThemeToggle />}
         />
       </DemoBlock>
 

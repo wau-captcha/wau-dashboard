@@ -47,6 +47,7 @@ export function ReferenceSections({ text, baseUrl }: { text: Sections; baseUrl: 
       </DocSection>
 
       <DocSection id="errors" title={text.errors.title}>
+        <Prose>{text.errors.sdkNote}</Prose>
         <Table aria-label={text.errors.title}>
           <TableHeader>
             <TableRow>

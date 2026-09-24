@@ -2,10 +2,11 @@ import { CodeBlock } from "@/components/ui/code-block";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { clientCustom, install, javaVerify, nodeVerify, widgetBundler, widgetScript } from "../../_components/snippets";
 import { Bullets, DocSection, Prose, SubHeading } from "./doc-section";
+import { ReactSection } from "./react-section";
 
 type Sections = Dictionary["docs"]["sections"];
 
-/** The docs from the idea to a working integration: keys, the widget, the client and the server SDKs. */
+/** The docs from the idea to a working integration: keys, the widget, React, the client and the server SDKs. */
 export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl: string }) {
   return (
     <>
@@ -31,6 +32,8 @@ export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl
         <CodeBlock language="bash" code={install.browser} />
         <CodeBlock language="javascript" code={widgetBundler(baseUrl)} />
       </DocSection>
+
+      <ReactSection text={text.react} baseUrl={baseUrl} />
 
       <DocSection id="client" title={text.client.title}>
         <Prose>{text.client.body}</Prose>

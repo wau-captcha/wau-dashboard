@@ -12,7 +12,8 @@ export const Dialog = BaseDialog.Root;
 export const DialogTrigger = BaseDialog.Trigger;
 export const DialogClose = BaseDialog.Close;
 
-const backdropClassName =
+/** The dimmed layer behind every modal panel. */
+export const backdropClassName =
   "fixed inset-0 z-modal bg-black/50 transition-opacity duration-300 ease-drawer " +
   "data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 data-[ending-style]:duration-200";
 

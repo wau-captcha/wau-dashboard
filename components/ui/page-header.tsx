@@ -26,7 +26,7 @@ export function PageHeader({ title, level = 1, description, actions, children, c
         </div>
         {description && <p className="max-w-2xl text-body text-muted-foreground">{description}</p>}
       </div>
-      {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}
+      {actions && <div className="flex min-w-0 flex-wrap items-center gap-2 max-sm:w-full sm:shrink-0">{actions}</div>}
     </div>
   );
 }

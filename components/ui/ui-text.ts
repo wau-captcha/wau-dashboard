@@ -12,6 +12,9 @@ const en = {
   language: {
     group: "Language",
   },
+  appHeader: {
+    menu: "Menu",
+  },
   calendar: {
     previousYear: "Previous year",
     previousMonth: "Previous month",
@@ -107,6 +110,9 @@ const vi: Translation<UIText> = {
   },
   language: {
     group: "Ngôn ngữ",
+  },
+  appHeader: {
+    menu: "Menu",
   },
   calendar: {
     previousYear: "Năm trước",

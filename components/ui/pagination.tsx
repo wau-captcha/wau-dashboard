@@ -103,25 +103,31 @@ export function Pagination({
           >
             <ChevronLeft />
           </Button>
-          {getPageItems(current, pageCount).map((item, index) =>
-            item === "gap" ? (
-              <span key={`gap-${index}`} aria-hidden className="flex size-8 items-center justify-center">
-                …
-              </span>
-            ) : (
-              <Button
-                key={item}
-                variant={item === current ? "outline" : "ghost"}
-                size="sm"
-                aria-label={text.page(item)}
-                aria-current={item === current ? "page" : undefined}
-                onClick={() => onPageChange(item)}
-                className={cn("min-w-8 px-2 tabular-nums", item === current && "text-foreground")}
-              >
-                {item}
-              </Button>
-            ),
-          )}
+          {/* Phones have no room for the page buttons: they get the page number between the arrows. */}
+          <span className="px-2 tabular-nums text-foreground sm:hidden">
+            {format.number(current)} / {format.number(pageCount)}
+          </span>
+          <span className="hidden items-center gap-1 sm:flex">
+            {getPageItems(current, pageCount).map((item, index) =>
+              item === "gap" ? (
+                <span key={`gap-${index}`} aria-hidden className="flex size-8 items-center justify-center">
+                  …
+                </span>
+              ) : (
+                <Button
+                  key={item}
+                  variant={item === current ? "outline" : "ghost"}
+                  size="sm"
+                  aria-label={text.page(item)}
+                  aria-current={item === current ? "page" : undefined}
+                  onClick={() => onPageChange(item)}
+                  className={cn("min-w-8 px-2 tabular-nums", item === current && "text-foreground")}
+                >
+                  {item}
+                </Button>
+              ),
+            )}
+          </span>
           <Button
             variant="ghost"
             size="icon-sm"

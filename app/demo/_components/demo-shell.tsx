@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { AppHeader } from "@/components/ui/app-header";
 import { Badge } from "@/components/ui/badge";
 import { Logo } from "@/components/ui/logo";
+import { TableOfContents } from "@/components/ui/table-of-contents";
 import { cn } from "@/lib/utils";
 
 export type DemoNavItem = { id: string; label: string };
@@ -10,39 +12,28 @@ export type DemoNavItem = { id: string; label: string };
 export function DemoShell({ nav, children }: { nav: DemoNavItem[]; children: ReactNode }) {
   return (
     <div className="min-h-full">
-      <header className="sticky top-0 z-sticky border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+      <AppHeader
+        brand={
           <Logo href="/demo">
             <Badge tone="primary" size="sm">
               UI Kit
             </Badge>
           </Logo>
-          <div className="flex items-center gap-2">
+        }
+        settings={
+          <>
             <LanguageSwitcher />
             <ThemeToggle />
-          </div>
-        </div>
-      </header>
-      <div className="mx-auto flex max-w-7xl gap-10 px-4 sm:px-6">
-        <nav
-          aria-label="Mục lục"
-          className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-48 shrink-0 overflow-y-auto py-8 scrollbar-thin lg:block"
-        >
-          <p className="mb-2 px-2 text-overline font-medium text-muted-foreground">Thành phần</p>
-          <ul className="grid gap-0.5">
-            {nav.map((item) => (
-              <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
-                  className="block rounded-md px-2 py-1.5 text-body text-muted-foreground transition-colors hover:bg-card-hover hover:text-accent-foreground"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <main className="min-w-0 flex-1 py-8">{children}</main>
+          </>
+        }
+      />
+      <div className="mx-auto grid max-w-7xl gap-x-10 px-4 sm:px-6 lg:grid-cols-[12rem_minmax(0,1fr)]">
+        <TableOfContents
+          items={nav.map((item) => ({ id: item.id, title: item.label }))}
+          label="Thành phần"
+          className="pt-6 lg:sticky lg:top-14 lg:h-[calc(100dvh-3.5rem)] lg:self-start lg:overflow-y-auto lg:py-8 lg:scrollbar-thin"
+        />
+        <main className="min-w-0 py-8">{children}</main>
       </div>
     </div>
   );

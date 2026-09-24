@@ -38,8 +38,12 @@ export function CardDescription({ className, ...props }: ComponentProps<"p">) {
   return <p data-slot="card-description" className={cn("mt-1 text-body text-muted-foreground", className)} {...props} />;
 }
 
+/**
+ * With `grid`, the content gets one column no wider than the card, so a value that cannot
+ * wrap (a key, a long name) shortens instead of pushing the card open.
+ */
 export function CardContent({ className, ...props }: ComponentProps<"div">) {
-  return <div data-slot="card-content" className={cn("px-5 py-5", className)} {...props} />;
+  return <div data-slot="card-content" className={cn("grid-cols-1 px-5 py-5", className)} {...props} />;
 }
 
 export function CardFooter({ className, ...props }: ComponentProps<"div">) {

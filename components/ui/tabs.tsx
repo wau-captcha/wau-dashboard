@@ -17,7 +17,7 @@ export type TabsProps = Omit<BaseTabs.Root.Props, "className"> & {
 export function Tabs({ variant = "underline", className, ...props }: TabsProps) {
   return (
     <TabsVariantContext value={variant}>
-      <BaseTabs.Root data-slot="tabs" className={cn("flex flex-col gap-4", className)} {...props} />
+      <BaseTabs.Root data-slot="tabs" className={cn("flex min-w-0 flex-col gap-4", className)} {...props} />
     </TabsVariantContext>
   );
 }

@@ -25,8 +25,19 @@ export function UserMenu({ user }: { user: User }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" size="sm" endIcon={<ChevronDown />} loading={pending} />}>
-        <span className="max-w-32 truncate">{user.username}</span>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            endIcon={<ChevronDown className="max-sm:hidden" />}
+            loading={pending}
+            className="max-sm:px-2"
+          />
+        }
+      >
+        <UserRound className="sm:hidden" />
+        <span className="max-w-32 truncate max-sm:sr-only">{user.username}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>

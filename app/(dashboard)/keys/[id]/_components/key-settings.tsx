@@ -101,7 +101,7 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
         {apiKey.previous_secret_key && apiKey.previous_secret_key_expires_at && (
           <>
             <Separator />
-            <div className="grid gap-3">
+            <div className="grid grid-cols-1 gap-3">
               <div className="min-w-0">
                 <p className="font-medium text-foreground">{text.previousTitle}</p>
                 <p className="text-body text-muted-foreground">
@@ -109,7 +109,7 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                <SecretValue value={apiKey.previous_secret_key} masked className="min-w-64 flex-1" />
+                <SecretValue value={apiKey.previous_secret_key} masked className="min-w-0 grow basis-64" />
                 <ConfirmDialog
                   trigger={<Button variant="destructive-outline">{text.previousRevoke}</Button>}
                   tone="destructive"

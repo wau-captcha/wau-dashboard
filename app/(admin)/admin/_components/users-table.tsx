@@ -40,7 +40,8 @@ export function UsersTable({ users, total, page, pageSize }: UsersTableProps) {
       id: "user",
       header: text.columns.user,
       cell: (user) => (
-        <span className="grid min-w-0 gap-0.5">
+        // Wide enough to read on a phone, where the table scrolls sideways instead of squeezing it.
+        <span className="grid min-w-40 max-w-72 gap-0.5">
           <span className="truncate font-medium text-foreground">{user.username}</span>
           <span className="truncate text-overline text-muted-foreground">{user.email}</span>
         </span>

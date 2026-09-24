@@ -5,6 +5,7 @@
 
 export const install = {
   browser: "npm install @wau-captcha/client",
+  react: "npm install @wau-captcha/react",
   node: "npm install @wau-captcha/server",
   java: `<dependency>
     <groupId>com.waucaptcha</groupId>
@@ -34,11 +35,55 @@ const widget = renderWidget(document.querySelector("#captcha"), {
   },
 });`;
 
-export const clientCustom = (baseUrl: string) => `import { WauCaptchaClient } from "@wau-captcha/client";
+export const reactPage = (baseUrl: string) => `import { WauCaptcha } from "@wau-captcha/react";
+import { signUp } from "./actions";
+
+export default function SignUpPage() {
+  return (
+    <form action={signUp}>
+      <input name="email" type="email" required />
+      <WauCaptcha siteKey="pk_…" baseUrl="${baseUrl}" />
+      <button type="submit">Sign up</button>
+    </form>
+  );
+}`;
+
+export const reactAction = (baseUrl: string) => `"use server";
+
+import { WauCaptchaServer } from "@wau-captcha/server";
+
+export async function signUp(formData: FormData) {
+  const captcha = new WauCaptchaServer({
+    secretKey: process.env.WAU_SECRET_KEY!,
+    baseUrl: "${baseUrl}",
+  });
+  const result = await captcha.verifyToken(String(formData.get("wau-captcha-token") ?? ""));
+  if (!result.success) throw new Error("Please solve the captcha.");
+  // … create the account
+}`;
+
+export const reactModal = (baseUrl: string) => `"use client";
+
+import { ChallengeType, WauCaptcha, WauCaptchaMode } from "@wau-captcha/react";
+
+export function SignUpCaptcha() {
+  return (
+    <WauCaptcha
+      mode={WauCaptchaMode.MODAL}
+      challengeType={ChallengeType.MOTION_NOISE}
+      siteKey="pk_…"
+      baseUrl="${baseUrl}"
+      onSuccess={(token) => console.log("solved", token)}
+      onError={(error) => console.error(error.code)}
+    />
+  );
+}`;
+
+export const clientCustom = (baseUrl: string) => `import { ChallengeType, WauCaptchaClient } from "@wau-captcha/client";
 
 const captcha = new WauCaptchaClient({ siteKey: "pk_…", baseUrl: "${baseUrl}" });
 
-const challenge = await captcha.newChallenge(); // { challengeType: "motion_noise" } for moving dots
+const challenge = await captcha.newChallenge(); // or { challengeType: ChallengeType.MOTION_NOISE }
 image.src = challenge.imageUrl;
 image.width = challenge.width;
 image.height = challenge.height;
@@ -50,7 +95,7 @@ if (result.success) {
   // Wrong answer: the challenge is used up, fetch a new one.
 }`;
 
-export const nodeVerify = (baseUrl: string) => `import { WauCaptchaServer } from "@wau-captcha/server";
+export const nodeVerify = (baseUrl: string) => `import { ErrorCode, WauCaptchaServer } from "@wau-captcha/server";
 
 const wau = new WauCaptchaServer({
   secretKey: process.env.WAU_SECRET_KEY,
@@ -62,6 +107,7 @@ app.post("/signup", async (req, res) => {
     const result = await wau.verifyToken(req.body["wau-captcha-token"]);
     if (!result.success) return res.status(400).send("Please solve the captcha.");
   } catch (error) {
+    if (error.code === ErrorCode.SECRET_KEY_INVALID) console.error("Check WAU_SECRET_KEY");
     return res.status(503).send("Captcha check unavailable."); // fail closed
   }
   // … create the account

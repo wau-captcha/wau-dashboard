@@ -26,13 +26,13 @@ export default async function DashboardLayout({ children }: { children: ReactNod
             <NavLink href="/docs">{t.site.nav.docs}</NavLink>
           </>
         }
-        actions={
+        settings={
           <>
             <LanguageSwitcher />
-            <ThemeToggle className="hidden sm:inline-flex" />
-            <UserMenu user={user} />
+            <ThemeToggle />
           </>
         }
+        actions={<UserMenu user={user} />}
       />
       <main className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 sm:px-6">{children}</main>
     </div>

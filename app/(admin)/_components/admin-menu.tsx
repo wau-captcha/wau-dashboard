@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, UserRound } from "lucide-react";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,8 +22,19 @@ export function AdminMenu({ admin }: { admin: Admin }) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" size="sm" endIcon={<ChevronDown />} loading={pending} />}>
-        <span className="max-w-32 truncate">{admin.username}</span>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            endIcon={<ChevronDown className="max-sm:hidden" />}
+            loading={pending}
+            className="max-sm:px-2"
+          />
+        }
+      >
+        <UserRound className="sm:hidden" />
+        <span className="max-w-32 truncate max-sm:sr-only">{admin.username}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuGroup>

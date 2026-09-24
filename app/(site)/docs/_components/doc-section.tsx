@@ -1,9 +1,12 @@
 import type { ReactNode } from "react";
 
-/** One section of the docs, reachable from the table of contents by its id. */
+/**
+ * One section of the docs, reachable from the table of contents by its id. Its scroll margin
+ * clears the header, which takes two rows on phones.
+ */
 export function DocSection({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
-    <section id={id} className="grid scroll-mt-24 gap-4">
+    <section id={id} className="grid scroll-mt-32 gap-4 sm:scroll-mt-24">
       <h2 className="font-brand text-title font-semibold tracking-tight text-foreground">{title}</h2>
       {children}
     </section>

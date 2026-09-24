@@ -18,7 +18,7 @@ export function Logo({ href, children, className }: LogoProps) {
       <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
         <ShieldCheck className="size-4" />
       </span>
-      <span className="font-brand text-heading font-semibold tracking-tight text-foreground">WAU Captcha</span>
+      <span className="whitespace-nowrap font-brand text-heading font-semibold tracking-tight text-foreground">WAU Captcha</span>
     </span>
   );
 

@@ -40,7 +40,7 @@ export default async function AdminLoginPage({ searchParams }: { searchParams: P
         )}
       </CardContent>
       <CardFooter className="justify-center">
-        <Link href="/login" className={buttonVariants({ variant: "link", size: "sm" })}>
+        <Link href="/login" className={buttonVariants({ variant: "link", size: "sm", className: "shrink whitespace-normal text-center" })}>
           {text.userLogin}
         </Link>
       </CardFooter>
