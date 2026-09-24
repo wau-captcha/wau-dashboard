@@ -119,7 +119,7 @@ export default async function KeyDetailPage({
         <UsageSummary usage={usage} />
       </div>
 
-      <IntegrationGuide siteKey={apiKey.site_key} servicesUrl={servicesUrl()} />
+      {/* <IntegrationGuide siteKey={apiKey.site_key} servicesUrl={servicesUrl()} /> */}
     </>
   );
 }

@@ -1,0 +1,64 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { LanguageSwitcher } from "@/components/i18n/language-switcher";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { AppHeader } from "@/components/ui/app-header";
+import { buttonVariants } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
+import { NavLink } from "@/components/ui/nav-link";
+import { getOptionalUser } from "@/lib/dal";
+import { getI18n } from "@/lib/i18n/server";
+
+/**
+ * Public pages: the home page and the docs. Anyone may read them; a signed-in visitor gets a
+ * link to the dashboard instead of the sign-in button.
+ */
+export default async function SiteLayout({ children }: { children: ReactNode }) {
+  // If wau-services is down the pages still render, just with the sign-in button.
+  const [{ t }, user] = await Promise.all([getI18n(), getOptionalUser().catch(() => null)]);
+  const nav = t.site.nav;
+
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <AppHeader
+        brand={<Logo href="/" className="shrink-0" />}
+        navLabel={nav.label}
+        nav={
+          <>
+            <NavLink href="/" exact>
+              {nav.home}
+            </NavLink>
+            <NavLink href="/docs">{nav.docs}</NavLink>
+          </>
+        }
+        actions={
+          <>
+            <LanguageSwitcher />
+            <ThemeToggle className="hidden sm:inline-flex" />
+            <Link href={user ? "/overview" : "/login"} className={buttonVariants({ size: "sm" })}>
+              {user ? nav.dashboard : nav.signIn}
+            </Link>
+          </>
+        }
+      />
+      <main className="flex-1">{children}</main>
+      <footer className="border-t border-border">
+        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-body text-muted-foreground sm:px-6">
+          <div className="grid gap-1">
+            <Logo />
+            <p>{t.site.footer.tagline}</p>
+          </div>
+          <nav aria-label={t.site.footer.product} className="flex flex-wrap gap-4">
+            <Link href="/docs" className="hover:text-foreground">
+              {nav.docs}
+            </Link>
+            <Link href="/overview" className="hover:text-foreground">
+              {nav.dashboard}
+            </Link>
+          </nav>
+          <p className="w-full text-overline">{t.site.footer.rights(new Date().getFullYear())}</p>
+        </div>
+      </footer>
+    </div>
+  );
+}

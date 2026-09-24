@@ -10,8 +10,8 @@ import {
 
 const ADMIN_LOGIN = `${ADMIN_PATH}/login`;
 
-/** Pages reachable without signing in. */
-const publicPaths = ["/login", "/session-expired", "/demo", ADMIN_LOGIN, `${ADMIN_PATH}/session-expired`];
+/** Pages reachable without signing in: the home page, the docs and the sign-in pages. */
+const publicPaths = ["/docs", "/login", "/session-expired", "/demo", ADMIN_LOGIN, `${ADMIN_PATH}/session-expired`];
 
 /**
  * Optimistic gate: visitors with no session cookie never reach a dashboard page, and those
@@ -23,7 +23,7 @@ export function proxy(request: NextRequest) {
   if (pathname === "/login" || pathname === ADMIN_LOGIN) {
     return withGoogleNonce(request);
   }
-  if (publicPaths.some((path) => pathname === path || pathname.startsWith(path + "/"))) {
+  if (pathname === "/" || publicPaths.some((path) => pathname === path || pathname.startsWith(path + "/"))) {
     return NextResponse.next();
   }
   const admin = pathname === ADMIN_PATH || pathname.startsWith(ADMIN_PATH + "/");
@@ -32,7 +32,7 @@ export function proxy(request: NextRequest) {
   }
 
   const login = new URL(admin ? ADMIN_LOGIN : "/login", request.url);
-  if (pathname !== "/" && pathname !== ADMIN_PATH) login.searchParams.set("next", pathname + search);
+  if (pathname !== ADMIN_PATH) login.searchParams.set("next", pathname + search);
   return NextResponse.redirect(login);
 }
 

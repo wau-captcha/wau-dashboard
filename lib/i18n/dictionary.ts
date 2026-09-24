@@ -4,9 +4,11 @@ import { admin } from "./messages/admin";
 import { auth } from "./messages/auth";
 import { challengeTypes } from "./messages/challenge-types";
 import { common } from "./messages/common";
+import { docs } from "./messages/docs";
 import { errors } from "./messages/errors";
 import { keyDetail } from "./messages/key-detail";
 import { keys } from "./messages/keys";
+import { site } from "./messages/site";
 import { usage } from "./messages/usage";
 
 /**
@@ -23,6 +25,8 @@ export type Dictionary = {
   errors: typeof errors.en;
   challengeTypes: typeof challengeTypes.en;
   admin: typeof admin.en;
+  site: typeof site.en;
+  docs: typeof docs.en;
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -36,6 +40,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     errors: errors.en,
     challengeTypes: challengeTypes.en,
     admin: admin.en,
+    site: site.en,
+    docs: docs.en,
   },
   vi: {
     common: common.vi,
@@ -47,6 +53,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     errors: errors.vi,
     challengeTypes: challengeTypes.vi,
     admin: admin.vi,
+    site: site.vi,
+    docs: docs.vi,
   },
 };
 

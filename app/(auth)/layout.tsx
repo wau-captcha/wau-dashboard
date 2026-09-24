@@ -7,7 +7,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className="grid min-h-dvh grid-rows-[auto_1fr] px-4 py-6 sm:px-6">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
-        <Logo href="/login" />
+        <Logo href="/" />
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
