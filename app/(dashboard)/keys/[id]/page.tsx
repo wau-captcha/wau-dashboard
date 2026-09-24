@@ -19,7 +19,6 @@ import { parseRange, usageTotals } from "@/lib/usage-view";
 import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
 import { UsageSummary } from "@/app/_components/usage-summary";
-import { IntegrationGuide } from "./_components/integration-guide";
 import { AllowedOrigins } from "./_components/allowed-origins";
 import { KeySettings } from "./_components/key-settings";
 
@@ -119,7 +118,6 @@ export default async function KeyDetailPage({
         <UsageSummary usage={usage} />
       </div>
 
-      {/* <IntegrationGuide siteKey={apiKey.site_key} servicesUrl={servicesUrl()} /> */}
     </>
   );
 }
