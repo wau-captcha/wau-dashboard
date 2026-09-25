@@ -2,7 +2,8 @@ import "server-only";
 
 import { apiFetch, type ApiFetchOptions } from "./client";
 import type { Admin, AdminApiKey, AdminStats, AdminUser, Usage, UserPage } from "./types";
-import { toNumber, toUsage, type RawUsage } from "./usage";
+import type { UsageRange } from "@/lib/usage-view";
+import { rangeQuery, toNumber, toUsage, type RawUsage } from "./usage";
 
 /** Every call here carries the administrator session; a rejected one signs out of the console. */
 function adminFetch<T>(path: string, options: Omit<ApiFetchOptions, "session"> = {}): Promise<T> {
@@ -75,8 +76,8 @@ export async function setApiKeySuspended(id: string, suspended: boolean): Promis
   return toAdminApiKey(raw);
 }
 
-export async function getAdminUsage(params: { userId?: string; apiKeyId?: string; days: number }): Promise<Usage> {
-  const query = new URLSearchParams({ days: String(params.days) });
+export async function getAdminUsage(params: { userId?: string; apiKeyId?: string; range: UsageRange }): Promise<Usage> {
+  const query = rangeQuery(params.range);
   if (params.userId) query.set("user_id", params.userId);
   if (params.apiKeyId) query.set("api_key_id", params.apiKeyId);
   return toUsage(await adminFetch<RawUsage>(`/v1/admin/usage?${query.toString()}`));

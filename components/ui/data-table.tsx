@@ -51,6 +51,8 @@ export type DataTableProps<T> = {
   isRowSelectable?: (row: T) => boolean;
   /** Makes rows clickable and keyboard-activatable (Enter/Space). */
   onRowClick?: (row: T) => void;
+  /** Extra classes per row, e.g. to dim the rows of hidden chart lines. */
+  rowClassName?: (row: T) => string | undefined;
   density?: TableDensity;
   stickyHeader?: boolean;
   /** Rendered under the table inside the same frame, e.g. <Pagination />. */
@@ -105,6 +107,7 @@ export function DataTable<T>({
   onSelectedRowIdsChange,
   isRowSelectable,
   onRowClick,
+  rowClassName,
   density,
   stickyHeader,
   footer,
@@ -282,7 +285,7 @@ export function DataTable<T>({
                       }
                     : undefined
                 }
-                className={cn(onRowClick && "cursor-pointer outline-none focus-visible:bg-card-hover")}
+                className={cn(onRowClick && "cursor-pointer outline-none focus-visible:bg-card-hover", rowClassName?.(row))}
               >
                 {selectable && (
                   <TableCell className="pr-0" onClick={(event) => event.stopPropagation()}>

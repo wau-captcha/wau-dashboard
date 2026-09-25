@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, StatCard } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { SecretValue } from "@/components/ui/secret-value";
@@ -15,9 +15,10 @@ import type { ApiKey } from "@/lib/api/types";
 import { getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
 import { keyDisplayName } from "@/lib/key-name";
-import { parseRange, usageTotals } from "@/lib/usage-view";
+import { parseRange } from "@/lib/usage-view";
 import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
+import { UsageStatCards } from "@/app/_components/usage-stats";
 import { UsageSummary } from "@/app/_components/usage-summary";
 import { AllowedOrigins } from "./_components/allowed-origins";
 import { KeySettings } from "./_components/key-settings";
@@ -48,11 +49,10 @@ export default async function KeyDetailPage({
   const { id } = await params;
   if (!UUID.test(id)) notFound();
 
-  const days = parseRange((await searchParams).days);
+  const range = parseRange((await searchParams).days);
   const [{ t, format }, apiKey] = await Promise.all([getI18n(), loadKey(id)]);
-  const usage = await getUsage({ apiKeyId: id, days });
+  const usage = await getUsage({ apiKeyId: id, range });
   const text = t.keyDetail;
-  const totals = usageTotals(usage, format);
 
   return (
     <>
@@ -107,15 +107,13 @@ export default async function KeyDetailPage({
       <AllowedOrigins apiKey={apiKey} />
 
       <div className="grid gap-6">
-        <PageHeader level={2} title={text.usageTitle} actions={<RangeTabs value={days} />} />
+        <PageHeader level={2} title={text.usageTitle} actions={<RangeTabs value={range} />} />
         <div className="grid gap-4 sm:grid-cols-3">
-          <StatCard label={t.usage.stats.solves} value={totals.total} />
-          <StatCard label={t.usage.stats.successful} value={totals.success} />
-          <StatCard label={t.usage.stats.rate} value={totals.rate} />
+          <UsageStatCards usage={usage} />
         </div>
-        <UsageByKeyChart usage={usage} days={days} keys={[apiKey]} />
-        <UsageByTypeChart usage={usage} days={days} />
-        <UsageSummary usage={usage} />
+        <UsageByKeyChart usage={usage} range={range} keys={[apiKey]} />
+        <UsageByTypeChart usage={usage} range={range} />
+        <UsageSummary usage={usage} range={range} />
       </div>
 
     </>

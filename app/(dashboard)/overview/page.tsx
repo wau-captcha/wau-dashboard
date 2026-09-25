@@ -1,4 +1,4 @@
-import { Activity, CircleCheck, KeyRound, ShieldCheck } from "lucide-react";
+import { KeyRound, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,10 +8,11 @@ import { PageHeader } from "@/components/ui/page-header";
 import { listApiKeys, listChallengeTypes } from "@/lib/api/api-keys";
 import { getQuota, getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
-import { parseRange, usageTotals } from "@/lib/usage-view";
+import { parseRange } from "@/lib/usage-view";
 import { QuotaMeter } from "@/app/_components/quota-meter";
 import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
+import { UsageStatCards } from "@/app/_components/usage-stats";
 import { UsageSummary } from "@/app/_components/usage-summary";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,21 +21,20 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function OverviewPage({ searchParams }: { searchParams: Promise<{ days?: string }> }) {
-  const days = parseRange((await searchParams).days);
+  const range = parseRange((await searchParams).days);
   const [{ t, format }, keys, usage, challengeTypes, quota] = await Promise.all([
     getI18n(),
     listApiKeys(),
-    getUsage({ days }),
+    getUsage({ range }),
     listChallengeTypes(),
     getQuota(),
   ]);
   const text = t.usage.overview;
   const activeKeys = keys.api_keys.filter((key) => key.is_active).length;
-  const totals = usageTotals(usage, format);
 
   return (
     <>
-      <PageHeader title={text.title} description={text.description(days)} actions={<RangeTabs value={days} />} />
+      <PageHeader title={text.title} description={text.description(range)} actions={<RangeTabs value={range} />} />
 
       <Card>
         <CardContent>
@@ -55,9 +55,8 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
         />
       ) : (
         <>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <StatCard label={t.usage.stats.solves} value={totals.total} icon={<Activity />} />
-            <StatCard label={t.usage.stats.rate} value={totals.rate} icon={<CircleCheck />} />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <UsageStatCards usage={usage} />
             <StatCard
               label={text.activeKeys}
               value={`${format.number(activeKeys)}/${format.number(keys.api_keys.length)}`}
@@ -67,10 +66,10 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
             <StatCard label={text.challengeTypes} value={format.number(challengeTypes.length)} icon={<ShieldCheck />} />
           </div>
           <div className="grid gap-6">
-            <UsageByKeyChart usage={usage} days={days} keys={keys.api_keys} />
-            <UsageByTypeChart usage={usage} days={days} />
+            <UsageByKeyChart usage={usage} range={range} keys={keys.api_keys} />
+            <UsageByTypeChart usage={usage} range={range} />
           </div>
-          <UsageSummary usage={usage} />
+          <UsageSummary usage={usage} range={range} />
         </>
       )}
     </>

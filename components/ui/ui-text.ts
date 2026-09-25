@@ -45,10 +45,7 @@ const en = {
     cancel: "Cancel",
   },
   seriesTable: {
-    min: "Min",
-    max: "Max",
-    avg: "Avg",
-    total: "Total",
+    hidden: "line hidden",
   },
   dateInput: {
     openCalendar: "Open calendar",
@@ -144,10 +141,7 @@ const vi: Translation<UIText> = {
     cancel: "Hủy",
   },
   seriesTable: {
-    min: "Thấp nhất",
-    max: "Cao nhất",
-    avg: "Trung bình",
-    total: "Tổng",
+    hidden: "đường đang ẩn",
   },
   dateInput: {
     openCalendar: "Mở lịch",

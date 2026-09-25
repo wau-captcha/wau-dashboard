@@ -15,6 +15,7 @@ import { parseRange } from "@/lib/usage-view";
 import { QuotaMeter } from "@/app/_components/quota-meter";
 import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
+import { UsageStatCards } from "@/app/_components/usage-stats";
 import { UsageSummary } from "@/app/_components/usage-summary";
 import { BanDialog } from "../../_components/ban-dialog";
 import { UserKeysTable } from "../../_components/user-keys-table";
@@ -44,12 +45,12 @@ export default async function AdminUserPage({
 }) {
   const { id } = await params;
   if (!UUID.test(id)) notFound();
-  const days = parseRange((await searchParams).days);
+  const range = parseRange((await searchParams).days);
   const [{ t, format }, user, keys, usage] = await Promise.all([
     getI18n(),
     loadUser(id),
     listUserApiKeys(id),
-    getAdminUsage({ userId: id, days }),
+    getAdminUsage({ userId: id, range }),
   ]);
   const text = t.admin.user;
 
@@ -128,10 +129,13 @@ export default async function AdminUserPage({
       </Card>
 
       <div className="grid gap-6">
-        <PageHeader level={2} title={text.usageTitle} actions={<RangeTabs value={days} />} />
-        <UsageByKeyChart usage={usage} days={days} keys={keys} />
-        <UsageByTypeChart usage={usage} days={days} />
-        <UsageSummary usage={usage} />
+        <PageHeader level={2} title={text.usageTitle} actions={<RangeTabs value={range} />} />
+        <div className="grid gap-4 sm:grid-cols-3">
+          <UsageStatCards usage={usage} />
+        </div>
+        <UsageByKeyChart usage={usage} range={range} keys={keys} />
+        <UsageByTypeChart usage={usage} range={range} />
+        <UsageSummary usage={usage} range={range} />
       </div>
     </>
   );

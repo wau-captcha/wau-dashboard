@@ -1,26 +1,33 @@
-import type { Usage } from "@/lib/api/types";
+import type { UsageCount } from "@/lib/api/types";
 import type { Formatter } from "@/lib/format";
 
-/** Windows the usage screens offer. */
-export const USAGE_RANGES = [7, 30, 90] as const;
-export const DEFAULT_RANGE = 30;
+/** A usage window: the last 7, 15 or 30 days, or all time. */
+export type UsageRange = 7 | 15 | 30 | "all";
 
-/** Reads `?days=` and keeps it within the offered windows. */
-export function parseRange(value: string | undefined): number {
-  const days = Number(value);
-  return USAGE_RANGES.includes(days as (typeof USAGE_RANGES)[number]) ? days : DEFAULT_RANGE;
+/** Windows the usage screens offer. */
+export const USAGE_RANGES: readonly UsageRange[] = [7, 15, 30, "all"];
+export const DEFAULT_RANGE: UsageRange = 30;
+
+/** Reads `?days=`, "7" or "all" for instance, and keeps it within the offered windows. */
+export function parseRange(value: string | undefined): UsageRange {
+  if (value === "all") return "all";
+  return USAGE_RANGES.find((range) => String(range) === value) ?? DEFAULT_RANGE;
 }
 
-/** "—" rather than 0% when nothing was measured. */
-export function successRate(total: number, success: number, format: Formatter): string {
-  return total === 0 ? "—" : format.percent(success / total);
+/** A share formatted as a percentage; "—" rather than 0% when nothing was measured. */
+export function rate(part: number, whole: number, format: Formatter): string {
+  return whole === 0 ? "—" : format.percent(part / whole);
 }
 
 /** Totals formatted for StatCard values. */
-export function usageTotals(usage: Usage, format: Formatter) {
+export function usageTotals(usage: UsageCount, format: Formatter) {
   return {
-    total: format.number(usage.total),
-    success: format.number(usage.success),
-    rate: successRate(usage.total, usage.success, format),
+    challenges: format.number(usage.challenges),
+    verifications: format.number(usage.verifications),
+    successes: format.number(usage.successes),
+    /** (/challenge/verify)/(/challenge/new). */
+    verifyRate: rate(usage.verifications, usage.challenges, format),
+    /** Successful /challenge/verify over all of them. */
+    successRate: rate(usage.successes, usage.verifications, format),
   };
 }

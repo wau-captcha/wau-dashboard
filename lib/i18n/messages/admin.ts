@@ -1,3 +1,4 @@
+import type { UsageRange } from "@/lib/usage-view";
 import type { Translation } from "../types";
 
 const en = {
@@ -10,7 +11,10 @@ const en = {
   overview: {
     metaTitle: "Admin",
     title: "Admin",
-    description: (days: number) => `Captcha solves across every account in the last ${days} days.`,
+    description: (range: UsageRange) =>
+      range === "all"
+        ? "Captcha activity across every account since the first captcha."
+        : `Captcha activity across every account in the last ${range} days.`,
     users: "Users",
     banned: (count: string) => `${count} banned`,
     keys: "API keys",
@@ -90,7 +94,8 @@ const vi: Translation<typeof en> = {
   overview: {
     metaTitle: "Quản trị",
     title: "Quản trị",
-    description: (days: number) => `Lượt giải captcha của mọi tài khoản trong ${days} ngày qua.`,
+    description: (range) =>
+      range === "all" ? "Hoạt động captcha của mọi tài khoản từ trước tới nay." : `Hoạt động captcha của mọi tài khoản trong ${range} ngày qua.`,
     users: "Người dùng",
     banned: (count: string) => `${count} đã khóa`,
     keys: "Khóa API",

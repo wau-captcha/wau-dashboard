@@ -1,67 +1,79 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 import { seriesColor, type ChartSeries } from "./chart-parts";
 import { DataTable, type DataTableColumn } from "./data-table";
 import { useFormatter, useUIText } from "./locale";
 
-/** Min, max and average over the periods with any activity; null when there were none. */
-export type SeriesStats = { min: number | null; max: number | null; avg: number | null; total: number };
+/** A number column of the table; `null` shows as a dash, e.g. a rate of nothing. */
+export type SeriesTableColumn<T extends ChartSeries> = {
+  id: string;
+  header: ReactNode;
+  value: (row: T) => number | null;
+  /** How the number reads, e.g. as a percentage; plain number by default. */
+  format?: (value: number) => string;
+};
 
-export type SeriesTableRow = ChartSeries & SeriesStats;
-
-export type SeriesTableProps = {
-  rows: SeriesTableRow[];
+export type SeriesTableProps<T extends ChartSeries> = {
+  rows: T[];
   /** Header of the name column, e.g. "API key". */
   nameHeader: ReactNode;
-  formatValue?: (value: number) => string;
+  columns: SeriesTableColumn<T>[];
+  /** Column sorted on first, largest first; the first number column by default. */
+  defaultSortColumnId?: string;
+  /** Series whose line is hidden: their rows are dimmed. */
+  hiddenIds?: ReadonlySet<string>;
+  /** Called with the id of a clicked row, to hide or show its line. */
+  onToggle?: (id: string) => void;
   "aria-label"?: string;
   className?: string;
 };
 
 /**
- * Stats of a series' values, skipping empty periods like OpenRouter's activity table: a key
- * used on two days of thirty averages over those two. The average keeps one decimal.
- */
-export function seriesStats(values: number[]): SeriesStats {
-  const active = values.filter((value) => value > 0);
-  const total = active.reduce((sum, value) => sum + value, 0);
-  if (active.length === 0) return { min: null, max: null, avg: null, total };
-  return {
-    min: Math.min(...active),
-    max: Math.max(...active),
-    avg: Math.round((total / active.length) * 10) / 10,
-    total,
-  };
-}
-
-/**
  * The numbers behind a line chart, one row per series, keyed by the series colour so the
- * table doubles as the chart's legend. Sortable; largest total first.
+ * table doubles as the chart's legend. Sortable. With `onToggle`, clicking a row, or Enter
+ * and Space on it, hides its line and dims the row; again shows it.
  */
-export function SeriesTable({ rows, nameHeader, formatValue, className, "aria-label": ariaLabel }: SeriesTableProps) {
+export function SeriesTable<T extends ChartSeries>({
+  rows,
+  nameHeader,
+  columns,
+  defaultSortColumnId,
+  hiddenIds,
+  onToggle,
+  className,
+  "aria-label": ariaLabel,
+}: SeriesTableProps<T>) {
   const text = useUIText().seriesTable;
   const format = useFormatter();
-  const value = (number: number | null) =>
-    number === null ? <span className="text-faint-foreground">—</span> : (formatValue ?? format.number)(number);
-  const stat = (id: keyof SeriesStats, header: string): DataTableColumn<SeriesTableRow> => ({
-    id,
-    header,
-    accessor: (row) => row[id],
-    cell: (row) => value(row[id]),
-    sortable: true,
-    align: "right",
-    width: "15%",
-    className: "tabular-nums",
-  });
+  const hidden = (row: T) => hiddenIds?.has(row.id) ?? false;
+
+  const numberColumns = columns.map(
+    (column): DataTableColumn<T> => ({
+      id: column.id,
+      header: column.header,
+      accessor: column.value,
+      cell: (row) => {
+        const value = column.value(row);
+        if (value === null) return <span className="text-faint-foreground">—</span>;
+        return (column.format ?? format.number)(value);
+      },
+      sortable: true,
+      align: "right",
+      className: "tabular-nums",
+    }),
+  );
 
   return (
     <DataTable
       data={rows}
       getRowId={(row) => row.id}
-      defaultSort={{ columnId: "total", direction: "desc" }}
+      defaultSort={{ columnId: defaultSortColumnId ?? columns[0]?.id ?? "label", direction: "desc" }}
       aria-label={ariaLabel}
       className={className}
+      onRowClick={onToggle ? (row) => onToggle(row.id) : undefined}
+      rowClassName={(row) => cn(hidden(row) && "opacity-40")}
       columns={[
         {
           id: "label",
@@ -69,16 +81,18 @@ export function SeriesTable({ rows, nameHeader, formatValue, className, "aria-la
           accessor: (row) => row.label,
           cell: (row) => (
             <span className="flex min-w-0 items-center gap-2.5">
-              <span aria-hidden className="size-2.5 shrink-0 rounded-full" style={{ background: seriesColor(row.color) }} />
+              <span
+                aria-hidden
+                className={cn("size-2.5 shrink-0 rounded-full", hidden(row) && "ring-1 ring-border")}
+                style={{ background: hidden(row) ? "transparent" : seriesColor(row.color) }}
+              />
               <span className="truncate">{row.label}</span>
+              {hidden(row) && <span className="sr-only">({text.hidden})</span>}
             </span>
           ),
           sortable: true,
         },
-        stat("min", text.min),
-        stat("max", text.max),
-        stat("avg", text.avg),
-        stat("total", text.total),
+        ...numberColumns,
       ]}
     />
   );

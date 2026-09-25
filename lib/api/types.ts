@@ -69,9 +69,14 @@ export type ApiKeySet = {
   max_api_keys: number;
 };
 
+/**
+ * What became of a set of challenges: issued (/challenge/new), answered (/challenge/verify) and
+ * answered right. Only right answers count as usage against the quota.
+ */
 export type UsageCount = {
-  total: number;
-  success: number;
+  challenges: number;
+  verifications: number;
+  successes: number;
 };
 
 export type DailyUsage = UsageCount & {
@@ -79,19 +84,20 @@ export type DailyUsage = UsageCount & {
   date: string;
 };
 
-export type ChallengeTypeUsage = UsageCount & {
-  challenge_type: string;
-};
-
 /** One API key or challenge type, day by day over the same days as Usage.days. */
 export type UsageSeries = UsageCount & {
   id: string;
   days: DailyUsage[];
+  /** The key's name, which may be empty; empty for a challenge type. */
+  name: string;
+  /** Whether the key was deleted since; its usage still counts. */
+  deleted: boolean;
+  /** When the key was created; empty for a challenge type. */
+  create_date: string;
 };
 
 export type Usage = UsageCount & {
   days: DailyUsage[];
-  challenge_types: ChallengeTypeUsage[];
   /** Busiest first; empty for the whole system. */
   by_api_key: UsageSeries[];
   by_challenge_type: UsageSeries[];

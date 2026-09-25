@@ -21,7 +21,7 @@ const en = {
     origins: "Allowed IP addresses: on a key's page, list the addresses or networks (such as 203.0.113.0/24) that may request challenges. With none listed, every address may; 0.0.0.0 also allows everyone.",
     rotation: "Resetting a secret key keeps the previous one valid for 24 hours, or until you revoke it, so servers can switch without downtime.",
     quota: "Each account has a daily quota of successful verifications (1,000 on the free plan). Once it is used up, new challenges are refused until midnight (Asia/Ho_Chi_Minh).",
-    scraping: "A key that fetches at least 200 challenges in a day but answers fewer than 30% of them is suspended automatically.",
+    scraping: "A key that fetches at least 200 challenges in a day but sends fewer than 20% of them to /challenge/verify ((/challenge/verify) ÷ (/challenge/new) under 20%) is taken for spam and suspended automatically.",
   },
   errors: {
     title: "Errors",
@@ -66,7 +66,7 @@ const vi: Translation<typeof en> = {
     origins: "Địa chỉ IP được phép: ở trang của khóa, liệt kê các địa chỉ hoặc dải mạng (như 203.0.113.0/24) được xin challenge. Không liệt kê gì thì mọi địa chỉ đều được; 0.0.0.0 cũng cho phép tất cả.",
     rotation: "Đặt lại secret key vẫn giữ secret cũ hiệu lực trong 24 giờ, hoặc tới khi bạn thu hồi, để máy chủ chuyển đổi không gián đoạn.",
     quota: "Mỗi tài khoản có hạn mức lượt xác minh thành công mỗi ngày (1.000 với gói miễn phí). Dùng hết thì challenge mới bị từ chối tới nửa đêm (giờ Asia/Ho_Chi_Minh).",
-    scraping: "Khóa nào lấy ít nhất 200 challenge trong một ngày nhưng trả lời dưới 30% sẽ tự động bị đình chỉ.",
+    scraping: "Khóa nào lấy ít nhất 200 challenge trong một ngày mà tỉ lệ (/challenge/verify) ÷ (/challenge/new) dưới 20% bị coi là spam và tự động bị đình chỉ.",
   },
   errors: {
     title: "Lỗi",

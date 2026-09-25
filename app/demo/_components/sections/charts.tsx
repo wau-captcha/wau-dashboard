@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { BarChart } from "@/components/ui/bar-chart";
 import { ChartCard } from "@/components/ui/chart-card";
 import type { ChartColumn, ChartSeries } from "@/components/ui/chart-parts";
 import { LineChart } from "@/components/ui/line-chart";
 import { useFormatter } from "@/components/ui/locale";
 import { Meter } from "@/components/ui/meter";
-import { SeriesTable, seriesStats } from "@/components/ui/series-table";
+import { SeriesTable, type SeriesTableColumn } from "@/components/ui/series-table";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
 
 /** Fixed demo data: deterministic, so server and client render the same chart. */
@@ -14,7 +15,7 @@ const keys: ChartSeries[] = [
   { id: "shop", label: "Web shop", color: 1 },
   { id: "blog", label: "Blog", color: 2 },
   { id: "app", label: "Mobile app", color: 3 },
-  { id: "other", label: "Khóa khác", color: "other" },
+  { id: "other", label: "Các khóa còn lại", color: "other" },
 ];
 
 const columns: ChartColumn[] = Array.from({ length: 14 }, (_, i) => {
@@ -36,12 +37,27 @@ const single: ChartColumn[] = columns.map((column) => ({
   values: { solves: Object.values(column.values).reduce((sum, value) => sum + value, 0) },
 }));
 
-const rows = keys.map((key) => ({ ...key, ...seriesStats(columns.map((column) => column.values[key.id] ?? 0)) }));
+const rows = keys.map((key) => {
+  const values = columns.map((column) => column.values[key.id] ?? 0);
+  return { ...key, total: values.reduce((sum, value) => sum + value, 0), activeDays: values.filter((value) => value > 0).length };
+});
 const total = rows.reduce((sum, row) => sum + row.total, 0);
+const tableColumns: SeriesTableColumn<(typeof rows)[number]>[] = [
+  { id: "total", header: "Tổng", value: (row) => row.total },
+  { id: "activeDays", header: "Ngày có lượt", value: (row) => row.activeDays },
+];
 
 export function ChartsSection() {
   const format = useFormatter();
   const number = (value: number) => format.number(value);
+  const [hiddenIds, setHiddenIds] = useState<ReadonlySet<string>>(() => new Set());
+  const visible = keys.filter((key) => !hiddenIds.has(key.id));
+  const toggle = (id: string) =>
+    setHiddenIds((current) => {
+      const next = new Set(current);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
 
   return (
     <DemoSection
@@ -51,15 +67,31 @@ export function ChartsSection() {
     >
       <DemoBlock
         title="ChartCard + LineChart + SeriesTable"
-        description="Nhãn mờ, con số lớn, biểu đồ đường trải hết chiều ngang, rồi bảng Min/Max/Avg/Tổng (tính trên các ngày có lượt giải) làm luôn chú giải. Rê chuột hoặc Tab rồi ←/→."
+        description="Nhãn mờ, con số lớn, biểu đồ đường trải hết chiều ngang, rồi bảng số liệu (cột do nơi dùng truyền vào) làm luôn chú giải. Bấm vào một dòng để ẩn đường của nó và làm mờ dòng; bấm lại để hiện. Rê chuột hoặc Tab rồi ←/→."
       >
         <ChartCard
           label="Lượt giải theo khóa API trong 14 ngày qua"
           value={number(total)}
           caption="5 khóa API"
-          footer={<SeriesTable rows={rows} nameHeader="Khóa API" formatValue={number} aria-label="Lượt giải theo khóa API" />}
+          footer={
+            <SeriesTable
+              rows={rows}
+              nameHeader="Khóa API"
+              columns={tableColumns}
+              hiddenIds={hiddenIds}
+              onToggle={toggle}
+              aria-label="Lượt giải theo khóa API"
+            />
+          }
         >
-          <LineChart aria-label="Lượt giải mỗi ngày của từng khóa API" columns={columns} series={keys} formatValue={number} totalLabel="Tổng" />
+          <LineChart
+            aria-label="Lượt giải mỗi ngày của từng khóa API"
+            columns={columns}
+            series={visible}
+            formatValue={number}
+            totalLabel="Tổng"
+            emptyLabel="Mọi đường đang bị ẩn. Bấm vào một dòng để hiện lại."
+          />
         </ChartCard>
       </DemoBlock>
       <div className="grid gap-8 xl:grid-cols-2">

@@ -1,16 +1,16 @@
 import "server-only";
 
+import type { UsageRange } from "@/lib/usage-view";
 import { apiFetch } from "./client";
-import type { DailyUsage, Quota, Usage, UsageSeries } from "./types";
+import type { DailyUsage, Quota, Usage, UsageCount, UsageSeries } from "./types";
 
-/** int64 fields arrive as strings in proto JSON. */
+/** int64 fields arrive as strings in proto JSON, and zero ones do not arrive at all. */
 type Count = string | number;
-type RawCount = { total: Count; success: Count };
+type RawCount = { challenges?: Count; verifications?: Count; successes?: Count };
 type RawDay = RawCount & { date: string };
-type RawSeries = RawCount & { id: string; days?: RawDay[] };
+type RawSeries = RawCount & { id: string; days?: RawDay[]; name?: string; deleted?: boolean; create_date?: string };
 export type RawUsage = RawCount & {
   days?: RawDay[];
-  challenge_types?: (RawCount & { challenge_type: string })[];
   by_api_key?: RawSeries[];
   by_challenge_type?: RawSeries[];
 };
@@ -19,36 +19,45 @@ export function toNumber(value: Count | undefined): number {
   return typeof value === "number" ? value : Number(value ?? 0);
 }
 
+function toCount(raw: RawCount): UsageCount {
+  return {
+    challenges: toNumber(raw.challenges),
+    verifications: toNumber(raw.verifications),
+    successes: toNumber(raw.successes),
+  };
+}
+
 function toDays(days: RawDay[] | undefined): DailyUsage[] {
-  return (days ?? []).map((day) => ({ date: day.date, total: toNumber(day.total), success: toNumber(day.success) }));
+  return (days ?? []).map((day) => ({ date: day.date, ...toCount(day) }));
 }
 
 function toSeries(series: RawSeries[] | undefined): UsageSeries[] {
   return (series ?? []).map((entry) => ({
     id: entry.id,
-    total: toNumber(entry.total),
-    success: toNumber(entry.success),
+    ...toCount(entry),
     days: toDays(entry.days),
+    name: entry.name ?? "",
+    deleted: entry.deleted ?? false,
+    create_date: entry.create_date ?? "",
   }));
 }
 
 export function toUsage(raw: RawUsage): Usage {
   return {
-    total: toNumber(raw.total),
-    success: toNumber(raw.success),
+    ...toCount(raw),
     days: toDays(raw.days),
-    challenge_types: (raw.challenge_types ?? []).map((entry) => ({
-      challenge_type: entry.challenge_type,
-      total: toNumber(entry.total),
-      success: toNumber(entry.success),
-    })),
     by_api_key: toSeries(raw.by_api_key),
     by_challenge_type: toSeries(raw.by_challenge_type),
   };
 }
 
-export async function getUsage(params: { apiKeyId?: string; days: number }): Promise<Usage> {
-  const query = new URLSearchParams({ days: String(params.days) });
+/** The query of a usage window: `days=7`, or `all_time=true`. */
+export function rangeQuery(range: UsageRange): URLSearchParams {
+  return new URLSearchParams(range === "all" ? { all_time: "true" } : { days: String(range) });
+}
+
+export async function getUsage(params: { apiKeyId?: string; range: UsageRange }): Promise<Usage> {
+  const query = rangeQuery(params.range);
   if (params.apiKeyId) query.set("api_key_id", params.apiKeyId);
   return toUsage(await apiFetch<RawUsage>(`/v1/usage?${query.toString()}`));
 }
