@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import { ChevronDown, CreditCard, LogOut, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -15,8 +15,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { User } from "@/lib/api/types";
+import { tierTone } from "@/lib/billing";
 import { useI18n } from "@/lib/i18n/client";
-import { logoutAction } from "../actions";
+import { logoutAction } from "@/app/(dashboard)/actions";
 
 export function UserMenu({ user }: { user: User }) {
   const text = useI18n().t.common.user;
@@ -43,13 +44,16 @@ export function UserMenu({ user }: { user: User }) {
         <DropdownMenuGroup>
           <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
           <div className="px-2 pb-1.5">
-            <Badge tone={user.tier_id === "premium" ? "primary" : "neutral"} size="sm">
+            <Badge tone={tierTone(user.tier_id)} size="sm">
               {user.tier_name}
             </Badge>
           </div>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => router.push("/account")}>
             <UserRound /> {text.account}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/billing")}>
+            <CreditCard /> {text.billing}
           </DropdownMenuItem>
           <DropdownMenuItem variant="destructive" onClick={() => startTransition(() => void logoutAction())}>
             <LogOut /> {text.signOut}

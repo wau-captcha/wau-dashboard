@@ -9,6 +9,7 @@ import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Pagination } from "@/components/ui/pagination";
 import type { AdminUser } from "@/lib/api/types";
+import { tierTone } from "@/lib/billing";
 import { useI18n } from "@/lib/i18n/client";
 import { BanDialog } from "./ban-dialog";
 
@@ -50,7 +51,7 @@ export function UsersTable({ users, total, page, pageSize }: UsersTableProps) {
     {
       id: "plan",
       header: text.columns.plan,
-      cell: (user) => <Badge tone={user.tier_id === "premium" ? "primary" : "neutral"}>{user.tier_name}</Badge>,
+      cell: (user) => <Badge tone={tierTone(user.tier_id)}>{user.tier_name}</Badge>,
     },
     { id: "keys", header: text.columns.keys, align: "right", cell: (user) => format.number(user.api_key_count) },
     {

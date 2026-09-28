@@ -9,10 +9,12 @@ const en = {
     label: "Main navigation",
     overview: "Overview",
     keys: "API keys",
+    billing: "Billing",
     account: "Account",
   },
   user: {
     account: "Account",
+    billing: "Plans & billing",
     signOut: "Sign out",
   },
   status: {
@@ -37,10 +39,12 @@ const vi: Translation<typeof en> = {
     label: "Điều hướng chính",
     overview: "Tổng quan",
     keys: "Khóa API",
+    billing: "Thanh toán",
     account: "Tài khoản",
   },
   user: {
     account: "Tài khoản",
+    billing: "Gói & thanh toán",
     signOut: "Đăng xuất",
   },
   status: {

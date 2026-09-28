@@ -12,6 +12,7 @@ import { ApiError } from "@/lib/api/client";
 import type { AdminUser } from "@/lib/api/types";
 import { getI18n } from "@/lib/i18n/server";
 import { parseRange } from "@/lib/usage-view";
+import { PlanBadge } from "@/app/_components/plan-badge";
 import { QuotaMeter } from "@/app/_components/quota-meter";
 import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
@@ -97,7 +98,7 @@ export default async function AdminUserPage({
                 { label: t.account.info.email, value: user.email },
                 {
                   label: t.account.info.plan,
-                  value: <Badge tone={user.tier_id === "premium" ? "primary" : "neutral"}>{user.tier_name}</Badge>,
+                  value: <PlanBadge tierId={user.tier_id} tierName={user.tier_name} expiresAt={user.tier_expires_at} />,
                 },
                 { label: t.account.info.joined, value: format.dateTime(user.create_date) },
                 { label: text.keysCount, value: format.number(user.api_key_count) },

@@ -38,7 +38,7 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
 
       <Card>
         <CardContent>
-          <QuotaMeter used={quota.used} limit={quota.limit} minutesToReset={quota.minutes_to_reset} />
+          <QuotaMeter used={quota.used} limit={quota.limit} minutesToReset={quota.minutes_to_reset} upgradeHref="/billing" />
         </CardContent>
       </Card>
 

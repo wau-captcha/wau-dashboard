@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Alert } from "@/components/ui/alert";
+import { buttonVariants } from "@/components/ui/button";
 import { Meter } from "@/components/ui/meter";
 import { getI18n } from "@/lib/i18n/server";
 
@@ -8,10 +10,12 @@ export type QuotaMeterProps = {
   /** Minutes until the count starts over; omitted, the meter does not say. */
   minutesToReset?: number;
   title?: string;
+  /** Where the owner can buy a bigger quota; offered once today's is used up. */
+  upgradeHref?: string;
 };
 
 /** Today's successful verifications against the daily quota of the tier. */
-export async function QuotaMeter({ used, limit, minutesToReset, title }: QuotaMeterProps) {
+export async function QuotaMeter({ used, limit, minutesToReset, title, upgradeHref }: QuotaMeterProps) {
   const { t, format } = await getI18n();
   const text = t.usage.quota;
   const count = text.count(format.number(used), format.number(limit));
@@ -29,7 +33,20 @@ export async function QuotaMeter({ used, limit, minutesToReset, title }: QuotaMe
         caption={count}
         valueText={count}
       />
-      {used >= limit && <Alert tone="warning">{text.full}</Alert>}
+      {used >= limit && (
+        <Alert
+          tone="warning"
+          action={
+            upgradeHref && (
+              <Link href={upgradeHref} className={buttonVariants({ variant: "outline", size: "sm" })}>
+                {text.upgrade}
+              </Link>
+            )
+          }
+        >
+          {text.full}
+        </Alert>
+      )}
     </div>
   );
 }

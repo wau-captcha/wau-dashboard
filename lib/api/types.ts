@@ -5,9 +5,12 @@ export type User = {
   /** Display name taken from the Google profile; not unique. */
   username: string;
   email: string;
+  /** The tier now: a paid tier past tier_expires_at is already reported as free. */
   tier_id: string;
   tier_name: string;
   create_date: string;
+  /** When the paid tier ends and the account goes back to free; null when it never ends. */
+  tier_expires_at?: string | null;
 };
 
 export type AuthReply = {
@@ -133,6 +136,8 @@ export type AdminUser = {
   api_key_count: number;
   quota_used: number;
   daily_quota: number;
+  /** When the paid tier ends; null when it never ends. */
+  tier_expires_at?: string | null;
 };
 
 export type UserPage = {
@@ -156,4 +161,62 @@ export type AdminApiKey = {
 export type ChallengeType = {
   id: string;
   code: string;
+};
+
+/**
+ * What buying one month of a plan does for the viewer: "upgrade" starts it now (the time left on
+ * the current plan is dropped), "renew" moves the current end a month later, and "" means it
+ * cannot be bought (not sold, below the current plan, or the current plan with no end date).
+ */
+export type Purchase = "" | "upgrade" | "renew";
+
+/** How long one purchase extends a plan. */
+export type BillingPeriod = "month" | "year";
+
+/** A tier as it is sold, by the month or by the year. */
+export type Plan = {
+  tier_id: string;
+  tier_name: string;
+  description: string;
+  /** VND for one month; 0 for a plan that is not sold (free). Plans rank by it. */
+  monthly_price: number;
+  /** VND for one year; 0 when the plan is not sold by the year. */
+  yearly_price: number;
+  daily_quota: number;
+  challenge_types: string[];
+  purchase: Purchase;
+};
+
+export type PlanSet = {
+  /** Cheapest first. */
+  plans: Plan[];
+  current_tier_id: string;
+  /** When the current plan ends; null when it never ends. */
+  current_tier_expires_at: string | null;
+};
+
+/** "expired": not paid in time; it still succeeds if SePay reports the payment later. */
+export type TransactionStatus = "pending" | "succeeded" | "expired";
+
+/** One month or one year of a plan, bought or being bought. */
+export type Transaction = {
+  id: string;
+  tier_id: string;
+  tier_name: string;
+  /** VND. */
+  amount: number;
+  period: BillingPeriod;
+  status: TransactionStatus;
+  /** The order invoice number SePay shows. */
+  payment_code: string;
+  create_date: string;
+  expires_at: string;
+  paid_at: string | null;
+};
+
+/** A pending transaction and the signed form the browser posts to SePay, fields in order. */
+export type Checkout = {
+  transaction: Transaction;
+  action_url: string;
+  fields: { name: string; value: string }[];
 };

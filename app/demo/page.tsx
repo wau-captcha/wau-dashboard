@@ -12,6 +12,7 @@ import { FoundationsSection } from "./_components/sections/foundations";
 import { InputsSection } from "./_components/sections/inputs";
 import { NavigationSection } from "./_components/sections/navigation";
 import { OverlaysSection } from "./_components/sections/overlays";
+import { PlansSection } from "./_components/sections/plans";
 import { SelectionSection } from "./_components/sections/selection";
 import { TablesSection } from "./_components/sections/tables";
 
@@ -33,6 +34,7 @@ const nav: DemoNavItem[] = [
   { id: "charts", label: "Biểu đồ" },
   { id: "navigation", label: "Tabs & phân trang" },
   { id: "tables", label: "Bảng dữ liệu" },
+  { id: "plans", label: "Bảng gói" },
   { id: "overlays", label: "Lớp nổi" },
   { id: "toast", label: "Thông báo" },
 ];
@@ -61,6 +63,7 @@ export default function DemoPage() {
       <ChartsSection />
       <NavigationSection />
       <TablesSection />
+      <PlansSection />
       <OverlaysSection />
       <FeedbackSection />
     </DemoShell>

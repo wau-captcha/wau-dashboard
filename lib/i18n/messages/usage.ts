@@ -64,6 +64,7 @@ const en = {
     used: (percent: string) => `${percent} used`,
     count: (used: string, limit: string) => `${used} of ${limit} successful verifications today`,
     full: "Today's quota is used up: new captchas are refused until the reset.",
+    upgrade: "Upgrade plan",
   },
   summary: {
     byDay: "By day",
@@ -137,6 +138,7 @@ const vi: Translation<typeof en> = {
     used: (percent: string) => `Đã dùng ${percent}`,
     count: (used: string, limit: string) => `${used}/${limit} lượt xác minh thành công hôm nay`,
     full: "Đã dùng hết quota hôm nay: captcha mới sẽ bị từ chối cho tới khi đặt lại.",
+    upgrade: "Nâng cấp gói",
   },
   summary: {
     byDay: "Theo ngày",

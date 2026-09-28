@@ -8,7 +8,6 @@ import { CodeBlock } from "@/components/ui/code-block";
 import { getI18n } from "@/lib/i18n/server";
 import { docsBaseUrl } from "./_components/base-url";
 import { SdkTabs } from "./_components/sdk-tabs";
-import { widgetScript } from "./_components/snippets";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -25,14 +24,13 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto grid w-full max-w-6xl gap-20 px-4 py-16 sm:px-6 sm:py-20">
-      <section className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div className="grid gap-5">
-          <Badge tone="primary" className="justify-self-start">
-            {text.eyebrow}
-          </Badge>
-          <h1 className="font-brand text-hero font-semibold tracking-tight text-foreground sm:text-[44px]">{text.title}</h1>
+      <section className="grid place-items-center">
+        <div className="grid max-w-3xl justify-items-center gap-5 text-center">
+          <h1 className="font-brand text-hero font-semibold tracking-tight text-foreground sm:text-[44px]">
+            {text.title}
+          </h1>
           <p className="max-w-xl text-prose text-muted-foreground">{text.description}</p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
             <Link href="/login" className={buttonVariants({ size: "lg" })}>
               {text.start}
             </Link>
@@ -41,7 +39,6 @@ export default async function HomePage() {
             </Link>
           </div>
         </div>
-        <CodeBlock language="html" code={widgetScript(baseUrl)} />
       </section>
 
       <section className="grid gap-6">

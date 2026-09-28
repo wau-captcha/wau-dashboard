@@ -8,10 +8,11 @@ import { Logo } from "@/components/ui/logo";
 import { NavLink } from "@/components/ui/nav-link";
 import { getOptionalUser } from "@/lib/dal";
 import { getI18n } from "@/lib/i18n/server";
+import { DashboardHeader } from "@/app/_components/dashboard-header";
 
 /**
- * Public pages: the home page and the docs. Anyone may read them; a signed-in visitor gets a
- * link to the dashboard instead of the sign-in button.
+ * Public pages: the home page and the docs. Anyone may read them. A signed-in visitor keeps the
+ * dashboard header, so opening the docs does not look like signing out.
  */
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   // If wau-services is down the pages still render, just with the sign-in button.
@@ -20,33 +21,37 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <AppHeader
-        brand={<Logo href="/" className="shrink-0" />}
-        navLabel={nav.label}
-        nav={
-          <>
-            <NavLink href="/" exact>
-              {nav.home}
-            </NavLink>
-            <NavLink href="/docs">{nav.docs}</NavLink>
-            {/* On phones the bar has no room for the button below, so the menu offers it. */}
-            <NavLink href={user ? "/overview" : "/login"} className="sm:hidden">
-              {user ? nav.dashboard : nav.signIn}
-            </NavLink>
-          </>
-        }
-        settings={
-          <>
-            <LanguageSwitcher />
-            <ThemeToggle />
-          </>
-        }
-        actions={
-          <Link href={user ? "/overview" : "/login"} className={buttonVariants({ size: "sm", className: "max-sm:hidden" })}>
-            {user ? nav.dashboard : nav.signIn}
-          </Link>
-        }
-      />
+      {user ? (
+        <DashboardHeader user={user} />
+      ) : (
+        <AppHeader
+          brand={<Logo href="/" className="shrink-0" />}
+          navLabel={nav.label}
+          nav={
+            <>
+              <NavLink href="/" exact>
+                {nav.home}
+              </NavLink>
+              <NavLink href="/docs">{nav.docs}</NavLink>
+              {/* On phones the bar has no room for the button below, so the menu offers it. */}
+              <NavLink href="/login" className="sm:hidden">
+                {nav.signIn}
+              </NavLink>
+            </>
+          }
+          settings={
+            <>
+              <LanguageSwitcher />
+              <ThemeToggle />
+            </>
+          }
+          actions={
+            <Link href="/login" className={buttonVariants({ size: "sm", className: "max-sm:hidden" })}>
+              {nav.signIn}
+            </Link>
+          }
+        />
+      )}
       <main className="flex-1">{children}</main>
       <footer className="border-t border-border">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-body text-muted-foreground sm:px-6">

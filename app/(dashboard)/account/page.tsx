@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
@@ -8,6 +9,7 @@ import { getQuota } from "@/lib/api/usage";
 import { getCurrentUser } from "@/lib/dal";
 import { getI18n } from "@/lib/i18n/server";
 import { LogoutButton } from "../_components/logout-button";
+import { PlanBadge } from "@/app/_components/plan-badge";
 import { QuotaMeter } from "@/app/_components/quota-meter";
 import { ChallengeTypesTable } from "./_components/challenge-types-table";
 
@@ -32,6 +34,9 @@ export default async function AccountPage() {
       <Card>
         <CardHeader>
           <CardTitle>{text.info.title}</CardTitle>
+          <Link href="/billing" className={buttonVariants({ variant: "outline", size: "sm" })}>
+            {text.info.managePlan}
+          </Link>
         </CardHeader>
         <CardContent>
           <DescriptionList
@@ -41,7 +46,7 @@ export default async function AccountPage() {
               { label: text.info.signInMethod, value: text.info.google },
               {
                 label: text.info.plan,
-                value: <Badge tone={user.tier_id === "premium" ? "primary" : "neutral"}>{user.tier_name}</Badge>,
+                value: <PlanBadge tierId={user.tier_id} tierName={user.tier_name} expiresAt={user.tier_expires_at} />,
               },
               { label: text.info.joined, value: format.dateTime(user.create_date) },
             ]}
@@ -51,7 +56,7 @@ export default async function AccountPage() {
 
       <Card>
         <CardContent>
-          <QuotaMeter used={quota.used} limit={quota.limit} minutesToReset={quota.minutes_to_reset} />
+          <QuotaMeter used={quota.used} limit={quota.limit} minutesToReset={quota.minutes_to_reset} upgradeHref="/billing" />
         </CardContent>
       </Card>
 
