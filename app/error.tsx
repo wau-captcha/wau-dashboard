@@ -6,7 +6,7 @@ import DashboardError from "./(dashboard)/error";
 
 /**
  * Catches what the error boundary of a segment cannot: failures in its own layout, such as the
- * dashboard layout finding wau-services unreachable or WAU_SERVICES_URL unset. There is no page
+ * dashboard layout finding wau-services unreachable or WAU_TENANT_URL unset. There is no page
  * frame around it then, so the message is centred on its own.
  */
 export default function RootError(props: { error: Error; retry: () => void }) {

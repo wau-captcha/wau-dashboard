@@ -19,7 +19,7 @@ const en = {
     PLAN_DOWNGRADE_NOT_ALLOWED: "Plans can't be downgraded. You can renew your plan or upgrade it.",
     PLAN_NOT_RENEWABLE: "Your plan has no end date, so there is nothing to renew.",
     TRANSACTION_NOT_FOUND: "Payment not found.",
-    SERVICES_MISCONFIGURED: "This dashboard is not pointed at wau-services. Check WAU_SERVICES_URL in its environment.",
+    SERVICES_MISCONFIGURED: "This dashboard is not pointed at wau-services. Check WAU_TENANT_URL and WAU_BILLING_URL in its environment.",
     INTERNAL: "Something went wrong on our side. Please try again.",
   },
   fields: {
@@ -48,7 +48,7 @@ const vi: Translation<typeof en> = {
     PLAN_DOWNGRADE_NOT_ALLOWED: "Không thể hạ gói. Bạn có thể gia hạn hoặc nâng cấp gói.",
     PLAN_NOT_RENEWABLE: "Gói của bạn không có ngày hết hạn nên không cần gia hạn.",
     TRANSACTION_NOT_FOUND: "Không tìm thấy giao dịch.",
-    SERVICES_MISCONFIGURED: "Dashboard chưa trỏ tới wau-services. Hãy kiểm tra biến WAU_SERVICES_URL.",
+    SERVICES_MISCONFIGURED: "Dashboard chưa trỏ tới wau-services. Hãy kiểm tra biến WAU_TENANT_URL và WAU_BILLING_URL.",
     INTERNAL: "Hệ thống gặp sự cố, vui lòng thử lại.",
   },
   fields: {

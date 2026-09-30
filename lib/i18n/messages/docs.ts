@@ -40,7 +40,7 @@ const en = {
       prop: "Prop",
       meaning: "Description",
       props: [
-        { name: "siteKey, baseUrl", meaning: "Required: the site key of your API key and the address of the gateway." },
+        { name: "siteKey, baseUrl", meaning: "Required: the site key of your API key and the address of the WAU Captcha API." },
         { name: "mode", meaning: "WauCaptchaMode.INLINE (default) shows the challenge in place; WauCaptchaMode.MODAL opens it from a button." },
         { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (default) or ChallengeType.MOTION_NOISE." },
         { name: "theme", meaning: "WauCaptchaTheme.AUTO (default) follows the color-scheme of the page; LIGHT and DARK force one." },
@@ -105,7 +105,7 @@ const vi: Translation<typeof en> = {
       prop: "Prop",
       meaning: "Mô tả",
       props: [
-        { name: "siteKey, baseUrl", meaning: "Bắt buộc: site key của khóa API và địa chỉ gateway." },
+        { name: "siteKey, baseUrl", meaning: "Bắt buộc: site key của khóa API và địa chỉ của WAU Captcha API." },
         { name: "mode", meaning: "WauCaptchaMode.INLINE (mặc định) hiển thị challenge tại chỗ; WauCaptchaMode.MODAL mở nó từ một nút." },
         { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (mặc định) hoặc ChallengeType.MOTION_NOISE." },
         { name: "theme", meaning: "WauCaptchaTheme.AUTO (mặc định) theo color-scheme của trang; LIGHT và DARK ép một chế độ." },

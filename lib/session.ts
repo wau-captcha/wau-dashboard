@@ -25,7 +25,7 @@ export async function getSessionToken(kind: SessionKind = "user"): Promise<strin
 
 /**
  * Stores the access token. httpOnly keeps it away from page scripts, so the
- * token only ever travels between this server and the gateway.
+ * token only ever travels between this server and wau-services (tenant, billing).
  * Only callable from a Server Action or a Route Handler.
  */
 export async function setSessionCookie(token: string, expiresInSeconds: number, kind: SessionKind = "user") {

@@ -4,13 +4,25 @@ import { headers } from "next/headers";
 import { endAdminSession, endSession, getSessionToken, type SessionKind } from "@/lib/session";
 
 /**
- * Public entry point of wau-services (the gateway). This server calls it for the dashboard;
- * the integration guide shows it to users for their own sites. It only comes from the
- * environment (.env), and is read per call so an edit applies once the server reloads it.
+ * The services this server calls for the dashboard, each at its own address: inside the cluster
+ * on EKS, where /v1 is not public. Billing owns /v1/billing/, tenant every other /v1 path. The
+ * addresses only come from the environment (.env), read per call so an edit applies once the
+ * server reloads it.
  */
-export function servicesUrl(): string {
-  const url = process.env.WAU_SERVICES_URL?.trim().replace(/\/+$/, "");
-  if (!url) throw misconfigured("WAU_SERVICES_URL is not set");
+const SERVICES = {
+  WAU_TENANT_URL: { name: "tenant", example: "http://localhost:8002" },
+  WAU_BILLING_URL: { name: "billing", example: "http://localhost:8003" },
+} as const;
+
+type ServiceVariable = keyof typeof SERVICES;
+
+function serviceFor(path: string): ServiceVariable {
+  return path.startsWith("/v1/billing/") ? "WAU_BILLING_URL" : "WAU_TENANT_URL";
+}
+
+function serviceUrl(variable: ServiceVariable): string {
+  const url = process.env[variable]?.trim().replace(/\/+$/, "");
+  if (!url) throw misconfigured(variable, `${variable} is not set`);
   return url;
 }
 
@@ -45,21 +57,17 @@ export type ApiFetchOptions = {
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const { method = "GET", body, auth = true, session = "user", token } = options;
-  const base = servicesUrl();
+  const variable = serviceFor(path);
+  const base = serviceUrl(variable);
   const requestHeaders = new Headers({ Accept: "application/json" });
   if (body !== undefined) requestHeaders.set("Content-Type", "application/json");
 
   const bearer = token ?? (auth ? await getSessionToken(session) : null);
   if (bearer) requestHeaders.set("Authorization", `Bearer ${bearer}`);
 
-  const incoming = await headers();
-  // Let the gateway rate limit the real visitor rather than this server.
-  const clientIp = incoming.get("x-forwarded-for");
-  if (clientIp) requestHeaders.set("X-Forwarded-For", clientIp);
-
-  const host = incoming.get("host");
+  const host = (await headers()).get("host");
   if (host && sameHost(base, host)) {
-    throw misconfigured(`WAU_SERVICES_URL=${base} is the address of this dashboard, not of wau-services`);
+    throw misconfigured(variable, `${variable}=${base} is the address of this dashboard, not of ${SERVICES[variable].name}`);
   }
 
   let response: Response;
@@ -69,22 +77,21 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
       headers: requestHeaders,
       body: body === undefined ? undefined : JSON.stringify(body),
       cache: "no-store",
-      // The gateway answers every /v1 call itself; a redirect means this is another server.
+      // Tenant and billing answer every /v1 call themselves; a redirect means this is another server.
       redirect: "manual",
     });
   } catch {
-    throw new ApiError(0, "SERVICES_UNREACHABLE", `wau-services is unreachable at ${base}`);
+    throw new ApiError(0, "SERVICES_UNREACHABLE", `${SERVICES[variable].name} is unreachable at ${base}`);
   }
 
   if (response.status >= 300 && response.status < 400) {
-    throw misconfigured(
-      `WAU_SERVICES_URL=${base} redirected ${method} ${path} to ${response.headers.get("location")}`,
-    );
+    throw misconfigured(variable,
+      `${variable}=${base} redirected ${method} ${path} to ${response.headers.get("location")}`);
   }
 
   const payload = await readJson(response);
   if (!payload) {
-    throw misconfigured(`WAU_SERVICES_URL=${base} answered ${method} ${path} with ${response.status} and no JSON`);
+    throw misconfigured(variable, `${variable}=${base} answered ${method} ${path} with ${response.status} and no JSON`);
   }
 
   // The session cookie no longer works. Callers that catch errors must rethrow this redirect.
@@ -113,12 +120,13 @@ function sameHost(base: string, host: string): boolean {
 }
 
 /**
- * WAU_SERVICES_URL is missing or points at something that is not the gateway. Only whoever
- * runs the dashboard can fix that, so the problem is spelled out in the server log as well.
- * 502 rather than the real status, so a stray 404 page is not taken for a missing resource.
+ * WAU_TENANT_URL or WAU_BILLING_URL is missing or points at something that is not that service.
+ * Only whoever runs the dashboard can fix that, so the problem is spelled out in the server log as
+ * well. 502 rather than the real status, so a stray 404 page is not taken for a missing resource.
  */
-function misconfigured(problem: string): ApiError {
-  console.error(`${problem}. Set WAU_SERVICES_URL in .env to the gateway, e.g. http://localhost:8080, ` +
+function misconfigured(variable: ServiceVariable, problem: string): ApiError {
+  const { name, example } = SERVICES[variable];
+  console.error(`${problem}. Set ${variable} in .env to the ${name} service, e.g. ${example}, ` +
     "then restart the dashboard.");
   return new ApiError(502, "SERVICES_MISCONFIGURED", problem);
 }

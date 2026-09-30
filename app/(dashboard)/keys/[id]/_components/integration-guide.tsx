@@ -7,23 +7,23 @@ import { useI18n } from "@/lib/i18n/client";
 
 export type IntegrationGuideProps = {
   siteKey: string;
-  /** Public address of wau-services. */
-  servicesUrl: string;
+  /** Public address of the WAU Captcha API (WAU_PUBLIC_API_URL). */
+  baseUrl: string;
 };
 
 /** Ready-to-paste calls for the three endpoints a site needs. */
-export function IntegrationGuide({ siteKey, servicesUrl }: IntegrationGuideProps) {
+export function IntegrationGuide({ siteKey, baseUrl }: IntegrationGuideProps) {
   const text = useI18n().t.keyDetail.guide;
 
   const newChallenge = `// ${text.createComment}
 const response = await fetch(
-  "${servicesUrl}/challenge/new?site_key=${siteKey}",
+  "${baseUrl}/challenge/new?site_key=${siteKey}",
 );
 const { challenge_id, challenge_type, image, mime_type } = await response.json();
 // ${text.imageComment}`;
 
   const verify = `// ${text.verifyComment}
-const response = await fetch("${servicesUrl}/challenge/verify", {
+const response = await fetch("${baseUrl}/challenge/verify", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ challenge_id, answer }),
@@ -32,7 +32,7 @@ const { success, token } = await response.json();
 // ${text.tokenComment}`;
 
   const siteVerify = `# ${text.siteVerifyComment}
-curl -X POST "${servicesUrl}/siteverify?token=$TOKEN" \\
+curl -X POST "${baseUrl}/siteverify?token=$TOKEN" \\
   -H "Authorization: Bearer $WAU_SECRET_KEY"
 
 # {"success": true, "challenge_type": "image_distort", ...}`;

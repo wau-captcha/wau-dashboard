@@ -10,7 +10,7 @@ import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { SecretValue } from "@/components/ui/secret-value";
 import { getApiKey } from "@/lib/api/api-keys";
-import { ApiError, servicesUrl } from "@/lib/api/client";
+import { ApiError } from "@/lib/api/client";
 import type { ApiKey } from "@/lib/api/types";
 import { getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";

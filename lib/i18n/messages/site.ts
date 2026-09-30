@@ -48,7 +48,7 @@ const en = {
       },
       motionNoise: {
         name: "Moving dots",
-        body: "A five-second animation of random dots. Any single frame is pure noise: the letters only appear through their motion.",
+        body: "A looping animation of random dots. Any single frame is pure noise: the characters only appear through their motion.",
       },
     },
     features: {
@@ -126,7 +126,7 @@ const vi: Translation<typeof en> = {
       },
       motionNoise: {
         name: "Chấm chuyển động",
-        body: "Một đoạn hoạt hình năm giây gồm các chấm ngẫu nhiên. Từng khung hình chỉ là nhiễu: chữ chỉ hiện ra nhờ chuyển động.",
+        body: "Một đoạn hoạt hình lặp lại gồm các chấm ngẫu nhiên. Từng khung hình chỉ là nhiễu: ký tự chỉ hiện ra nhờ chuyển động.",
       },
     },
     features: {

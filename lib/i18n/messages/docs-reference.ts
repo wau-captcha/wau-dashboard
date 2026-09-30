@@ -12,7 +12,7 @@ const en = {
   challengeTypes: {
     title: "Challenge types",
     imageDistort: "image_distort — five characters (letters and digits) distorted in a PNG. The default.",
-    motionNoise: "motion_noise — five capital letters hidden in a five-second animated GIF of moving dots.",
+    motionNoise: "motion_noise — four characters (capital letters and digits, without O, 0, Q, I and 1) hidden in a looping animated GIF of moving dots.",
     note: "Answers are not case-sensitive. The plan of your account decides which types a key may request. In the JavaScript SDKs, name them with ChallengeType.IMAGE_DISTORT and ChallengeType.MOTION_NOISE.",
   },
   security: {
@@ -40,7 +40,7 @@ const en = {
       { code: "DAILY_QUOTA_EXCEEDED", meaning: "The account used up today's successful verifications." },
       { code: "RATE_LIMITED", meaning: "Too many requests; try again shortly." },
       { code: "ROUTE_NOT_FOUND", meaning: "No service handles the path; check the base URL." },
-      { code: "UPSTREAM_UNAVAILABLE", meaning: "A service behind the gateway is unavailable; try again later." },
+      { code: "UPSTREAM_UNAVAILABLE", meaning: "The service is temporarily unavailable; try again later." },
       { code: "NETWORK_ERROR, TIMEOUT, INVALID_RESPONSE", meaning: "Reported by the SDKs when no usable reply arrived." },
     ],
   },
@@ -57,7 +57,7 @@ const vi: Translation<typeof en> = {
   challengeTypes: {
     title: "Loại challenge",
     imageDistort: "image_distort — năm ký tự (chữ và số) bị bóp méo trong ảnh PNG. Mặc định.",
-    motionNoise: "motion_noise — năm chữ in hoa ẩn trong ảnh GIF động năm giây gồm các chấm chuyển động.",
+    motionNoise: "motion_noise — bốn ký tự (chữ in hoa và số, không có O, 0, Q, I, 1) ẩn trong ảnh GIF động lặp lại gồm các chấm chuyển động.",
     note: "Câu trả lời không phân biệt hoa thường. Gói của tài khoản quyết định khóa được dùng loại nào. Trong các SDK JavaScript, dùng ChallengeType.IMAGE_DISTORT và ChallengeType.MOTION_NOISE.",
   },
   security: {
@@ -85,7 +85,7 @@ const vi: Translation<typeof en> = {
       { code: "DAILY_QUOTA_EXCEEDED", meaning: "Tài khoản đã dùng hết lượt xác minh thành công của hôm nay." },
       { code: "RATE_LIMITED", meaning: "Gọi quá nhiều; hãy thử lại sau ít phút." },
       { code: "ROUTE_NOT_FOUND", meaning: "Không service nào xử lý đường dẫn này; hãy kiểm tra base URL." },
-      { code: "UPSTREAM_UNAVAILABLE", meaning: "Một service phía sau gateway đang không phản hồi; hãy thử lại sau." },
+      { code: "UPSTREAM_UNAVAILABLE", meaning: "Service tạm thời không phản hồi; hãy thử lại sau." },
       { code: "NETWORK_ERROR, TIMEOUT, INVALID_RESPONSE", meaning: "Do SDK báo khi không nhận được phản hồi dùng được." },
     ],
   },

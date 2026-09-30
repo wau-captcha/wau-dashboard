@@ -1,4 +1,4 @@
-/** Shapes returned by wau-services, in the JSON names the gateway sends. */
+/** Shapes returned by wau-services (tenant, billing), in the JSON names they send. */
 
 export type User = {
   id: string;

@@ -1,6 +1,6 @@
 /**
  * Code samples of the home page and the docs. They are the same in every language; only the
- * address of the gateway changes, so each takes it as a parameter.
+ * public address of the API (WAU_PUBLIC_API_URL) changes, so each takes it as a parameter.
  */
 
 export const install = {
