@@ -12,7 +12,7 @@ import { formatDateTime } from "@/lib/format";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
 
 const snippet = `const response = await fetch(
-  "http://127.0.0.1:8080/challenge/new?site_key=pk_2f1c…",
+  "https://api.waucaptcha.com/challenge/new?site_key=pk_2f1c…",
 );
 const challenge = await response.json();`;
 
