@@ -65,10 +65,11 @@ export default async function HomePage() {
           <h2 className="font-brand text-display font-semibold tracking-tight text-foreground">{text.challenges.title}</h2>
           <p className="max-w-2xl text-body text-muted-foreground">{text.challenges.description}</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-3">
           {[
             { id: "image_distort", ...text.challenges.imageDistort },
             { id: "motion_noise", ...text.challenges.motionNoise },
+            { id: "slide_puzzle", ...text.challenges.slidePuzzle },
           ].map((kind) => (
             <Card key={kind.id}>
               <CardContent className="grid gap-2">

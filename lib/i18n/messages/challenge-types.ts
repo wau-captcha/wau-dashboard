@@ -13,7 +13,7 @@ const en = {
     },
     slide_puzzle: {
       label: "Slide puzzle",
-      description: "Drag the piece into the right spot on the background image.",
+      description: "Drag the piece into the right spot on the background image; the movement is checked too.",
     },
     behavioral_advanced: {
       label: "Behaviour analysis",
@@ -35,7 +35,7 @@ const vi: Translation<typeof en> = {
     },
     slide_puzzle: {
       label: "Ghép hình trượt",
-      description: "Kéo mảnh ghép vào đúng vị trí trên ảnh nền.",
+      description: "Kéo mảnh ghép vào đúng vị trí trên ảnh nền; chuyển động cũng được kiểm tra.",
     },
     behavioral_advanced: {
       label: "Phân tích hành vi",

@@ -5,7 +5,7 @@ const en = {
   api: {
     title: "REST API",
     body: "The SDKs call these endpoints; any HTTP client can call them too. Errors come back as JSON {code, reason, message, metadata}.",
-    newChallenge: "Issues a challenge. Query: site_key (required), challenge_type (image_distort by default). image is base64; display it at width × height CSS pixels.",
+    newChallenge: "Issues a challenge. Query: site_key (required), challenge_type (image_distort by default). image is base64; display it at width × height CSS pixels. slide_puzzle adds piece_image, piece_y, piece_width and piece_height.",
     verifyAnswer: "Checks an answer. success is false after a wrong answer; the challenge is used up either way.",
     siteVerify: "Redeems a token, once. Send the secret key as a bearer token. success is false when the token is unknown, expired, already used or issued for another key.",
   },
@@ -13,7 +13,8 @@ const en = {
     title: "Challenge types",
     imageDistort: "image_distort — five characters (letters and digits) distorted in a PNG. The default.",
     motionNoise: "motion_noise — four characters (capital letters and digits, without O, 0, Q, I and 1) hidden in a looping animated GIF of moving dots.",
-    note: "Answers are not case-sensitive. The plan of your account decides which types a key may request. In the JavaScript SDKs, name them with ChallengeType.IMAGE_DISTORT and ChallengeType.MOTION_NOISE.",
+    slidePuzzle: "slide_puzzle — a 300 × 150 JPEG background with a hole, and a PNG piece to drag horizontally into it. The answer is JSON the SDK writes from the drag, which is also checked for human movement, so use the SDK rather than building it by hand. Keyboard-only users cannot solve it: keep image_distort available where accessibility matters.",
+    note: "Text answers are not case-sensitive. The plan of your account decides which types a key may request. In the JavaScript SDKs, name them with ChallengeType.IMAGE_DISTORT, ChallengeType.MOTION_NOISE and ChallengeType.SLIDE_PUZZLE.",
   },
   security: {
     title: "Limits and security",
@@ -50,7 +51,7 @@ const vi: Translation<typeof en> = {
   api: {
     title: "REST API",
     body: "Các SDK gọi những endpoint này; mọi HTTP client đều gọi được. Lỗi trả về dạng JSON {code, reason, message, metadata}.",
-    newChallenge: "Cấp một challenge. Query: site_key (bắt buộc), challenge_type (mặc định image_distort). image là base64; hiển thị ở kích thước width × height pixel CSS.",
+    newChallenge: "Cấp một challenge. Query: site_key (bắt buộc), challenge_type (mặc định image_distort). image là base64; hiển thị ở kích thước width × height pixel CSS. slide_puzzle có thêm piece_image, piece_y, piece_width và piece_height.",
     verifyAnswer: "Kiểm tra câu trả lời. success là false khi trả lời sai; challenge bị dùng hết trong cả hai trường hợp.",
     siteVerify: "Đổi token, một lần duy nhất. Gửi secret key dạng bearer token. success là false khi token không tồn tại, hết hạn, đã dùng hoặc thuộc khóa khác.",
   },
@@ -58,7 +59,8 @@ const vi: Translation<typeof en> = {
     title: "Loại challenge",
     imageDistort: "image_distort — năm ký tự (chữ và số) bị bóp méo trong ảnh PNG. Mặc định.",
     motionNoise: "motion_noise — bốn ký tự (chữ in hoa và số, không có O, 0, Q, I, 1) ẩn trong ảnh GIF động lặp lại gồm các chấm chuyển động.",
-    note: "Câu trả lời không phân biệt hoa thường. Gói của tài khoản quyết định khóa được dùng loại nào. Trong các SDK JavaScript, dùng ChallengeType.IMAGE_DISTORT và ChallengeType.MOTION_NOISE.",
+    slidePuzzle: "slide_puzzle — ảnh nền JPEG 300 × 150 có một chỗ trống, và một mảnh ghép PNG để kéo ngang vào đó. Câu trả lời là JSON do SDK ghi lại từ cú kéo, và cú kéo cũng được kiểm tra xem có giống tay người không, nên hãy dùng SDK thay vì tự tạo. Người chỉ dùng bàn phím không giải được loại này: hãy giữ image_distort ở những nơi cần hỗ trợ tiếp cận.",
+    note: "Câu trả lời dạng chữ không phân biệt hoa thường. Gói của tài khoản quyết định khóa được dùng loại nào. Trong các SDK JavaScript, dùng ChallengeType.IMAGE_DISTORT, ChallengeType.MOTION_NOISE và ChallengeType.SLIDE_PUZZLE.",
   },
   security: {
     title: "Giới hạn và bảo mật",

@@ -25,9 +25,9 @@ const en = {
     },
     widget: {
       title: "Browser widget",
-      body: "The widget shows the challenge, a text box and two buttons, and loads a new challenge after a wrong answer. With the script build, any element with data-wau-captcha renders by itself.",
+      body: "The widget shows the challenge, a text box and two buttons (for slide_puzzle, a slider instead of the text box and Verify), and loads a new challenge after a wrong answer. With the script build, any element with data-wau-captcha renders by itself.",
       bundler: "With a bundler, render it yourself to get callbacks and your own labels:",
-      attributes: "Attributes: data-site-key and data-base-url (required), data-challenge-type (image_distort or motion_noise) and data-input-name (default wau-captcha-token).",
+      attributes: "Attributes: data-site-key and data-base-url (required), data-challenge-type (image_distort, motion_noise or slide_puzzle) and data-input-name (default wau-captcha-token).",
     },
     react: {
       title: "React component",
@@ -42,7 +42,7 @@ const en = {
       props: [
         { name: "siteKey, baseUrl", meaning: "Required: the site key of your API key and the address of the WAU Captcha API." },
         { name: "mode", meaning: "WauCaptchaMode.INLINE (default) shows the challenge in place; WauCaptchaMode.MODAL opens it from a button." },
-        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (default) or ChallengeType.MOTION_NOISE." },
+        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (default), ChallengeType.MOTION_NOISE or ChallengeType.SLIDE_PUZZLE." },
         { name: "theme", meaning: "WauCaptchaTheme.AUTO (default) follows the color-scheme of the page; LIGHT and DARK force one." },
         { name: "inputName", meaning: "Name of the hidden field that carries the token. Default wau-captcha-token." },
         { name: "labels", meaning: 'Texts to replace in your language, e.g. { open: "Verify you are human", verify: "Verify" }.' },
@@ -90,9 +90,9 @@ const vi: Translation<typeof en> = {
     },
     widget: {
       title: "Widget trên trình duyệt",
-      body: "Widget hiển thị challenge, ô nhập và hai nút, tự lấy challenge mới sau khi trả lời sai. Với bản script, phần tử nào có data-wau-captcha sẽ tự hiển thị.",
+      body: "Widget hiển thị challenge, ô nhập và hai nút (với slide_puzzle là thanh trượt thay cho ô nhập và nút Verify), tự lấy challenge mới sau khi trả lời sai. Với bản script, phần tử nào có data-wau-captcha sẽ tự hiển thị.",
       bundler: "Nếu dùng bundler, hãy tự render để có callback và nhãn riêng:",
-      attributes: "Thuộc tính: data-site-key và data-base-url (bắt buộc), data-challenge-type (image_distort hoặc motion_noise) và data-input-name (mặc định wau-captcha-token).",
+      attributes: "Thuộc tính: data-site-key và data-base-url (bắt buộc), data-challenge-type (image_distort, motion_noise hoặc slide_puzzle) và data-input-name (mặc định wau-captcha-token).",
     },
     react: {
       title: "Component React",
@@ -107,7 +107,7 @@ const vi: Translation<typeof en> = {
       props: [
         { name: "siteKey, baseUrl", meaning: "Bắt buộc: site key của khóa API và địa chỉ của WAU Captcha API." },
         { name: "mode", meaning: "WauCaptchaMode.INLINE (mặc định) hiển thị challenge tại chỗ; WauCaptchaMode.MODAL mở nó từ một nút." },
-        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (mặc định) hoặc ChallengeType.MOTION_NOISE." },
+        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (mặc định), ChallengeType.MOTION_NOISE hoặc ChallengeType.SLIDE_PUZZLE." },
         { name: "theme", meaning: "WauCaptchaTheme.AUTO (mặc định) theo color-scheme của trang; LIGHT và DARK ép một chế độ." },
         { name: "inputName", meaning: "Tên trường ẩn chứa token. Mặc định wau-captcha-token." },
         { name: "labels", meaning: 'Các chữ muốn thay bằng ngôn ngữ của bạn, ví dụ { open: "Xác minh bạn là người", verify: "Xác minh" }.' },

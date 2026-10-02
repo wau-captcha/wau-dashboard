@@ -40,8 +40,8 @@ const en = {
       ],
     },
     challenges: {
-      title: "Two kinds of challenge",
-      description: "Pick per request. Both are generated fresh every time, so there is nothing to collect and replay.",
+      title: "Three kinds of challenge",
+      description: "Pick per request. All three are generated fresh every time, so there is nothing to collect and replay.",
       imageDistort: {
         name: "Distorted text",
         body: "Five characters, rotated, warped, crossed with curves and speckled with noise. Quick for people, costly for OCR.",
@@ -49,6 +49,10 @@ const en = {
       motionNoise: {
         name: "Moving dots",
         body: "A looping animation of random dots. Any single frame is pure noise: the characters only appear through their motion.",
+      },
+      slidePuzzle: {
+        name: "Slide puzzle",
+        body: "Drag the piece into its hole in a freshly drawn picture; the drag itself is checked too, so it has to move like a human hand.",
       },
     },
     features: {
@@ -118,8 +122,8 @@ const vi: Translation<typeof en> = {
       ],
     },
     challenges: {
-      title: "Hai loại challenge",
-      description: "Chọn theo từng lần gọi. Cả hai đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại.",
+      title: "Ba loại challenge",
+      description: "Chọn theo từng lần gọi. Cả ba đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại.",
       imageDistort: {
         name: "Chữ méo",
         body: "Năm ký tự bị xoay, bẻ cong, gạch đường cong và rắc nhiễu. Nhanh với người, tốn công với OCR.",
@@ -127,6 +131,10 @@ const vi: Translation<typeof en> = {
       motionNoise: {
         name: "Chấm chuyển động",
         body: "Một đoạn hoạt hình lặp lại gồm các chấm ngẫu nhiên. Từng khung hình chỉ là nhiễu: ký tự chỉ hiện ra nhờ chuyển động.",
+      },
+      slidePuzzle: {
+        name: "Ghép hình trượt",
+        body: "Kéo mảnh ghép vào đúng chỗ trống trên một bức ảnh vừa được vẽ; chính cú kéo cũng được kiểm tra, nên nó phải chuyển động như tay người.",
       },
     },
     features: {

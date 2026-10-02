@@ -30,7 +30,13 @@ export function ReferenceSections({ text, baseUrl }: { text: Sections; baseUrl: 
       </DocSection>
 
       <DocSection id="challenge-types" title={text.challengeTypes.title}>
-        <Bullets items={[text.challengeTypes.imageDistort, text.challengeTypes.motionNoise]} />
+        <Bullets
+          items={[
+            text.challengeTypes.imageDistort,
+            text.challengeTypes.motionNoise,
+            text.challengeTypes.slidePuzzle,
+          ]}
+        />
         <Prose>{text.challengeTypes.note}</Prose>
       </DocSection>
 
