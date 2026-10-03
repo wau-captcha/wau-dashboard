@@ -1,10 +1,17 @@
 import type { BadgeTone } from "@/components/ui/badge";
-import type { BillingPeriod, Plan } from "@/lib/api/types";
+import type { BillingPeriod, Plan, TransactionStatus } from "@/lib/api/types";
 
 /** Paid plans wear the accent badge, the free one the neutral badge. */
 export function tierTone(tierId: string): BadgeTone {
   return tierId === "free" ? "neutral" : "primary";
 }
+
+/** The badge of a payment: waiting is a warning, paid is positive, an unpaid checkout is neutral. */
+export const transactionStatusTone: Record<TransactionStatus, BadgeTone> = {
+  pending: "warning",
+  succeeded: "positive",
+  expired: "neutral",
+};
 
 /** Months of a plan are counted in Asia/Ho_Chi_Minh, which is UTC+7 all year. */
 const ZONE_OFFSET_MS = 7 * 60 * 60 * 1000;
