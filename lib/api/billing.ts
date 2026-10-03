@@ -1,7 +1,7 @@
 import "server-only";
 
 import { apiFetch } from "./client";
-import type { BillingPeriod, Checkout, Plan, PlanSet, Purchase, Transaction, TransactionStatus } from "./types";
+import type { BillingPeriod, Checkout, GrantKind, Plan, PlanGrant, PlanSet, Purchase, Transaction, TransactionStatus } from "./types";
 import { toNumber } from "./usage";
 
 /** int64 fields arrive as strings in proto JSON; unset timestamps arrive as null. */
@@ -12,12 +12,31 @@ type RawPlan = Omit<Plan, "monthly_price" | "yearly_price" | "daily_quota" | "pu
   challenge_types?: string[];
   purchase?: string;
 };
-type RawTransaction = Omit<Transaction, "amount" | "period" | "status" | "paid_at"> & {
+type RawGrant = Omit<PlanGrant, "kind" | "starts_at" | "ends_at"> & {
+  kind: string;
+  starts_at?: string | null;
+  ends_at?: string | null;
+};
+type RawTransaction = Omit<Transaction, "amount" | "period" | "status" | "paid_at" | "sepay_transaction_id" | "grant"> & {
   amount?: string | number;
   period?: string;
   status: string;
   paid_at?: string | null;
+  sepay_transaction_id?: string;
+  grant?: RawGrant | null;
 };
+
+const GRANT_KINDS: readonly GrantKind[] = ["upgrade", "renew", "extend"];
+
+function isGrantKind(kind: string): kind is GrantKind {
+  return (GRANT_KINDS as readonly string[]).includes(kind);
+}
+
+/** A grant of a kind this dashboard does not know is left out rather than mislabelled. */
+function toGrant(raw: RawGrant | null | undefined): PlanGrant | null {
+  if (!raw || !isGrantKind(raw.kind)) return null;
+  return { ...raw, kind: raw.kind, starts_at: raw.starts_at ?? null, ends_at: raw.ends_at ?? null };
+}
 
 function toPlan(raw: RawPlan): Plan {
   return {
@@ -37,6 +56,8 @@ function toTransaction(raw: RawTransaction): Transaction {
     period: raw.period === "year" ? "year" : "month",
     status: raw.status as TransactionStatus,
     paid_at: raw.paid_at ?? null,
+    sepay_transaction_id: raw.sepay_transaction_id ?? "",
+    grant: toGrant(raw.grant),
   };
 }
 

@@ -9,6 +9,7 @@ import { docs } from "./messages/docs";
 import { errors } from "./messages/errors";
 import { keyDetail } from "./messages/key-detail";
 import { keys } from "./messages/keys";
+import { payments } from "./messages/payments";
 import { site } from "./messages/site";
 import { usage } from "./messages/usage";
 
@@ -24,6 +25,7 @@ export type Dictionary = {
   keyDetail: typeof keyDetail.en;
   account: typeof account.en;
   billing: typeof billing.en;
+  payments: typeof payments.en;
   errors: typeof errors.en;
   challengeTypes: typeof challengeTypes.en;
   admin: typeof admin.en;
@@ -40,6 +42,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     keyDetail: keyDetail.en,
     account: account.en,
     billing: billing.en,
+    payments: payments.en,
     errors: errors.en,
     challengeTypes: challengeTypes.en,
     admin: admin.en,
@@ -54,6 +57,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     keyDetail: keyDetail.vi,
     account: account.vi,
     billing: billing.vi,
+    payments: payments.vi,
     errors: errors.vi,
     challengeTypes: challengeTypes.vi,
     admin: admin.vi,

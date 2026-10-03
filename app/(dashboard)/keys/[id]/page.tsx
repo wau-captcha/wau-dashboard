@@ -113,9 +113,7 @@ export default async function KeyDetailPage({
         </div>
         <UsageByKeyChart usage={usage} range={range} keys={[apiKey]} />
         <UsageByTypeChart usage={usage} range={range} />
-        <UsageSummary usage={usage} range={range} />
       </div>
-
     </>
   );
 }

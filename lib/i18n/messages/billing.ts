@@ -5,6 +5,11 @@ const en = {
   metaDescription: "Your WAU Captcha plan, upgrades and payments.",
   title: "Plans & billing",
   description: "Buy a paid plan by the month or by the year with a bank transfer, and see your payments.",
+  tabs: {
+    label: "Plans & billing",
+    plans: "Plans",
+    history: "Payment history",
+  },
   current: {
     title: "Current plan",
     plan: "Plan",
@@ -74,26 +79,7 @@ const en = {
     failedTitle: "Payment failed",
     failed: "The payment did not go through and your plan did not change. You can try again.",
     unknown: "This payment could not be found.",
-  },
-  history: {
-    title: "Payment history",
-    description: "Your latest 50 payments, newest first.",
-    tableLabel: "Payments",
-    date: "Date",
-    plan: "Plan",
-    period: "Period",
-    periods: { month: "1 month", year: "1 year" },
-    amount: "Amount",
-    status: "Status",
-    paidAt: "Paid at",
-    code: "Payment code",
-    emptyTitle: "No payments yet",
-    emptyDescription: "Payments for paid plans will show here.",
-    statuses: {
-      pending: "Awaiting payment",
-      succeeded: "Paid",
-      expired: "Expired",
-    },
+    view: "View payment",
   },
 };
 
@@ -102,6 +88,11 @@ const vi: Translation<typeof en> = {
   metaDescription: "Gói WAU Captcha của bạn, nâng cấp và lịch sử thanh toán.",
   title: "Gói & thanh toán",
   description: "Mua gói trả phí theo tháng hoặc theo năm bằng chuyển khoản ngân hàng và xem các lần thanh toán.",
+  tabs: {
+    label: "Gói & thanh toán",
+    plans: "Các gói",
+    history: "Lịch sử thanh toán",
+  },
   current: {
     title: "Gói hiện tại",
     plan: "Gói",
@@ -171,26 +162,7 @@ const vi: Translation<typeof en> = {
     failedTitle: "Thanh toán không thành công",
     failed: "Thanh toán không thực hiện được và gói của bạn không thay đổi. Bạn có thể thử lại.",
     unknown: "Không tìm thấy giao dịch này.",
-  },
-  history: {
-    title: "Lịch sử thanh toán",
-    description: "50 giao dịch gần nhất, mới nhất trước.",
-    tableLabel: "Giao dịch",
-    date: "Ngày tạo",
-    plan: "Gói",
-    period: "Kỳ",
-    periods: { month: "1 tháng", year: "1 năm" },
-    amount: "Số tiền",
-    status: "Trạng thái",
-    paidAt: "Thanh toán lúc",
-    code: "Mã thanh toán",
-    emptyTitle: "Chưa có giao dịch",
-    emptyDescription: "Các lần thanh toán gói trả phí sẽ hiện ở đây.",
-    statuses: {
-      pending: "Chờ thanh toán",
-      succeeded: "Đã thanh toán",
-      expired: "Hết hạn",
-    },
+    view: "Xem giao dịch",
   },
 };
 

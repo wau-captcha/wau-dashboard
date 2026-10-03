@@ -198,6 +198,23 @@ export type PlanSet = {
 /** "expired": not paid in time; it still succeeds if SePay reports the payment later. */
 export type TransactionStatus = "pending" | "succeeded" | "expired";
 
+/**
+ * What paying did to the plan. "upgrade": `tier_id` started then, in place of the plan before;
+ * "renew": the plan got the period after its end; "extend": the payment, for a plan below the
+ * one the account had by then, bought time on that plan at its price.
+ */
+export type GrantKind = "upgrade" | "renew" | "extend";
+
+export type PlanGrant = {
+  kind: GrantKind;
+  /** The plan the payment went to: the one bought, except for "extend". */
+  tier_id: string;
+  tier_name: string;
+  /** The time the payment bought; both null when it bought none, on a plan with no end date. */
+  starts_at: string | null;
+  ends_at: string | null;
+};
+
 /** One month or one year of a plan, bought or being bought. */
 export type Transaction = {
   id: string;
@@ -210,8 +227,13 @@ export type Transaction = {
   /** The order invoice number SePay shows. */
   payment_code: string;
   create_date: string;
+  /** When a pending transaction stops waiting for the payment. */
   expires_at: string;
   paid_at: string | null;
+  /** SePay's id of the payment; empty until paid. */
+  sepay_transaction_id: string;
+  /** Null until paid, and for payments applied before wau-billing recorded it. */
+  grant: PlanGrant | null;
 };
 
 /** A pending transaction and the signed form the browser posts to SePay, fields in order. */
