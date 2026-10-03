@@ -69,7 +69,6 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
             <UsageByKeyChart usage={usage} range={range} keys={keys.api_keys} />
             <UsageByTypeChart usage={usage} range={range} />
           </div>
-          <UsageSummary usage={usage} range={range} />
         </>
       )}
     </>
