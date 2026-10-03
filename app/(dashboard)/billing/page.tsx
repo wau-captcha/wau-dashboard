@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
-import { listPlans, listTransactions } from "@/lib/api/billing";
+import { listPlans } from "@/lib/api/billing";
 import { daysUntil, tierTone } from "@/lib/billing";
 import { getI18n } from "@/lib/i18n/server";
 import { CheckoutResult, type CheckoutReturn } from "./_components/checkout-result";
 import { PlanChooser } from "./_components/plan-chooser";
-import { TransactionsTable } from "./_components/transactions-table";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
@@ -26,12 +25,7 @@ export default async function BillingPage({
 }: {
   searchParams: Promise<{ transaction?: string; result?: string }>;
 }) {
-  const [{ t, format }, planSet, transactions, params] = await Promise.all([
-    getI18n(),
-    listPlans(),
-    listTransactions(),
-    searchParams,
-  ]);
+  const [{ t, format }, planSet, params] = await Promise.all([getI18n(), listPlans(), searchParams]);
   const text = t.billing;
   const current = planSet.plans.find((plan) => plan.tier_id === planSet.current_tier_id);
   const expiresAt = planSet.current_tier_expires_at;
@@ -40,8 +34,6 @@ export default async function BillingPage({
 
   return (
     <>
-      <PageHeader title={text.title} description={text.description} />
-
       {params.transaction && result && <CheckoutResult transactionId={params.transaction} result={result} />}
 
       <Card>
@@ -77,18 +69,6 @@ export default async function BillingPage({
         <PlanChooser planSet={planSet} />
         <Alert tone="neutral">{text.plans.rules}</Alert>
       </section>
-
-      <Card>
-        <CardHeader>
-          <div className="min-w-0">
-            <CardTitle>{text.history.title}</CardTitle>
-            <CardDescription>{text.history.description}</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0">
-          <TransactionsTable transactions={transactions} />
-        </CardContent>
-      </Card>
     </>
   );
 }

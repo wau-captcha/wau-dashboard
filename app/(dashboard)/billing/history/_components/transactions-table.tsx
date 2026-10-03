@@ -1,7 +1,10 @@
 "use client";
 
 import { ReceiptText } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { Transaction, TransactionStatus } from "@/lib/api/types";
@@ -16,7 +19,9 @@ const statusTone: Record<TransactionStatus, BadgeTone> = {
 
 export function TransactionsTable({ transactions }: { transactions: Transaction[] }) {
   const { t, format } = useI18n();
-  const text = t.billing.history;
+  const router = useRouter();
+  const text = t.payments.list;
+  const { statuses, periods } = t.payments;
 
   const columns: DataTableColumn<Transaction>[] = [
     {
@@ -37,7 +42,7 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
       id: "period",
       header: text.period,
       accessor: (transaction) => transaction.period,
-      cell: (transaction) => text.periods[transaction.period],
+      cell: (transaction) => periods[transaction.period],
       sortable: true,
     },
     {
@@ -56,7 +61,7 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
       accessor: (transaction) => transaction.status,
       cell: (transaction) => (
         <Badge tone={statusTone[transaction.status] ?? "neutral"} dot>
-          {text.statuses[transaction.status] ?? transaction.status}
+          {statuses[transaction.status] ?? transaction.status}
         </Badge>
       ),
       sortable: true,
@@ -82,7 +87,19 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
       data={transactions}
       getRowId={(transaction) => transaction.id}
       defaultSort={{ columnId: "create_date", direction: "desc" }}
-      emptyState={<EmptyState icon={<ReceiptText />} title={text.emptyTitle} description={text.emptyDescription} />}
+      onRowClick={(transaction) => router.push(`/billing/history/${transaction.id}`)}
+      emptyState={
+        <EmptyState
+          icon={<ReceiptText />}
+          title={text.emptyTitle}
+          description={text.emptyDescription}
+          action={
+            <Link href="/billing" className={buttonVariants({ variant: "outline" })}>
+              {text.emptyAction}
+            </Link>
+          }
+        />
+      }
     />
   );
 }
