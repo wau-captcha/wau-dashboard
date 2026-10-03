@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Alert } from "@/components/ui/alert";
+import { buttonVariants } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import type { TransactionStatus } from "@/lib/api/types";
 import { useI18n } from "@/lib/i18n/client";
@@ -52,9 +54,16 @@ export function CheckoutResult({ transactionId, result }: { transactionId: strin
     };
   }, [transactionId, result, router]);
 
+  // The payment's own page, which keeps checking too and shows what the payment did.
+  const view = (
+    <Link href={`/billing/history/${transactionId}`} className={buttonVariants({ variant: "outline", size: "sm" })}>
+      {text.view}
+    </Link>
+  );
+
   if (status === "succeeded") {
     return (
-      <Alert tone="positive" title={text.paidTitle} role="status">
+      <Alert tone="positive" title={text.paidTitle} role="status" action={view}>
         {text.paid}
       </Alert>
     );
@@ -62,27 +71,27 @@ export function CheckoutResult({ transactionId, result }: { transactionId: strin
   if (status === "unknown") return <Alert tone="negative">{text.unknown}</Alert>;
   if (result === "cancel") {
     return (
-      <Alert tone="neutral" title={text.cancelledTitle}>
+      <Alert tone="neutral" title={text.cancelledTitle} action={view}>
         {text.cancelled}
       </Alert>
     );
   }
   if (result === "error") {
     return (
-      <Alert tone="negative" title={text.failedTitle}>
+      <Alert tone="negative" title={text.failedTitle} action={view}>
         {text.failed}
       </Alert>
     );
   }
   if (gaveUp) {
     return (
-      <Alert tone="warning" title={text.slowTitle}>
+      <Alert tone="warning" title={text.slowTitle} action={view}>
         {text.slow}
       </Alert>
     );
   }
   return (
-    <Alert tone="info" title={text.waitingTitle} icon={<Spinner />} role="status">
+    <Alert tone="info" title={text.waitingTitle} icon={<Spinner />} role="status" action={view}>
       {text.waiting}
     </Alert>
   );

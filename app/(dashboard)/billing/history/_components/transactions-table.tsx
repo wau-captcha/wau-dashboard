@@ -3,19 +3,13 @@
 import { ReceiptText } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Badge, type BadgeTone } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { EmptyState } from "@/components/ui/empty-state";
-import type { Transaction, TransactionStatus } from "@/lib/api/types";
-import { tierTone } from "@/lib/billing";
+import type { Transaction } from "@/lib/api/types";
+import { tierTone, transactionStatusTone } from "@/lib/billing";
 import { useI18n } from "@/lib/i18n/client";
-
-const statusTone: Record<TransactionStatus, BadgeTone> = {
-  pending: "warning",
-  succeeded: "positive",
-  expired: "neutral",
-};
 
 export function TransactionsTable({ transactions }: { transactions: Transaction[] }) {
   const { t, format } = useI18n();
@@ -60,7 +54,7 @@ export function TransactionsTable({ transactions }: { transactions: Transaction[
       header: text.status,
       accessor: (transaction) => transaction.status,
       cell: (transaction) => (
-        <Badge tone={statusTone[transaction.status] ?? "neutral"} dot>
+        <Badge tone={transactionStatusTone[transaction.status] ?? "neutral"} dot>
           {statuses[transaction.status] ?? transaction.status}
         </Badge>
       ),

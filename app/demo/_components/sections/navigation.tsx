@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { useFormatter } from "@/components/ui/locale";
 import { Pagination } from "@/components/ui/pagination";
 import { SegmentedControl, type SegmentedOption } from "@/components/ui/segmented-control";
+import { TabNav, TabNavLink } from "@/components/ui/tab-nav";
 import { TableOfContents } from "@/components/ui/table-of-contents";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@/components/ui/tabs";
 import { DemoBlock, DemoLabel, DemoSection } from "../demo-shell";
@@ -84,6 +85,21 @@ export function NavigationSection() {
             minh
           </p>
         </div>
+      </DemoBlock>
+
+      <DemoBlock
+        title="TabNav"
+        description="Liên kết giữa các trang của một mục, trông như Tabs underline nhưng đổi địa chỉ (mở, đánh dấu, chia sẻ được). Trang hiện tại có aria-current=page; exact cho đường dẫn gốc của mục."
+      >
+        <TabNav aria-label="Ví dụ TabNav">
+          <TabNavLink href="/demo" exact>
+            Demo
+          </TabNavLink>
+          <TabNavLink href="/billing" exact>
+            Các gói
+          </TabNavLink>
+          <TabNavLink href="/billing/history">Lịch sử thanh toán</TabNavLink>
+        </TabNav>
       </DemoBlock>
 
       <DemoBlock
