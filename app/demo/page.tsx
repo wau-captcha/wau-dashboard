@@ -10,6 +10,7 @@ import { FeedbackSection } from "./_components/sections/feedback";
 import { FormExampleSection } from "./_components/sections/form-example";
 import { FoundationsSection } from "./_components/sections/foundations";
 import { InputsSection } from "./_components/sections/inputs";
+import { MediaSection } from "./_components/sections/media";
 import { NavigationSection } from "./_components/sections/navigation";
 import { OverlaysSection } from "./_components/sections/overlays";
 import { PlansSection } from "./_components/sections/plans";
@@ -31,6 +32,7 @@ const nav: DemoNavItem[] = [
   { id: "selection", label: "Lựa chọn" },
   { id: "form", label: "Form mẫu" },
   { id: "display", label: "Hiển thị" },
+  { id: "media", label: "Minh họa" },
   { id: "charts", label: "Biểu đồ" },
   { id: "navigation", label: "Tabs & phân trang" },
   { id: "tables", label: "Bảng dữ liệu" },
@@ -60,6 +62,7 @@ export default function DemoPage() {
       <SelectionSection />
       <FormExampleSection />
       <DisplaySection />
+      <MediaSection />
       <ChartsSection />
       <NavigationSection />
       <TablesSection />

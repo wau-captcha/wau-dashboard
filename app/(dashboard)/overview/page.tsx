@@ -1,13 +1,18 @@
-import { KeyRound, ShieldCheck } from "lucide-react";
+import { KeyRound, ScanEye, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, StatCard } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { MediaCard } from "@/components/ui/media-card";
 import { PageHeader } from "@/components/ui/page-header";
 import { listApiKeys, listChallengeTypes } from "@/lib/api/api-keys";
+import { CAPTCHAS } from "@/lib/captchas";
+import { challengeTypeDescription, challengeTypeLabel } from "@/lib/challenge-types";
 import { getQuota, getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
+import { CaptchaIllustration } from "@/app/_components/captcha-illustration";
 import { parseRange } from "@/lib/usage-view";
 import { QuotaMeter } from "@/app/_components/quota-meter";
 import { RangeTabs } from "@/app/_components/range-tabs";
@@ -71,6 +76,49 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
           </div>
         </>
       )}
+
+      <section className="grid gap-4">
+        <PageHeader
+          level={2}
+          title={t.captchas.overview.title}
+          description={t.captchas.overview.description}
+          actions={
+            <Link href="/captchas" className={buttonVariants({ variant: "outline", size: "sm" })}>
+              {t.captchas.allCaptchas}
+            </Link>
+          }
+        />
+        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {CAPTCHAS.map((captcha) => {
+            const onPlan = challengeTypes.some((type) => type.id === captcha.id);
+            return (
+              <li key={captcha.id}>
+                <MediaCard
+                  href={`/captchas/${captcha.slug}`}
+                  title={challengeTypeLabel(captcha.id, t.challengeTypes)}
+                  meta={
+                    <Badge tone={onPlan ? "positive" : "neutral"} size="sm">
+                      {onPlan ? t.captchas.overview.onPlan : t.captchas.overview.notOnPlan}
+                    </Badge>
+                  }
+                  description={challengeTypeDescription(captcha.id, t.challengeTypes)}
+                  media={<CaptchaIllustration captcha={captcha} text={t.captchaGuides.types} compact />}
+                  action={t.captchas.learnMore}
+                />
+              </li>
+            );
+          })}
+          <li>
+            <MediaCard
+              href="/captchas/behavior"
+              title={t.captchas.overview.behaviorTitle}
+              description={t.captchas.overview.behaviorBody}
+              media={<ScanEye aria-hidden className="size-10 text-accent-foreground" />}
+              action={t.captchas.learnMore}
+            />
+          </li>
+        </ul>
+      </section>
     </>
   );
 }

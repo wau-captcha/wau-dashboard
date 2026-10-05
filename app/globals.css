@@ -247,6 +247,22 @@
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+
+  /* SlidePreview: the piece slides along its row to --slide-to and back, pausing at both ends. */
+  --animate-slide-preview: slide-preview 4.5s cubic-bezier(0.45, 0.05, 0.25, 1) infinite;
+  @keyframes slide-preview {
+    0%,
+    15% {
+      left: 0;
+    }
+    55%,
+    80% {
+      left: var(--slide-to);
+    }
+    100% {
+      left: 0;
+    }
+  }
 }
 
 /* Layering scale, lowest to highest. */

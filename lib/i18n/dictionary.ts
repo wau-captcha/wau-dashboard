@@ -3,6 +3,8 @@ import { account } from "./messages/account";
 import { admin } from "./messages/admin";
 import { auth } from "./messages/auth";
 import { billing } from "./messages/billing";
+import { captchaGuides } from "./messages/captcha-guides";
+import { captchas } from "./messages/captchas";
 import { challengeTypes } from "./messages/challenge-types";
 import { common } from "./messages/common";
 import { docs } from "./messages/docs";
@@ -31,6 +33,8 @@ export type Dictionary = {
   admin: typeof admin.en;
   site: typeof site.en;
   docs: typeof docs.en;
+  captchas: typeof captchas.en;
+  captchaGuides: typeof captchaGuides.en;
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -48,6 +52,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     admin: admin.en,
     site: site.en,
     docs: docs.en,
+    captchas: captchas.en,
+    captchaGuides: captchaGuides.en,
   },
   vi: {
     common: common.vi,
@@ -63,6 +69,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
     admin: admin.vi,
     site: site.vi,
     docs: docs.vi,
+    captchas: captchas.vi,
+    captchaGuides: captchaGuides.vi,
   },
 };
 

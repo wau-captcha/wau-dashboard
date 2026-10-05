@@ -11,7 +11,7 @@ import { getI18n } from "@/lib/i18n/server";
 import { DashboardHeader } from "@/app/_components/dashboard-header";
 
 /**
- * Public pages: the home page and the docs. Anyone may read them. A signed-in visitor keeps the
+ * Public pages: the home page, the captcha pages and the docs. Anyone may read them. A signed-in visitor keeps the
  * dashboard header, so opening the docs does not look like signing out.
  */
 export default async function SiteLayout({ children }: { children: ReactNode }) {
@@ -32,6 +32,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
               <NavLink href="/" exact>
                 {nav.home}
               </NavLink>
+              <NavLink href="/captchas">{t.captchas.nav}</NavLink>
               <NavLink href="/docs">{nav.docs}</NavLink>
               {/* On phones the bar has no room for the button below, so the menu offers it. */}
               <NavLink href="/login" className="sm:hidden">
@@ -60,6 +61,9 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
             <p>{t.site.footer.tagline}</p>
           </div>
           <nav aria-label={t.site.footer.product} className="flex flex-wrap gap-4">
+            <Link href="/captchas" className="hover:text-foreground">
+              {t.captchas.nav}
+            </Link>
             <Link href="/docs" className="hover:text-foreground">
               {nav.docs}
             </Link>
