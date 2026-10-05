@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 import { CodeBlock } from "@/components/ui/code-block";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -38,12 +40,16 @@ export function ReferenceSections({ text, baseUrl }: { text: Sections; baseUrl: 
           ]}
         />
         <Prose>{text.challengeTypes.note}</Prose>
+        <Link href="/captchas" className={buttonVariants({ variant: "link", className: "justify-self-start px-0" })}>
+          {text.challengeTypes.more}
+        </Link>
       </DocSection>
 
       <DocSection id="security" title={text.security.title}>
         <Bullets
           items={[
             text.security.lifetimes,
+            text.security.behavior,
             text.security.origins,
             text.security.rotation,
             text.security.quota,

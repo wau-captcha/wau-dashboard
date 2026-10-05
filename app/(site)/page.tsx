@@ -5,7 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CodeBlock } from "@/components/ui/code-block";
+import { MediaCard } from "@/components/ui/media-card";
+import { CAPTCHAS } from "@/lib/captchas";
 import { getI18n } from "@/lib/i18n/server";
+import { CaptchaIllustration } from "@/app/_components/captcha-illustration";
 import { docsBaseUrl } from "./_components/base-url";
 import { SdkTabs } from "./_components/sdk-tabs";
 
@@ -61,27 +64,36 @@ export default async function HomePage() {
       </section>
 
       <section className="grid gap-6">
-        <div className="grid gap-2">
-          <h2 className="font-brand text-display font-semibold tracking-tight text-foreground">{text.challenges.title}</h2>
-          <p className="max-w-2xl text-body text-muted-foreground">{text.challenges.description}</p>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="grid gap-2">
+            <h2 className="font-brand text-display font-semibold tracking-tight text-foreground">{text.challenges.title}</h2>
+            <p className="max-w-2xl text-body text-muted-foreground">{text.challenges.description}</p>
+          </div>
+          <Link href="/captchas" className={buttonVariants({ variant: "outline", size: "sm" })}>
+            {t.captchas.allCaptchas}
+          </Link>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            { id: "image_distort", ...text.challenges.imageDistort },
-            { id: "motion_noise", ...text.challenges.motionNoise },
-            { id: "slide_puzzle", ...text.challenges.slidePuzzle },
-          ].map((kind) => (
-            <Card key={kind.id}>
-              <CardContent className="grid gap-2">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-heading font-medium text-foreground">{kind.name}</h3>
-                  <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-overline text-muted-foreground">{kind.id}</code>
-                </div>
-                <p className="text-body text-muted-foreground">{kind.body}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <ul className="grid gap-4 md:grid-cols-3">
+          {CAPTCHAS.map((captcha) => {
+            const kind = {
+              image_distort: text.challenges.imageDistort,
+              motion_noise: text.challenges.motionNoise,
+              slide_puzzle: text.challenges.slidePuzzle,
+            }[captcha.id];
+            return (
+              <li key={captcha.id}>
+                <MediaCard
+                  href={`/captchas/${captcha.slug}`}
+                  title={kind.name}
+                  meta={<code className="rounded bg-muted px-1.5 py-0.5 font-mono text-overline text-muted-foreground">{captcha.id}</code>}
+                  description={kind.body}
+                  media={<CaptchaIllustration captcha={captcha} text={t.captchaGuides.types} compact />}
+                  action={t.captchas.learnMore}
+                />
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <section className="grid gap-6">

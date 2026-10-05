@@ -33,3 +33,14 @@ export function Bullets({ items }: { items: ReactNode[] }) {
     </ul>
   );
 }
+
+/** A numbered list of the steps of a task. */
+export function Steps({ items }: { items: ReactNode[] }) {
+  return (
+    <ol className="grid max-w-3xl list-decimal gap-2 pl-5 text-prose text-muted-foreground marker:text-faint-foreground">
+      {items.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ol>
+  );
+}

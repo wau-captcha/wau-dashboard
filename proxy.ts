@@ -10,8 +10,8 @@ import {
 
 const ADMIN_LOGIN = `${ADMIN_PATH}/login`;
 
-/** Pages reachable without signing in: the home page, the docs and the sign-in pages. */
-const publicPaths = ["/docs", "/login", "/session-expired", "/demo", ADMIN_LOGIN, `${ADMIN_PATH}/session-expired`];
+/** Pages reachable without signing in: the home page, the captcha pages, the docs and the sign-in pages. */
+const publicPaths = ["/captchas", "/docs", "/login", "/session-expired", "/demo", ADMIN_LOGIN, `${ADMIN_PATH}/session-expired`];
 
 /**
  * Optimistic gate: visitors with no session cookie never reach a dashboard page, and those

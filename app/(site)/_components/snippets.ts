@@ -50,7 +50,7 @@ export default function SignUpPage() {
 
 export const reactAction = (baseUrl: string) => `"use server";
 
-import { WauCaptchaServer } from "@wau-captcha/server";
+import { BehaviorVerdict, WauCaptchaServer } from "@wau-captcha/server";
 
 export async function signUp(formData: FormData) {
   const captcha = new WauCaptchaServer({
@@ -59,6 +59,8 @@ export async function signUp(formData: FormData) {
   });
   const result = await captcha.verifyToken(String(formData.get("wau-captcha-token") ?? ""));
   if (!result.success) throw new Error("Please solve the captcha.");
+  // Right answer, scripted behaviour: refuse it for sign-ups. not_measured is an older client.
+  if (result.behavior.verdict === BehaviorVerdict.SUSPICIOUS) throw new Error("Please try again.");
   // … create the account
 }`;
 
@@ -95,7 +97,7 @@ if (result.success) {
   // Wrong answer: the challenge is used up, fetch a new one.
 }`;
 
-export const nodeVerify = (baseUrl: string) => `import { ErrorCode, WauCaptchaServer } from "@wau-captcha/server";
+export const nodeVerify = (baseUrl: string) => `import { BehaviorVerdict, ErrorCode, WauCaptchaServer } from "@wau-captcha/server";
 
 const wau = new WauCaptchaServer({
   secretKey: process.env.WAU_SECRET_KEY,
@@ -106,6 +108,8 @@ app.post("/signup", async (req, res) => {
   try {
     const result = await wau.verifyToken(req.body["wau-captcha-token"]);
     if (!result.success) return res.status(400).send("Please solve the captcha.");
+    // result.behavior: { verdict, score, reasons }. Refuse scripted sessions where it matters.
+    if (result.behavior.verdict === BehaviorVerdict.SUSPICIOUS) return res.status(400).send("Please try again.");
   } catch (error) {
     if (error.code === ErrorCode.SECRET_KEY_INVALID) console.error("Check WAU_SECRET_KEY");
     return res.status(503).send("Captcha check unavailable."); // fail closed
@@ -140,11 +144,16 @@ export const restNewChallenge = (baseUrl: string) => `curl "${baseUrl}/challenge
 
 export const restVerifyAnswer = (baseUrl: string) => `curl -X POST "${baseUrl}/challenge/verify" \\
   -H "Content-Type: application/json" \\
-  -d '{"challenge_id": "0f9c…", "answer": "a8Kq2"}'
+  -d '{"challenge_id": "0f9c…", "answer": "a8Kq2", "behavior": { "version": 1, "elapsed_ms": 4210, … }}'
 
 { "success": true, "token": "…", "expires_in": 120 }`;
 
 export const restSiteVerify = (baseUrl: string) => `curl -X POST "${baseUrl}/siteverify?token=$TOKEN" \\
   -H "Authorization: Bearer $WAU_SECRET_KEY"
 
-{ "success": true, "challenge_type": "image_distort", "challenge_ts": "2026-09-23T08:15:02Z" }`;
+{
+  "success": true,
+  "challenge_type": "image_distort",
+  "challenge_ts": "2026-09-23T08:15:02Z",
+  "behavior": { "verdict": "human", "score": 1, "reasons": [] }
+}`;
