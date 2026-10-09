@@ -35,6 +35,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
               {nav.overview}
             </NavLink>
             <NavLink href="/admin/users">{nav.users}</NavLink>
+            <NavLink href="/admin/appeals">{t.appeals.nav}</NavLink>
           </>
         }
         settings={

@@ -1,7 +1,7 @@
 import "server-only";
 
 import { apiFetch, type ApiFetchOptions } from "./client";
-import type { Admin, AdminApiKey, AdminStats, AdminUser, Usage, UserPage } from "./types";
+import type { Admin, AdminApiKey, AdminAppeal, AdminStats, AdminUser, AppealStatus, Usage, UserPage } from "./types";
 import type { UsageRange } from "@/lib/usage-view";
 import { rangeQuery, toNumber, toUsage, type RawUsage } from "./usage";
 
@@ -32,7 +32,29 @@ function toAdminApiKey(raw: Raw<AdminApiKey>): AdminApiKey {
     ...raw,
     challenges_today: toNumber(raw.challenges_today),
     verifications_today: toNumber(raw.verifications_today),
+    solved_today: toNumber(raw.solved_today),
+    automated_today: toNumber(raw.automated_today),
   };
+}
+
+type RawAppeal = Omit<AdminAppeal, "api_key"> & { api_key: Raw<AdminApiKey> };
+
+const toAdminAppeal = (raw: RawAppeal): AdminAppeal => ({ ...raw, api_key: toAdminApiKey(raw.api_key) });
+
+/** Appeals with a status, or all of them, newest first. */
+export async function listAppeals(status: AppealStatus | "all"): Promise<AdminAppeal[]> {
+  const set = await adminFetch<{ appeals?: RawAppeal[] }>(`/v1/admin/appeals?status=${encodeURIComponent(status)}`);
+  return (set.appeals ?? []).map(toAdminAppeal);
+}
+
+/** Approves a pending appeal, which lifts the suspension and the flag of the key, or rejects it. */
+export async function decideAppeal(id: string, approve: boolean, note: string): Promise<AdminAppeal> {
+  return toAdminAppeal(
+    await adminFetch<RawAppeal>(`/v1/admin/appeals/${encodeURIComponent(id)}/decision`, {
+      method: "POST",
+      body: { appeal_id: id, approve, note },
+    }),
+  );
 }
 
 const userPath = (id: string) => `/v1/admin/users/${encodeURIComponent(id)}`;

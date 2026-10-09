@@ -20,6 +20,7 @@ import {
   revokePreviousSecretAction,
   rotateSecretAction,
   setKeyActiveAction,
+  setRequireBehaviorAction,
 } from "../../actions";
 
 export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
@@ -28,12 +29,23 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
   const router = useRouter();
   const [nameError, setNameError] = useState<FormMessage>();
   const [pending, startTransition] = useTransition();
+  // Turning require_behavior off asks first: it lets tokens without behaviour data through again.
+  const [confirmBehaviorOff, setConfirmBehaviorOff] = useState(false);
+  const behavior = t.keyProtection.behavior;
 
   function toggleActive(next: boolean) {
     startTransition(async () => {
       const { error } = await setKeyActiveAction(apiKey.id, next);
       if (error) toast.error(error);
       else toast.success(next ? t.keys.toast.activated : t.keys.toast.paused);
+    });
+  }
+
+  function requireBehavior() {
+    startTransition(async () => {
+      const { error } = await setRequireBehaviorAction(apiKey.id, true);
+      if (error) toast.error(error);
+      else toast.success(behavior.on);
     });
   }
 
@@ -83,6 +95,26 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
           checked={apiKey.is_active && !apiKey.is_suspended}
           disabled={pending || apiKey.is_suspended}
           onCheckedChange={toggleActive}
+        />
+
+        <Separator />
+
+        <Switch
+          label={behavior.label}
+          description={behavior.hint}
+          labelPosition="start"
+          checked={Boolean(apiKey.require_behavior)}
+          disabled={pending}
+          onCheckedChange={(next) => (next ? requireBehavior() : setConfirmBehaviorOff(true))}
+        />
+        <ConfirmDialog
+          open={confirmBehaviorOff}
+          onOpenChange={setConfirmBehaviorOff}
+          tone="destructive"
+          title={behavior.offTitle}
+          description={behavior.offDescription}
+          confirmLabel={behavior.offConfirm}
+          onConfirm={() => run(() => setRequireBehaviorAction(apiKey.id, false), behavior.off)}
         />
 
         <Separator />

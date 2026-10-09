@@ -1,12 +1,22 @@
 import { CodeBlock } from "@/components/ui/code-block";
 import type { Dictionary } from "@/lib/i18n/dictionary";
-import { clientCustom, install, javaVerify, nodeVerify, widgetBundler, widgetScript } from "../../_components/snippets";
+import { CLIENT_CDN_VERSION } from "@/lib/sdk-cdn";
+import {
+  auditSignatures,
+  clientCustom,
+  install,
+  nodeVerify,
+  restSiteVerify,
+  sriCommand,
+  widgetBundler,
+  widgetScript,
+} from "../../_components/snippets";
 import { Bullets, DocSection, Prose, SubHeading } from "./doc-section";
 import { ReactSection } from "./react-section";
 
 type Sections = Dictionary["docs"]["sections"];
 
-/** The docs from the idea to a working integration: keys, the widget, React, the client and the server SDKs. */
+/** The docs from the idea to a working integration: keys, the widget, React, the client, the server SDK and other languages. */
 export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl: string }) {
   return (
     <>
@@ -27,6 +37,8 @@ export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl
       <DocSection id="widget" title={text.widget.title}>
         <Prose>{text.widget.body}</Prose>
         <CodeBlock language="html" code={widgetScript(baseUrl)} />
+        <Prose>{text.widget.pinned(CLIENT_CDN_VERSION)}</Prose>
+        <CodeBlock language="bash" code={sriCommand(CLIENT_CDN_VERSION)} />
         <Prose>{text.widget.attributes}</Prose>
         <Prose>{text.widget.bundler}</Prose>
         <CodeBlock language="bash" code={install.browser} />
@@ -46,10 +58,14 @@ export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl
         <CodeBlock language="javascript" code={nodeVerify(baseUrl)} />
       </DocSection>
 
-      <DocSection id="java" title={text.java.title}>
-        <Prose>{text.java.body}</Prose>
-        <CodeBlock language="xml" code={install.java} />
-        <CodeBlock language="java" code={javaVerify(baseUrl)} />
+      <DocSection id="verify-package" title={text.verifyPackage.title}>
+        <Prose>{text.verifyPackage.body}</Prose>
+        <CodeBlock language="bash" code={auditSignatures} />
+      </DocSection>
+
+      <DocSection id="other-languages" title={text.otherLanguages.title}>
+        <Prose>{text.otherLanguages.body}</Prose>
+        <CodeBlock language="bash" code={restSiteVerify(baseUrl)} />
       </DocSection>
     </>
   );

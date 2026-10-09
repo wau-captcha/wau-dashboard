@@ -53,6 +53,7 @@ export function ReferenceSections({ text, baseUrl }: { text: Sections; baseUrl: 
             text.security.origins,
             text.security.rotation,
             text.security.quota,
+            text.security.rateLimits,
             text.security.scraping,
           ]}
         />

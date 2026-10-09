@@ -1,3 +1,5 @@
+import { CLIENT_CDN_INTEGRITY, CLIENT_CDN_URL } from "@/lib/sdk-cdn";
+
 /**
  * Code samples of the home page and the docs. They are the same in every language; only the
  * public address of the API (WAU_PUBLIC_API_URL) changes, so each takes it as a parameter.
@@ -7,20 +9,29 @@ export const install = {
   browser: "npm install @wau-captcha/client",
   react: "npm install @wau-captcha/react",
   node: "npm install @wau-captcha/server",
-  java: `<dependency>
-    <groupId>com.waucaptcha</groupId>
-    <artifactId>wau-captcha-sdk</artifactId>
-    <version>1.0.0</version>
-</dependency>`,
 };
 
-export const widgetScript = (baseUrl: string) => `<script src="https://cdn.jsdelivr.net/npm/@wau-captcha/client@1/dist/wau-captcha.global.js"></script>
+export const widgetScript = (baseUrl: string) => `<script
+  src="${CLIENT_CDN_URL}"
+  integrity="${CLIENT_CDN_INTEGRITY}"
+  crossorigin="anonymous"></script>
 
 <form action="/signup" method="post">
   <input name="email" type="email" required />
   <div data-wau-captcha data-site-key="pk_…" data-base-url="${baseUrl}"></div>
   <button type="submit">Sign up</button>
 </form>`;
+
+/** The integrity hash of another release of the <script> build. */
+export const sriCommand = (version: string) => `# In a clone of github.com/wau-captcha/wau-sdk-js:
+node scripts/sri.mjs ${version}
+
+# Or with curl and openssl:
+curl -s https://cdn.jsdelivr.net/npm/@wau-captcha/client@${version}/dist/wau-captcha.global.js \\
+  | openssl dgst -sha384 -binary | openssl base64 -A`;
+
+export const auditSignatures = `npm install @wau-captcha/server
+npm audit signatures`;
 
 export const widgetBundler = (baseUrl: string) => `import { renderWidget } from "@wau-captcha/client";
 
@@ -58,9 +69,11 @@ export async function signUp(formData: FormData) {
     baseUrl: "${baseUrl}",
   });
   const result = await captcha.verifyToken(String(formData.get("wau-captcha-token") ?? ""));
-  if (!result.success) throw new Error("Please solve the captcha.");
-  // Right answer, scripted behaviour: refuse it for sign-ups. not_measured is an older client.
-  if (result.behavior.verdict === BehaviorVerdict.SUSPICIOUS) throw new Error("Please try again.");
+  // hostname is the website the captcha was solved on: it must be yours.
+  if (!result.success || result.hostname !== "shop.example.com") throw new Error("Please solve the captcha.");
+  // Sign-up accepts human only: suspicious is a scripted session, and not_measured means the
+  // client sent no behaviour data (an SDK before 1.2.0 or a hand-written call), so it is untrusted.
+  if (result.behavior.verdict !== BehaviorVerdict.HUMAN) throw new Error("Please try again.");
   // … create the account
 }`;
 
@@ -85,11 +98,13 @@ export const clientCustom = (baseUrl: string) => `import { ChallengeType, WauCap
 
 const captcha = new WauCaptchaClient({ siteKey: "pk_…", baseUrl: "${baseUrl}" });
 
+// Fetch it when it is shown, not ahead of time. The client solves its proof of work meanwhile.
 const challenge = await captcha.newChallenge(); // or { challengeType: ChallengeType.MOTION_NOISE }
 image.src = challenge.imageUrl;
 image.width = challenge.width;
 image.height = challenge.height;
 
+// Sends the site key and the proof of work too; pass { behavior } from recordBehavior as well.
 const result = await captcha.verify(challenge.id, input.value);
 if (result.success) {
   // Send result.token to your server with the form.
@@ -107,28 +122,17 @@ const wau = new WauCaptchaServer({
 app.post("/signup", async (req, res) => {
   try {
     const result = await wau.verifyToken(req.body["wau-captcha-token"]);
-    if (!result.success) return res.status(400).send("Please solve the captcha.");
-    // result.behavior: { verdict, score, reasons }. Refuse scripted sessions where it matters.
-    if (result.behavior.verdict === BehaviorVerdict.SUSPICIOUS) return res.status(400).send("Please try again.");
+    // hostname is the website the captcha was solved on: compare it with yours.
+    if (!result.success || result.hostname !== "shop.example.com") return res.status(400).send("Please solve the captcha.");
+    // result.behavior: { verdict, score, reasons }. not_measured means no behaviour data was sent:
+    // untrusted. Decide about suspicious per form; for sign-up, accept human only.
+    if (result.behavior.verdict !== BehaviorVerdict.HUMAN) return res.status(400).send("Please try again.");
   } catch (error) {
     if (error.code === ErrorCode.SECRET_KEY_INVALID) console.error("Check WAU_SECRET_KEY");
     return res.status(503).send("Captcha check unavailable."); // fail closed
   }
   // … create the account
 });`;
-
-export const javaVerify = (baseUrl: string) => `WauCaptchaClient wau = WauCaptchaClient.builder()
-        .baseUrl("${baseUrl}")
-        .secretKey(System.getenv("WAU_SECRET_KEY"))
-        .build();
-
-try {
-    if (!wau.verifyToken(request.getParameter("wau-captcha-token")).success()) {
-        // reject the request
-    }
-} catch (WauCaptchaException e) {
-    // e.getCode(): SECRET_KEY_INVALID, NETWORK_ERROR, … — fail closed
-}`;
 
 export const restNewChallenge = (baseUrl: string) => `curl "${baseUrl}/challenge/new?site_key=pk_…&challenge_type=image_distort"
 
@@ -139,21 +143,31 @@ export const restNewChallenge = (baseUrl: string) => `curl "${baseUrl}/challenge
   "mime_type": "image/png",
   "width": 200,
   "height": 70,
-  "expires_in": 120
+  "expires_in": 120,
+  "pow_salt": "q2Jq0tbV1Wm9u3hS5bH0pA==",
+  "pow_difficulty": 15
 }`;
 
 export const restVerifyAnswer = (baseUrl: string) => `curl -X POST "${baseUrl}/challenge/verify" \\
   -H "Content-Type: application/json" \\
-  -d '{"challenge_id": "0f9c…", "answer": "a8Kq2", "behavior": { "version": 1, "elapsed_ms": 4210, … }}'
+  -d '{"challenge_id": "0f9c…", "answer": "a8Kq2", "site_key": "pk_…", "pow_nonce": "48213", "behavior": { "version": 1, "elapsed_ms": 4210, … }}'
 
 { "success": true, "token": "…", "expires_in": 120 }`;
 
-export const restSiteVerify = (baseUrl: string) => `curl -X POST "${baseUrl}/siteverify?token=$TOKEN" \\
-  -H "Authorization: Bearer $WAU_SECRET_KEY"
+export const restSiteVerify = (baseUrl: string) => `curl -X POST "${baseUrl}/siteverify" \\
+  -H "Authorization: Bearer $WAU_SECRET_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d "{\\"token\\": \\"$TOKEN\\"}"
 
 {
   "success": true,
   "challenge_type": "image_distort",
   "challenge_ts": "2026-09-23T08:15:02Z",
-  "behavior": { "verdict": "human", "score": 1, "reasons": [] }
+  "behavior": { "verdict": "human", "score": 1, "reasons": [] },
+  "hostname": "shop.example.com"
+}`;
+
+export const hostnameCheck = `const result = await wau.verifyToken(token);
+if (!result.success || result.hostname !== "shop.example.com") {
+  // Unknown token, or solved on another website: refuse the request.
 }`;

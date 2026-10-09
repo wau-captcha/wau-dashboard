@@ -51,7 +51,7 @@ const en = {
     title: "This key is suspended",
     admin: "An administrator suspended it. It can't create or verify captchas until the suspension is lifted.",
     scraping:
-      "It was suspended automatically: most captchas it requested today were never answered, which looks like scraping. Contact support to have it reviewed.",
+      "It was suspended automatically: it requested thousands of captchas today and almost none were answered, which looks like scraping. If it is a mistake, request a review below.",
     switchHint: "A suspended key can't be activated.",
   },
   guide: {
@@ -64,6 +64,7 @@ const en = {
     imageComment: "image is base64: use `data:${mime_type};base64,${image}` as the <img> src",
     verifyComment: "Browser: send the answer the user typed",
     tokenComment: "Send the token with your form when success is true",
+    sdkComment: "@wau-captcha/client also sends behaviour data and the proof of work; keys that require behaviour refuse answers without them",
     siteVerifyComment: "Your server: verify the one-time token",
   },
   notFound: {
@@ -125,7 +126,7 @@ const vi: Translation<typeof en> = {
     title: "Khóa này đang bị đình chỉ",
     admin: "Quản trị viên đã đình chỉ khóa này. Khóa không thể tạo hay xác minh captcha cho tới khi được gỡ đình chỉ.",
     scraping:
-      "Khóa bị đình chỉ tự động: phần lớn captcha khóa này yêu cầu hôm nay không hề được trả lời, dấu hiệu của việc cào dữ liệu. Hãy liên hệ hỗ trợ để được xem xét.",
+      "Khóa bị đình chỉ tự động: hôm nay khóa yêu cầu hàng nghìn captcha nhưng gần như không cái nào được trả lời, dấu hiệu của việc cào dữ liệu. Nếu đây là nhầm lẫn, hãy yêu cầu xem xét bên dưới.",
     switchHint: "Không thể kích hoạt khóa đang bị đình chỉ.",
   },
   guide: {
@@ -139,6 +140,7 @@ const vi: Translation<typeof en> = {
     imageComment: "image là base64: dùng `data:${mime_type};base64,${image}` làm src của <img>",
     verifyComment: "Trình duyệt: gửi đáp án người dùng nhập",
     tokenComment: "Gửi token kèm form của bạn khi success = true",
+    sdkComment: "@wau-captcha/client còn gửi dữ liệu hành vi và proof of work; khóa bắt buộc hành vi sẽ từ chối câu trả lời thiếu chúng",
     siteVerifyComment: "Máy chủ của bạn: xác minh token một lần",
   },
   notFound: {

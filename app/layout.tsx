@@ -3,6 +3,7 @@ import { Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { InlineScript } from "@/components/inline-script";
 import { Providers } from "@/components/providers";
 import { getI18n } from "@/lib/i18n/server";
+import { getNonce } from "@/lib/nonce";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -25,8 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  // The language comes from a cookie, so every route renders per request.
-  const { locale } = await getI18n();
+  // The language comes from a cookie, so every route renders per request, as the nonce of the
+  // Content-Security-Policy needs too.
+  const [{ locale }, nonce] = await Promise.all([getI18n(), getNonce()]);
 
   return (
     <html
@@ -36,7 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         {/* Sets the theme class before first paint, hence suppressHydrationWarning on <html>. */}
-        <InlineScript html={themeInitScript} />
+        <InlineScript html={themeInitScript} nonce={nonce} />
       </head>
       <body className="min-h-full flex flex-col">
         <Providers locale={locale}>

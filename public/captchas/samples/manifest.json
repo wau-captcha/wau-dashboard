@@ -1,0 +1,242 @@
+[
+  {
+    "file": "image_distort-01.png",
+    "type": "image_distort",
+    "answer": "R9Csx",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-02.png",
+    "type": "image_distort",
+    "answer": "NpNL3",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-03.png",
+    "type": "image_distort",
+    "answer": "LFz8B",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-04.png",
+    "type": "image_distort",
+    "answer": "aNv96",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-05.png",
+    "type": "image_distort",
+    "answer": "pT9cu",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-06.png",
+    "type": "image_distort",
+    "answer": "Dbc03",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-07.png",
+    "type": "image_distort",
+    "answer": "w7fJ5",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-08.png",
+    "type": "image_distort",
+    "answer": "tqpmQ",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-09.png",
+    "type": "image_distort",
+    "answer": "IHOva",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "image_distort-10.png",
+    "type": "image_distort",
+    "answer": "0lE3P",
+    "width": 200,
+    "height": 70
+  },
+  {
+    "file": "motion_noise-01.gif",
+    "type": "motion_noise",
+    "answer": "UDLES",
+    "width": 300,
+    "height": 150,
+    "poster": "motion_noise-01-frame.png"
+  },
+  {
+    "file": "motion_noise-02.gif",
+    "type": "motion_noise",
+    "answer": "NS9Z4",
+    "width": 300,
+    "height": 150,
+    "poster": "motion_noise-02-frame.png"
+  },
+  {
+    "file": "motion_noise-03.gif",
+    "type": "motion_noise",
+    "answer": "X3266",
+    "width": 300,
+    "height": 150,
+    "poster": "motion_noise-03-frame.png"
+  },
+  {
+    "file": "motion_noise-04.gif",
+    "type": "motion_noise",
+    "answer": "AGMWV",
+    "width": 300,
+    "height": 150,
+    "poster": "motion_noise-04-frame.png"
+  },
+  {
+    "file": "motion_noise-05.gif",
+    "type": "motion_noise",
+    "answer": "KYAJF",
+    "width": 300,
+    "height": 150,
+    "poster": "motion_noise-05-frame.png"
+  },
+  {
+    "file": "slide_puzzle-01.jpg",
+    "type": "slide_puzzle",
+    "answer": "240",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-01-piece.png",
+    "target_x": 240,
+    "piece_y": 20,
+    "piece_width": 50,
+    "piece_height": 62,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-02.jpg",
+    "type": "slide_puzzle",
+    "answer": "134",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-02-piece.png",
+    "target_x": 134,
+    "piece_y": 86,
+    "piece_width": 62,
+    "piece_height": 50,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-03.jpg",
+    "type": "slide_puzzle",
+    "answer": "117",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-03-piece.png",
+    "target_x": 117,
+    "piece_y": 70,
+    "piece_width": 72,
+    "piece_height": 50,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-04.jpg",
+    "type": "slide_puzzle",
+    "answer": "229",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-04-piece.png",
+    "target_x": 229,
+    "piece_y": 59,
+    "piece_width": 50,
+    "piece_height": 61,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-05.jpg",
+    "type": "slide_puzzle",
+    "answer": "224",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-05-piece.png",
+    "target_x": 224,
+    "piece_y": 6,
+    "piece_width": 50,
+    "piece_height": 62,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-06.jpg",
+    "type": "slide_puzzle",
+    "answer": "106",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-06-piece.png",
+    "target_x": 106,
+    "piece_y": 53,
+    "piece_width": 50,
+    "piece_height": 50,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-07.jpg",
+    "type": "slide_puzzle",
+    "answer": "173",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-07-piece.png",
+    "target_x": 173,
+    "piece_y": 61,
+    "piece_width": 72,
+    "piece_height": 73,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-08.jpg",
+    "type": "slide_puzzle",
+    "answer": "163",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-08-piece.png",
+    "target_x": 163,
+    "piece_y": 21,
+    "piece_width": 50,
+    "piece_height": 72,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-09.jpg",
+    "type": "slide_puzzle",
+    "answer": "110",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-09-piece.png",
+    "target_x": 110,
+    "piece_y": 52,
+    "piece_width": 62,
+    "piece_height": 50,
+    "tolerance_px": 4
+  },
+  {
+    "file": "slide_puzzle-10.jpg",
+    "type": "slide_puzzle",
+    "answer": "166",
+    "width": 300,
+    "height": 150,
+    "piece_file": "slide_puzzle-10-piece.png",
+    "target_x": 166,
+    "piece_y": 6,
+    "piece_width": 61,
+    "piece_height": 62,
+    "tolerance_px": 4
+  }
+]

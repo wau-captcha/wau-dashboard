@@ -5,6 +5,7 @@ import { TableOfContents } from "@/components/ui/table-of-contents";
 import { getI18n } from "@/lib/i18n/server";
 import { docsBaseUrl } from "../_components/base-url";
 import { IntegrationSections } from "./_components/integration-sections";
+import { BindingSections, LimitationsSection } from "./_components/protection-sections";
 import { ReferenceSections } from "./_components/reference-sections";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,11 +26,15 @@ export default async function DocsPage() {
     { id: "react", title: sections.react.title },
     { id: "client", title: sections.client.title },
     { id: "node", title: sections.node.title },
-    { id: "java", title: sections.java.title },
+    { id: "verify-package", title: sections.verifyPackage.title },
+    { id: "other-languages", title: sections.otherLanguages.title },
+    { id: "site-binding", title: sections.siteBinding.title },
+    { id: "sdk-versions", title: sections.sdkVersions.title },
     { id: "rest-api", title: sections.api.title },
     { id: "challenge-types", title: sections.challengeTypes.title },
     { id: "security", title: sections.security.title },
     { id: "errors", title: sections.errors.title },
+    { id: "limitations", title: sections.limitations.title },
   ];
 
   return (
@@ -46,7 +51,9 @@ export default async function DocsPage() {
       />
       <div className="grid min-w-0 gap-12 lg:col-start-2">
         <IntegrationSections text={sections} baseUrl={baseUrl} />
+        <BindingSections text={sections} />
         <ReferenceSections text={sections} baseUrl={baseUrl} />
+        <LimitationsSection text={sections} />
       </div>
     </div>
   );

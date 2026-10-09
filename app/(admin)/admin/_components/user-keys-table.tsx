@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { KeyStatusBadge } from "@/app/_components/key-status-badge";
 import { Button } from "@/components/ui/button";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { ConfirmDialog } from "@/components/ui/dialog";
@@ -46,27 +46,28 @@ export function UserKeysTable({ userId, keys }: { userId: string; keys: AdminApi
       cell: (key) =>
         key.is_suspended ? (
           <span className="grid gap-0.5">
-            <Badge tone="negative" dot className="w-fit">
-              {t.common.status.suspended}
-            </Badge>
+            <KeyStatusBadge apiKey={key} />
             <span className="text-overline text-muted-foreground">
               {key.suspend_reason === "SCRAPING" ? text.suspendedForScraping : text.suspendedByAdmin}
             </span>
           </span>
-        ) : key.is_active ? (
-          <Badge tone="positive" dot>
-            {t.common.status.active}
-          </Badge>
         ) : (
-          <Badge tone="warning" dot>
-            {t.common.status.paused}
-          </Badge>
+          <KeyStatusBadge apiKey={key} />
         ),
     },
     {
       id: "today",
       header: text.today,
-      cell: (key) => text.todayValue(format.number(key.challenges_today), format.number(key.verifications_today)),
+      cell: (key) => (
+        <span className="text-overline tabular-nums text-muted-foreground">
+          {t.appeals.today(
+            format.number(key.challenges_today),
+            format.number(key.verifications_today),
+            format.number(key.solved_today),
+            format.number(key.automated_today),
+          )}
+        </span>
+      ),
     },
     {
       id: "actions",
