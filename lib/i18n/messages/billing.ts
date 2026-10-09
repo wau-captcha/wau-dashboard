@@ -16,7 +16,7 @@ const en = {
     ends: "Ends",
     never: "No end date",
     quota: "Daily quota",
-    quotaValue: (count: string) => `${count} successful verifications a day`,
+    quotaValue: (count: string) => `${count} successful verifications a day, reset at 00:00 GMT+7 (17:00 UTC)`,
     endingSoon: (plan: string, date: string) =>
       `${plan} ends on ${date}. Renew it to keep its quota; otherwise the account goes back to Free.`,
   },
@@ -34,7 +34,7 @@ const en = {
     notSoldYearly: "Monthly only",
     rows: {
       quota: "Daily quota",
-      quotaHint: "Successful verifications, all keys together",
+      quotaHint: "Successful verifications, all keys together; resets at 00:00 GMT+7 (17:00 UTC)",
       quotaValue: (count: string) => `${count} a day`,
       types: "Challenge types",
       payment: "Payment",
@@ -99,7 +99,7 @@ const vi: Translation<typeof en> = {
     ends: "Hết hạn",
     never: "Không có ngày hết hạn",
     quota: "Hạn mức mỗi ngày",
-    quotaValue: (count: string) => `${count} lượt xác minh thành công mỗi ngày`,
+    quotaValue: (count: string) => `${count} lượt xác minh thành công mỗi ngày, đặt lại lúc 00:00 GMT+7 (17:00 UTC)`,
     endingSoon: (plan: string, date: string) =>
       `Gói ${plan} hết hạn ngày ${date}. Hãy gia hạn để giữ hạn mức; nếu không, tài khoản sẽ trở về gói Free.`,
   },
@@ -117,7 +117,7 @@ const vi: Translation<typeof en> = {
     notSoldYearly: "Chỉ bán theo tháng",
     rows: {
       quota: "Hạn mức mỗi ngày",
-      quotaHint: "Lượt xác minh thành công, cộng mọi khóa",
+      quotaHint: "Lượt xác minh thành công, cộng mọi khóa; đặt lại lúc 00:00 GMT+7 (17:00 UTC)",
       quotaValue: (count: string) => `${count} lượt/ngày`,
       types: "Loại challenge",
       payment: "Thanh toán",

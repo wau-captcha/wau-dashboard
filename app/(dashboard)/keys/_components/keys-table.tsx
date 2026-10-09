@@ -3,7 +3,7 @@
 import { Ellipsis, Eye, Pause, Play, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Badge } from "@/components/ui/badge";
+import { KeyStatusBadge } from "@/app/_components/key-status-badge";
 import { Button } from "@/components/ui/button";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
 import { ConfirmDialog } from "@/components/ui/dialog";
@@ -61,21 +61,8 @@ export function KeysTable({ keys }: { keys: ApiKey[] }) {
     {
       id: "status",
       header: text.columns.status,
-      accessor: (key) => (key.is_suspended ? 0 : key.is_active ? 2 : 1),
-      cell: (key) =>
-        key.is_suspended ? (
-          <Badge tone="negative" dot>
-            {t.common.status.suspended}
-          </Badge>
-        ) : key.is_active ? (
-          <Badge tone="positive" dot>
-            {t.common.status.active}
-          </Badge>
-        ) : (
-          <Badge tone="warning" dot>
-            {t.common.status.paused}
-          </Badge>
-        ),
+      accessor: (key) => (key.is_suspended ? 0 : key.scraping_flagged ? 1 : key.is_active ? 3 : 2),
+      cell: (key) => <KeyStatusBadge apiKey={key} />,
       sortable: true,
     },
     {

@@ -45,6 +45,9 @@ export default async function CaptchasPage() {
             </li>
           ))}
         </ul>
+        <Link href="/captchas/samples" className={buttonVariants({ variant: "link", className: "justify-self-start px-0" })}>
+          {t.captchas.samples.link}
+        </Link>
       </section>
 
       <section className="grid gap-6">

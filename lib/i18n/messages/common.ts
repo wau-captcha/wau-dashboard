@@ -21,6 +21,7 @@ const en = {
     active: "Active",
     paused: "Paused",
     suspended: "Suspended",
+    throttled: "Throttled",
     banned: "Banned",
   },
   loadError: {
@@ -51,6 +52,7 @@ const vi: Translation<typeof en> = {
     active: "Hoạt động",
     paused: "Tạm dừng",
     suspended: "Bị đình chỉ",
+    throttled: "Bị giới hạn",
     banned: "Đã khóa",
   },
   loadError: {

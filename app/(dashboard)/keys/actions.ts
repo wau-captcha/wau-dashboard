@@ -4,14 +4,16 @@ import { revalidatePath } from "next/cache";
 import { redirect, unstable_rethrow } from "next/navigation";
 import {
   createApiKey,
+  createAppeal,
   deleteApiKey,
   revokePreviousSecret,
   rotateSecretKey,
+  setAllowedDomains,
   setAllowedOrigins,
   updateApiKey,
 } from "@/lib/api/api-keys";
 import { errorMessage, toApiFailure } from "@/lib/api/errors";
-import type { AllowedOrigin } from "@/lib/api/types";
+import type { AllowedDomain, AllowedOrigin } from "@/lib/api/types";
 import { getCurrentUser } from "@/lib/dal";
 import { formFailure, type FormFeedback } from "@/lib/form-message";
 import { getI18n } from "@/lib/i18n/server";
@@ -22,6 +24,8 @@ export type KeyActionResult = { error?: string };
 
 /** A saved list comes back normalised by wau-services, so the table can show what was stored. */
 export type KeyOriginsResult = KeyActionResult & { origins?: AllowedOrigin[] };
+
+export type KeyDomainsResult = KeyActionResult & { domains?: AllowedDomain[] };
 
 /** Re-reads pages that show keys or usage after a change. */
 function refreshKeys(id?: string) {
@@ -49,10 +53,12 @@ export async function createKeyAction(_previous: KeyFormState, formData: FormDat
   await getCurrentUser();
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return { fieldErrors: { name: { kind: "keyNameRequired" } } };
+  // The first website, optional; wau-services checks and normalises it.
+  const domain = String(formData.get("domain") ?? "").trim();
 
   let id: string;
   try {
-    id = (await createApiKey(name)).id;
+    id = (await createApiKey(name, domain ? [domain] : [])).id;
   } catch (error) {
     unstable_rethrow(error);
     return formFailure(toApiFailure(error));
@@ -79,6 +85,31 @@ export async function renameKeyAction(id: string, name: string): Promise<KeyForm
 
 export async function setKeyActiveAction(id: string, isActive: boolean): Promise<KeyActionResult> {
   return mutate(id, () => updateApiKey(id, { isActive }));
+}
+
+export async function setRequireBehaviorAction(id: string, requireBehavior: boolean): Promise<KeyActionResult> {
+  return mutate(id, () => updateApiKey(id, { requireBehavior: requireBehavior === true }));
+}
+
+/** Saves the whole list at once; wau-services checks the domains and normalises them. */
+export async function setAllowedDomainsAction(id: string, domains: string[]): Promise<KeyDomainsResult> {
+  await getCurrentUser();
+  const { t } = await getI18n();
+  if (!Array.isArray(domains) || !domains.every((domain) => typeof domain === "string")) return { error: t.errors.generic };
+
+  let saved: AllowedDomain[];
+  try {
+    saved = (await setAllowedDomains(id, domains)).allowed_domains ?? [];
+  } catch (error) {
+    unstable_rethrow(error);
+    return { error: errorMessage(error, t.errors) };
+  }
+  refreshKeys(id);
+  return { domains: saved };
+}
+
+export async function createAppealAction(id: string, message: string): Promise<KeyActionResult> {
+  return mutate(id, () => createAppeal(id, String(message ?? "")));
 }
 
 /** Saves the whole table at once; wau-services checks the addresses and normalises them. */

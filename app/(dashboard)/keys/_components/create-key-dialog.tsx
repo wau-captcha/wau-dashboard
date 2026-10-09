@@ -54,6 +54,9 @@ export function CreateKeyDialog({ disabled, limit }: { disabled: boolean; limit:
           <Field label={text.name} error={say(state.fieldErrors?.name)} required>
             <TextInput name="name" placeholder="shop.example.com" maxLength={64} required autoFocus />
           </Field>
+          <Field label={text.domain} description={text.domainHint} error={say(state.fieldErrors?.allowed_domains)}>
+            <TextInput name="domain" placeholder="shop.example.com" maxLength={260} inputClassName="font-mono" />
+          </Field>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)} disabled={pending}>
               {text.cancel}

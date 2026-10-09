@@ -25,6 +25,32 @@ export function captchaBySlug(slug: string): CaptchaInfo | undefined {
   return CAPTCHAS.find((captcha) => captcha.slug === slug);
 }
 
+/**
+ * Where the benchmark set lives: real challenges written by cmd/samples of wau-services, with a
+ * manifest.json of their answers. Regenerate it whenever a generator changes:
+ *   go run ./cmd/samples -out ../../../wau-dashboard/public/captchas/samples   (in services/challenge)
+ */
+export const SAMPLES_DIR = "/captchas/samples";
+
+/** One entry of samples/manifest.json; file names are relative to SAMPLES_DIR. */
+export type CaptchaSample = {
+  file: string;
+  type: CaptchaTypeId;
+  /** The characters, or for slide_puzzle the x the piece must end at. */
+  answer: string;
+  width: number;
+  height: number;
+  /** motion_noise: the first frame, on its own only noise. */
+  poster?: string;
+  /** slide_puzzle: the piece, where it sits and how close to target_x it must end. */
+  piece_file?: string;
+  target_x?: number;
+  piece_y?: number;
+  piece_width?: number;
+  piece_height?: number;
+  tolerance_px?: number;
+};
+
 export const SAMPLES = {
   imageDistort: ["/captchas/image-distort-1.png", "/captchas/image-distort-2.png"],
   /** One frame of the animation: on its own, only noise. */

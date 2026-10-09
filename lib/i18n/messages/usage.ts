@@ -60,10 +60,10 @@ const en = {
   quota: {
     title: "Daily verifications",
     resetsIn: (hours: number, minutes: number) =>
-      hours > 0 ? `Resets in ${hours} hr ${minutes} min` : `Resets in ${minutes} min`,
+      `Resets at 00:00 GMT+7 (17:00 UTC), in ${hours > 0 ? `${hours} hr ${minutes} min` : `${minutes} min`}`,
     used: (percent: string) => `${percent} used`,
     count: (used: string, limit: string) => `${used} of ${limit} successful verifications today`,
-    full: "Today's quota is used up: new captchas are refused until the reset.",
+    full: "Today's quota is used up: new captchas are refused until it resets at 00:00 GMT+7 (17:00 UTC).",
     upgrade: "Upgrade plan",
   },
   summary: {
@@ -134,10 +134,10 @@ const vi: Translation<typeof en> = {
   quota: {
     title: "Lượt xác minh hôm nay",
     resetsIn: (hours: number, minutes: number) =>
-      hours > 0 ? `Đặt lại sau ${hours} giờ ${minutes} phút` : `Đặt lại sau ${minutes} phút`,
+      `Đặt lại lúc 00:00 GMT+7 (17:00 UTC), sau ${hours > 0 ? `${hours} giờ ${minutes} phút` : `${minutes} phút`}`,
     used: (percent: string) => `Đã dùng ${percent}`,
     count: (used: string, limit: string) => `${used}/${limit} lượt xác minh thành công hôm nay`,
-    full: "Đã dùng hết quota hôm nay: captcha mới sẽ bị từ chối cho tới khi đặt lại.",
+    full: "Đã dùng hết quota hôm nay: captcha mới sẽ bị từ chối cho tới khi đặt lại lúc 00:00 GMT+7 (17:00 UTC).",
     upgrade: "Nâng cấp gói",
   },
   summary: {

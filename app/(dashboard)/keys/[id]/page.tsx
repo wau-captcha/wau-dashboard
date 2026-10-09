@@ -2,25 +2,27 @@ import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Alert } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DescriptionList } from "@/components/ui/description-list";
 import { PageHeader } from "@/components/ui/page-header";
 import { SecretValue } from "@/components/ui/secret-value";
-import { getApiKey } from "@/lib/api/api-keys";
+import { getApiKey, listApiKeyEvents } from "@/lib/api/api-keys";
 import { ApiError } from "@/lib/api/client";
 import type { ApiKey } from "@/lib/api/types";
 import { getUsage } from "@/lib/api/usage";
 import { getI18n } from "@/lib/i18n/server";
 import { keyDisplayName } from "@/lib/key-name";
 import { parseRange } from "@/lib/usage-view";
+import { KeyStatusBadge } from "@/app/_components/key-status-badge";
 import { RangeTabs } from "@/app/_components/range-tabs";
 import { UsageByKeyChart, UsageByTypeChart } from "@/app/_components/usage-charts";
 import { UsageStatCards } from "@/app/_components/usage-stats";
 import { UsageSummary } from "@/app/_components/usage-summary";
+import { AllowedDomains } from "./_components/allowed-domains";
 import { AllowedOrigins } from "./_components/allowed-origins";
+import { KeyActivity } from "./_components/key-activity";
+import { KeyReview } from "./_components/key-review";
 import { KeySettings } from "./_components/key-settings";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -51,7 +53,7 @@ export default async function KeyDetailPage({
 
   const range = parseRange((await searchParams).days);
   const [{ t, format }, apiKey] = await Promise.all([getI18n(), loadKey(id)]);
-  const usage = await getUsage({ apiKeyId: id, range });
+  const [usage, events] = await Promise.all([getUsage({ apiKeyId: id, range }), listApiKeyEvents(id)]);
   const text = t.keyDetail;
 
   return (
@@ -65,26 +67,10 @@ export default async function KeyDetailPage({
           </Link>
         }
       >
-        {apiKey.is_suspended ? (
-          <Badge tone="negative" dot>
-            {t.common.status.suspended}
-          </Badge>
-        ) : apiKey.is_active ? (
-          <Badge tone="positive" dot>
-            {t.common.status.active}
-          </Badge>
-        ) : (
-          <Badge tone="warning" dot>
-            {t.common.status.paused}
-          </Badge>
-        )}
+        <KeyStatusBadge apiKey={apiKey} />
       </PageHeader>
 
-      {apiKey.is_suspended && (
-        <Alert tone="negative" title={text.suspended.title}>
-          {apiKey.suspend_reason === "SCRAPING" ? text.suspended.scraping : text.suspended.admin}
-        </Alert>
-      )}
+      <KeyReview apiKey={apiKey} />
 
       <Card>
         <CardHeader>
@@ -104,6 +90,8 @@ export default async function KeyDetailPage({
 
       <KeySettings apiKey={apiKey} />
 
+      <AllowedDomains apiKey={apiKey} />
+
       <AllowedOrigins apiKey={apiKey} />
 
       <div className="grid gap-6">
@@ -114,6 +102,8 @@ export default async function KeyDetailPage({
         <UsageByKeyChart usage={usage} range={range} keys={[apiKey]} />
         <UsageByTypeChart usage={usage} range={range} />
       </div>
+
+      <KeyActivity events={events} />
     </>
   );
 }

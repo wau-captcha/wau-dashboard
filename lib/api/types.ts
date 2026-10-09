@@ -53,6 +53,56 @@ export type ApiKey = {
   previous_secret_key?: string;
   previous_secret_key_expires_at?: string;
   suspend_reason: SuspendReason;
+  /** Websites allowed to use the site key; empty lets any website. GetApiKey and SetAllowedDomains fill it. */
+  allowed_domains?: AllowedDomain[];
+  /** Answers sent without behaviour data are refused with BEHAVIOR_REQUIRED. */
+  require_behavior?: boolean;
+  /** The scraping check flagged the key today: it is throttled until the day ends. */
+  scraping_flagged?: boolean;
+  scraping_flagged_at?: string | null;
+  /** Today's counters of the scraping check. Only GetApiKey fills them, and not when Redis failed. */
+  today?: KeyCounters | null;
+  /** The latest review asked for the key. Only GetApiKey fills it. */
+  latest_appeal?: ApiKeyAppeal | null;
+};
+
+/** One website allowed to use a site key: "shop.example.com", "*.example.com", "localhost:3000". */
+export type AllowedDomain = {
+  domain: string;
+  /** Missing on a row that has not been saved yet. */
+  create_date?: string;
+};
+
+/** What the scraping check of a key counted today. */
+export type KeyCounters = {
+  challenges: number;
+  answers: number;
+  solved: number;
+  automated: number;
+};
+
+export type AppealStatus = "pending" | "approved" | "rejected";
+
+/** A review an owner asked for, of a suspended or flagged key. */
+export type ApiKeyAppeal = {
+  id: string;
+  status: AppealStatus;
+  message: string;
+  /** What the administrator answered; empty while pending. */
+  admin_note: string;
+  create_date: string;
+  decided_at?: string | null;
+};
+
+/** One entry of the activity log of a key. */
+export type ApiKeyEvent = {
+  /** int64, as a string. */
+  id: string;
+  actor: "user" | "admin" | "system";
+  action: string;
+  /** What changed, e.g. {"from": "Shop", "to": "Store"}; never a secret key. */
+  detail: Record<string, unknown> | null;
+  create_date: string;
 };
 
 /** Why a key is suspended; empty when it is not. */
@@ -156,6 +206,19 @@ export type AdminApiKey = {
   create_date: string;
   challenges_today: number;
   verifications_today: number;
+  /** The scraping check flagged the key today and throttles it. */
+  scraping_flagged: boolean;
+  solved_today: number;
+  automated_today: number;
+};
+
+/** An appeal with its key and owner, as the admin console lists it. */
+export type AdminAppeal = Omit<ApiKeyAppeal, "id"> & {
+  id: string;
+  api_key: AdminApiKey;
+  user_id: string;
+  user_email: string;
+  user_name: string;
 };
 
 export type ChallengeType = {

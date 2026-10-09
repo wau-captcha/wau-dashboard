@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { unstable_rethrow } from "next/navigation";
-import { setApiKeySuspended, setUserBanned } from "@/lib/api/admin";
+import { decideAppeal, setApiKeySuspended, setUserBanned } from "@/lib/api/admin";
 import { errorMessage } from "@/lib/api/errors";
 import { getCurrentAdmin } from "@/lib/dal";
 import { getI18n } from "@/lib/i18n/server";
@@ -32,6 +32,13 @@ async function run(valid: boolean, paths: string[], change: () => Promise<unknow
 export async function setUserBannedAction(userId: string, banned: boolean): Promise<AdminActionResult> {
   return run(typeof userId === "string" && typeof banned === "boolean", ["/admin", "/admin/users", `/admin/users/${userId}`], () =>
     setUserBanned(userId, banned),
+  );
+}
+
+/** Approves or rejects a pending appeal; the key it is about changes on approval. */
+export async function decideAppealAction(appealId: string, approve: boolean, note: string): Promise<AdminActionResult> {
+  return run(typeof appealId === "string" && typeof approve === "boolean" && typeof note === "string", ["/admin", "/admin/appeals"], () =>
+    decideAppeal(appealId, approve, note),
   );
 }
 

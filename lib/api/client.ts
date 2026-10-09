@@ -53,10 +53,15 @@ export type ApiFetchOptions = {
    * to the caller rather than signing the browser out.
    */
   token?: string;
+  /**
+   * Seconds the reply may be reused for, by every visitor, for public data such as the plans;
+   * leave it out for anything tied to a session, which is never cached.
+   */
+  revalidate?: number;
 };
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
-  const { method = "GET", body, auth = true, session = "user", token } = options;
+  const { method = "GET", body, auth = true, session = "user", token, revalidate } = options;
   const variable = serviceFor(path);
   const base = serviceUrl(variable);
   const requestHeaders = new Headers({ Accept: "application/json" });
@@ -76,7 +81,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
       method,
       headers: requestHeaders,
       body: body === undefined ? undefined : JSON.stringify(body),
-      cache: "no-store",
+      ...(revalidate === undefined || bearer ? { cache: "no-store" as const } : { next: { revalidate } }),
       // Tenant and billing answer every /v1 call themselves; a redirect means this is another server.
       redirect: "manual",
     });

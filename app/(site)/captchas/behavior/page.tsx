@@ -74,6 +74,14 @@ export default async function BehaviorPage() {
         <Alert tone="neutral">{text.notMeasuredBody}</Alert>
       </section>
 
+      <section id="what-we-collect" className="grid gap-3">
+        <SubHeading>{text.collectTitle}</SubHeading>
+        <Prose>{text.collect}</Prose>
+        <Link href="/legal/privacy" className={buttonVariants({ variant: "link", className: "justify-self-start px-0" })}>
+          {text.privacyLink}
+        </Link>
+      </section>
+
       <div className="flex flex-wrap gap-3 border-t border-border pt-6">
         <Link href="/docs#security" className={buttonVariants()}>
           {t.captchas.index.docs}

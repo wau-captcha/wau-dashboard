@@ -32,6 +32,21 @@ const en = {
     docs: "Read the docs",
     start: "Get an API key",
   },
+  samples: {
+    metaTitle: "Sample challenges",
+    metaDescription: "Real WAU Captcha challenges from the production generators, with their answers, for benchmarking.",
+    title: "Sample challenges",
+    description:
+      "Real output of the generators behind /challenge/new, each with its answer, to test a solver, an accessibility tool or your own integration against.",
+    live: "Live challenges are generated fresh for every request, and each one can be answered once: a sample says nothing about the next challenge.",
+    download: "Download the manifest: file names, answers and, for slide_puzzle, the target and its tolerance",
+    answer: (answer: string) => `Answer: ${answer}`,
+    target: (x: string, tolerance: string) => `The piece ends at x = ${x} px, within ${tolerance} px`,
+    play: "Play (3 MB)",
+    alt: (type: string, index: string) => `${type}, sample ${index}`,
+    playing: (type: string, index: string) => `${type}, sample ${index}, playing`,
+    link: "Sample challenges with their answers",
+  },
   overview: {
     title: "Captchas",
     description: "The challenges your keys can ask for, and the behaviour check behind every one.",
@@ -72,6 +87,21 @@ const vi: Translation<typeof en> = {
     startBody: "Tạo khóa API, gắn widget hoặc <WauCaptcha />, rồi đổi token trên máy chủ của bạn.",
     docs: "Đọc tài liệu",
     start: "Lấy khóa API",
+  },
+  samples: {
+    metaTitle: "Challenge mẫu",
+    metaDescription: "Challenge thật của WAU Captcha do bộ sinh đang chạy tạo ra, kèm đáp án, để đo đạc và kiểm thử.",
+    title: "Challenge mẫu",
+    description:
+      "Kết quả thật của các bộ sinh đứng sau /challenge/new, mỗi mẫu kèm đáp án, để thử một bộ giải, một công cụ hỗ trợ tiếp cận hay chính phần tích hợp của bạn.",
+    live: "Challenge thật được sinh mới cho mỗi yêu cầu, và mỗi challenge chỉ trả lời được một lần: một mẫu không nói gì về challenge tiếp theo.",
+    download: "Tải manifest: tên tệp, đáp án và, với slide_puzzle, vị trí đích cùng sai số cho phép",
+    answer: (answer) => `Đáp án: ${answer}`,
+    target: (x, tolerance) => `Mảnh ghép dừng ở x = ${x} px, sai lệch tối đa ${tolerance} px`,
+    play: "Phát (3 MB)",
+    alt: (type, index) => `${type}, mẫu ${index}`,
+    playing: (type, index) => `${type}, mẫu ${index}, đang phát`,
+    link: "Challenge mẫu kèm đáp án",
   },
   overview: {
     title: "Captcha",

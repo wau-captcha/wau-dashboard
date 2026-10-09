@@ -21,11 +21,18 @@ const en = {
     TRANSACTION_NOT_FOUND: "Payment not found.",
     SERVICES_MISCONFIGURED: "This dashboard is not pointed at wau-services. Check WAU_TENANT_URL and WAU_BILLING_URL in its environment.",
     INTERNAL: "Something went wrong on our side. Please try again.",
+    APPEAL_NOT_ALLOWED: "Only a suspended key, or one throttled today, can be reviewed.",
+    APPEAL_PENDING: "A review of this key is already waiting for an administrator.",
+    APPEAL_NOT_FOUND: "This appeal doesn't exist or was decided already.",
   },
   fields: {
     name: "Key names need 1 to 64 characters.",
     ip_address: "Each source is an IPv4 or IPv6 address, with an optional prefix length: 203.0.113.4 or 203.0.113.0/24.",
     description: "A description may be at most 100 characters.",
+    allowed_domains:
+      "Each domain is a host name such as shop.example.com or *.example.com, without https:// or a path; only localhost may name a port. At most 50.",
+    message: "The message needs 1 to 2,000 characters.",
+    note: "The note may be at most 2,000 characters.",
   },
   generic: "Something went wrong. Please try again.",
 };
@@ -50,11 +57,18 @@ const vi: Translation<typeof en> = {
     TRANSACTION_NOT_FOUND: "Không tìm thấy giao dịch.",
     SERVICES_MISCONFIGURED: "Dashboard chưa trỏ tới wau-services. Hãy kiểm tra biến WAU_TENANT_URL và WAU_BILLING_URL.",
     INTERNAL: "Hệ thống gặp sự cố, vui lòng thử lại.",
+    APPEAL_NOT_ALLOWED: "Chỉ khóa đang bị đình chỉ, hoặc bị giới hạn hôm nay, mới yêu cầu xem xét được.",
+    APPEAL_PENDING: "Khóa này đã có một yêu cầu xem xét đang chờ quản trị viên.",
+    APPEAL_NOT_FOUND: "Yêu cầu này không tồn tại hoặc đã được xử lý.",
   },
   fields: {
     name: "Tên khóa phải có từ 1 đến 64 ký tự.",
     ip_address: "Mỗi nguồn là một địa chỉ IPv4 hoặc IPv6, kèm độ dài prefix nếu cần: 203.0.113.4 hoặc 203.0.113.0/24.",
     description: "Mô tả dài tối đa 100 ký tự.",
+    allowed_domains:
+      "Mỗi tên miền là một host như shop.example.com hoặc *.example.com, không có https:// hay đường dẫn; chỉ localhost được kèm cổng. Tối đa 50.",
+    message: "Lời nhắn cần từ 1 đến 2.000 ký tự.",
+    note: "Ghi chú dài tối đa 2.000 ký tự.",
   },
   generic: "Đã có lỗi xảy ra, vui lòng thử lại.",
 };

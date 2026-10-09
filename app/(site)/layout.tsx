@@ -11,13 +11,37 @@ import { getI18n } from "@/lib/i18n/server";
 import { DashboardHeader } from "@/app/_components/dashboard-header";
 
 /**
- * Public pages: the home page, the captcha pages and the docs. Anyone may read them. A signed-in visitor keeps the
- * dashboard header, so opening the docs does not look like signing out.
+ * Public pages: the home page, the captcha pages, pricing, the docs and the pages about the
+ * service (legal, status, about, security, changelog). Anyone may read them. A signed-in
+ * visitor keeps the dashboard header, so opening the docs does not look like signing out.
  */
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   // If wau-services is down the pages still render, just with the sign-in button.
   const [{ t }, user] = await Promise.all([getI18n(), getOptionalUser().catch(() => null)]);
   const nav = t.site.nav;
+  const footer = t.site.footer;
+  const footerNavs = [
+    {
+      label: footer.product,
+      links: [
+        { href: "/captchas", label: t.captchas.nav },
+        { href: "/pricing", label: nav.pricing },
+        { href: "/docs", label: nav.docs },
+        { href: "/changelog", label: footer.changelog },
+        { href: "/status", label: footer.status },
+        { href: "/overview", label: nav.dashboard },
+      ],
+    },
+    {
+      label: footer.company,
+      links: [
+        { href: "/about", label: footer.about },
+        { href: "/security", label: footer.security },
+        { href: "/legal/privacy", label: footer.privacy },
+        { href: "/legal/terms", label: footer.terms },
+      ],
+    },
+  ];
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -33,6 +57,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
                 {nav.home}
               </NavLink>
               <NavLink href="/captchas">{t.captchas.nav}</NavLink>
+              <NavLink href="/pricing">{nav.pricing}</NavLink>
               <NavLink href="/docs">{nav.docs}</NavLink>
               {/* On phones the bar has no room for the button below, so the menu offers it. */}
               <NavLink href="/login" className="sm:hidden">
@@ -55,23 +80,22 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       )}
       <main className="flex-1">{children}</main>
       <footer className="border-t border-border">
-        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-body text-muted-foreground sm:px-6">
-          <div className="grid gap-1">
+        <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-8 text-body text-muted-foreground sm:grid-cols-2 sm:px-6 md:grid-cols-[minmax(0,1fr)_auto_auto] md:gap-x-16">
+          <div className="grid content-start gap-1 sm:col-span-2 md:col-span-1">
             <Logo />
-            <p>{t.site.footer.tagline}</p>
+            <p>{footer.tagline}</p>
           </div>
-          <nav aria-label={t.site.footer.product} className="flex flex-wrap gap-4">
-            <Link href="/captchas" className="hover:text-foreground">
-              {t.captchas.nav}
-            </Link>
-            <Link href="/docs" className="hover:text-foreground">
-              {nav.docs}
-            </Link>
-            <Link href="/overview" className="hover:text-foreground">
-              {nav.dashboard}
-            </Link>
-          </nav>
-          <p className="w-full text-overline">{t.site.footer.rights(new Date().getFullYear())}</p>
+          {footerNavs.map((group) => (
+            <nav key={group.label} aria-label={group.label} className="grid content-start gap-2">
+              <p className="text-overline font-medium uppercase tracking-wide text-foreground">{group.label}</p>
+              {group.links.map((link) => (
+                <Link key={link.href} href={link.href} className="justify-self-start hover:text-foreground">
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          ))}
+          <p className="text-overline sm:col-span-2 md:col-span-3">{footer.rights(new Date().getFullYear())}</p>
         </div>
       </footer>
     </div>

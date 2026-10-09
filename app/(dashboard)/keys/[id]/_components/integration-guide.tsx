@@ -26,14 +26,17 @@ const { challenge_id, challenge_type, image, mime_type } = await response.json()
 const response = await fetch("${baseUrl}/challenge/verify", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ challenge_id, answer }),
+  body: JSON.stringify({ challenge_id, answer, site_key: "${siteKey}" }),
 });
 const { success, token } = await response.json();
-// ${text.tokenComment}`;
+// ${text.tokenComment}
+// ${text.sdkComment}`;
 
   const siteVerify = `# ${text.siteVerifyComment}
-curl -X POST "${baseUrl}/siteverify?token=$TOKEN" \\
-  -H "Authorization: Bearer $WAU_SECRET_KEY"
+curl -X POST "${baseUrl}/siteverify" \\
+  -H "Authorization: Bearer $WAU_SECRET_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d "{\\"token\\": \\"$TOKEN\\"}"
 
 # {"success": true, "challenge_type": "image_distort", ...}`;
 

@@ -5,17 +5,25 @@ const en = {
     label: "Site navigation",
     home: "Home",
     docs: "Docs",
+    pricing: "Pricing",
     dashboard: "Dashboard",
     signIn: "Sign in",
   },
   footer: {
     tagline: "Human checks for your forms and APIs.",
     product: "Product",
+    company: "Company",
+    changelog: "Changelog",
+    status: "Status",
+    about: "About",
+    security: "Security",
+    privacy: "Privacy",
+    terms: "Terms",
     rights: (year: number) => `© ${year} WAU Captcha`,
   },
   landing: {
     metaTitle: "Captcha that keeps bots out",
-    metaDescription: "WAU Captcha adds a human check to sign-ups, logins and APIs, with SDKs for JavaScript and Java.",
+    metaDescription: "WAU Captcha adds a human check to sign-ups, logins and APIs, with SDKs for the browser, React and Node.js.",
     eyebrow: "Captcha as a service",
     title: "Keep bots out. Let people through.",
     description:
@@ -41,10 +49,11 @@ const en = {
     },
     challenges: {
       title: "Three kinds of challenge",
-      description: "Pick per request. All three are generated fresh every time, so there is nothing to collect and replay.",
+      description:
+        "Pick per request. All three are generated fresh every time, so there is nothing to collect and replay. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
       imageDistort: {
         name: "Distorted text",
-        body: "Five characters, rotated, warped, crossed with curves and speckled with noise. Quick for people, costly for OCR.",
+        body: "Five characters, each turned, slanted and bent, crossed by thin strokes in the colours of the text. Quick for people, and a hurdle for generic OCR.",
       },
       motionNoise: {
         name: "Moving dots",
@@ -58,12 +67,12 @@ const en = {
     features: {
       title: "Built for production",
       items: [
-        { title: "One-time tokens", body: "Signed, short-lived, and tied to one API key, so a token cannot be reused or taken to another site." },
-        { title: "Allowed IP addresses", body: "Limit a key to the addresses and networks you list; everything else is refused." },
+        { title: "One-time tokens", body: "Signed, short-lived, and tied to one API key and the website it was solved on, so a token cannot be reused or taken to another site." },
+        { title: "Allowed domains and addresses", body: "Bind a key to your websites, and if you like to IP networks; other websites cannot use it in their visitors' browsers." },
         { title: "Secret key rotation", body: "Reset a secret without downtime: the previous one keeps working for 24 hours, or until you revoke it." },
-        { title: "Scraping protection", body: "Keys that collect challenges without answering them are suspended automatically." },
-        { title: "Usage and quotas", body: "Daily charts per key and per challenge type, and a quota meter for your plan." },
-        { title: "SDKs", body: "A browser widget and client, a React component, plus server SDKs for Node.js and Java." },
+        { title: "Scraping protection", body: "Keys that collect challenges without answering them are throttled for the day, and suspended only when the pattern is unmistakable; owners can ask for a review." },
+        { title: "Usage and quotas", body: "Daily charts per key and per challenge type, and a meter of your plan's daily quota, which resets at 00:00 GMT+7 (17:00 UTC)." },
+        { title: "SDKs", body: "A browser widget and client, a React component and a Node.js server SDK; any other backend calls /siteverify directly." },
       ],
     },
     sdks: {
@@ -72,7 +81,6 @@ const en = {
       browser: "Browser",
       react: "React",
       node: "Node.js",
-      java: "Java",
     },
     cta: {
       title: "Protect your first form today",
@@ -87,17 +95,25 @@ const vi: Translation<typeof en> = {
     label: "Điều hướng trang",
     home: "Trang chủ",
     docs: "Tài liệu",
+    pricing: "Bảng giá",
     dashboard: "Bảng điều khiển",
     signIn: "Đăng nhập",
   },
   footer: {
     tagline: "Kiểm tra con người cho form và API của bạn.",
     product: "Sản phẩm",
+    company: "Về chúng tôi",
+    changelog: "Nhật ký thay đổi",
+    status: "Trạng thái",
+    about: "Giới thiệu",
+    security: "Bảo mật",
+    privacy: "Quyền riêng tư",
+    terms: "Điều khoản",
     rights: (year) => `© ${year} WAU Captcha`,
   },
   landing: {
     metaTitle: "Captcha chặn bot",
-    metaDescription: "WAU Captcha thêm bước kiểm tra con người cho đăng ký, đăng nhập và API, kèm SDK cho JavaScript và Java.",
+    metaDescription: "WAU Captcha thêm bước kiểm tra con người cho đăng ký, đăng nhập và API, kèm SDK cho trình duyệt, React và Node.js.",
     eyebrow: "Captcha dạng dịch vụ",
     title: "Chặn bot. Mở cửa cho người thật.",
     description:
@@ -123,10 +139,11 @@ const vi: Translation<typeof en> = {
     },
     challenges: {
       title: "Ba loại challenge",
-      description: "Chọn theo từng lần gọi. Cả ba đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại.",
+      description:
+        "Chọn theo từng lần gọi. Cả ba đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
       imageDistort: {
         name: "Chữ méo",
-        body: "Năm ký tự bị xoay, bẻ cong, gạch đường cong và rắc nhiễu. Nhanh với người, tốn công với OCR.",
+        body: "Năm ký tự, mỗi ký tự xoay, nghiêng và uốn khác nhau, bị các nét mảnh cùng màu chữ cắt ngang. Nhanh với người, và là rào cản với OCR thông thường.",
       },
       motionNoise: {
         name: "Chấm chuyển động",
@@ -140,12 +157,12 @@ const vi: Translation<typeof en> = {
     features: {
       title: "Sẵn sàng cho môi trường thật",
       items: [
-        { title: "Token dùng một lần", body: "Có chữ ký, sống ngắn và gắn với một khóa API, nên không thể dùng lại hay mang sang trang khác." },
-        { title: "Địa chỉ IP được phép", body: "Giới hạn khóa trong các địa chỉ và dải mạng bạn liệt kê; mọi địa chỉ khác bị từ chối." },
+        { title: "Token dùng một lần", body: "Có chữ ký, sống ngắn, gắn với một khóa API và website nơi challenge được giải, nên không thể dùng lại hay mang sang trang khác." },
+        { title: "Tên miền và địa chỉ được phép", body: "Gắn khóa với website của bạn, và nếu muốn, với các dải IP; website khác không dùng được khóa trong trình duyệt của khách truy cập." },
         { title: "Xoay secret key", body: "Đặt lại secret không gián đoạn: secret cũ vẫn dùng được 24 giờ, hoặc tới khi bạn thu hồi." },
-        { title: "Chống cào dữ liệu", body: "Khóa nào lấy challenge mà không trả lời sẽ tự động bị đình chỉ." },
-        { title: "Lượt dùng và hạn mức", body: "Biểu đồ theo ngày cho từng khóa và từng loại challenge, kèm thanh hạn mức của gói." },
-        { title: "SDK", body: "Widget và client cho trình duyệt, component React, cùng SDK máy chủ cho Node.js và Java." },
+        { title: "Chống cào dữ liệu", body: "Khóa nào lấy challenge mà không trả lời sẽ bị giới hạn trong ngày, và chỉ bị đình chỉ khi dấu hiệu quá rõ ràng; chủ khóa có thể yêu cầu xem xét." },
+        { title: "Lượt dùng và hạn mức", body: "Biểu đồ theo ngày cho từng khóa và từng loại challenge, kèm thanh hạn mức mỗi ngày của gói, đặt lại lúc 00:00 GMT+7 (17:00 UTC)." },
+        { title: "SDK", body: "Widget và client cho trình duyệt, component React và SDK máy chủ cho Node.js; mọi backend khác gọi thẳng /siteverify." },
       ],
     },
     sdks: {
@@ -154,7 +171,6 @@ const vi: Translation<typeof en> = {
       browser: "Trình duyệt",
       react: "React",
       node: "Node.js",
-      java: "Java",
     },
     cta: {
       title: "Bảo vệ form đầu tiên ngay hôm nay",
