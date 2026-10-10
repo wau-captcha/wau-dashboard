@@ -25,6 +25,7 @@ const challengeCards = [
   { id: "image_distort", description: "Ảnh chữ bị bóp méo, xoay và nhiễu. Nhẹ, phù hợp mọi trang.", tier: "Free" },
   { id: "motion_noise", description: "GIF lặp lại, chữ chỉ hiện ra nhờ chuyển động của các chấm.", tier: "Premium" },
   { id: "slide_puzzle", description: "Kéo mảnh ghép vào đúng vị trí trên ảnh nền.", tier: "Premium" },
+  { id: "animal_jump", description: "Bấm vào con vật nhảy cao nhất, qua hai lượt.", tier: "Free" },
 ];
 
 export async function DisplaySection() {

@@ -38,7 +38,8 @@ curl -X POST "${baseUrl}/siteverify" \\
   -H "Content-Type: application/json" \\
   -d "{\\"token\\": \\"$TOKEN\\"}"
 
-# {"success": true, "challenge_type": "image_distort", ...}`;
+# {"success": true, "challenge_type": "image_distort", ...}
+# ${text.serverSdkComment}`;
 
   return (
     <Card>

@@ -6,6 +6,7 @@ import { Alert } from "@/components/ui/alert";
 import { AnimatedImage } from "@/components/ui/animated-image";
 import { buttonVariants } from "@/components/ui/button";
 import { Figure } from "@/components/ui/figure";
+import { JumpPreview } from "@/components/ui/jump-preview";
 import { SlidePreview } from "@/components/ui/slide-preview";
 import { CAPTCHAS, SAMPLES_DIR, type CaptchaSample } from "@/lib/captchas";
 import { challengeTypeLabel } from "@/lib/challenge-types";
@@ -57,6 +58,35 @@ export default async function SamplesPage() {
               {ofType.map((sample, index) => {
                 const number = format.number(index + 1);
                 const alt = text.alt(label, number);
+                if (sample.type === "animal_jump" && sample.second_file && sample.poster) {
+                  const targets = (sample.rounds ?? []).map((round, i) =>
+                    text.round(format.number(i + 1), format.number(round.x0), format.number(round.x1), format.number(round.apex)),
+                  );
+                  return (
+                    <Figure
+                      key={sample.file}
+                      caption={
+                        <span className="grid">
+                          {targets.map((target) => (
+                            <span key={target}>{target}</span>
+                          ))}
+                        </span>
+                      }
+                    >
+                      <JumpPreview
+                        poster={file(sample.poster)}
+                        rounds={[file(sample.file), file(sample.second_file)]}
+                        width={sample.width}
+                        height={sample.height}
+                        alt={alt}
+                        playingAlt={text.playing(label, number)}
+                        playLabel={text.playRounds}
+                        replayLabel={text.replay}
+                        className="w-full [&_img]:w-full"
+                      />
+                    </Figure>
+                  );
+                }
                 if (sample.type === "slide_puzzle" && sample.piece_file) {
                   return (
                     <Figure key={sample.file} caption={text.target(format.number(sample.target_x ?? 0), format.number(sample.tolerance_px ?? 0))}>

@@ -79,6 +79,7 @@ const monthlySummary = [
   { type: "image_distort", total: 98214, success: 94102 },
   { type: "motion_noise", total: 31877, success: 30011 },
   { type: "slide_puzzle", total: 12780, success: 12004 },
+  { type: "animal_jump", total: 6410, success: 6013 },
 ];
 
 function ApiKeysTable() {

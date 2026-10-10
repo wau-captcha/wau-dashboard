@@ -5,6 +5,8 @@ import {
   auditSignatures,
   clientCustom,
   install,
+  javaChallenge,
+  javaVerify,
   nodeVerify,
   restSiteVerify,
   sriCommand,
@@ -16,7 +18,7 @@ import { ReactSection } from "./react-section";
 
 type Sections = Dictionary["docs"]["sections"];
 
-/** The docs from the idea to a working integration: keys, the widget, React, the client, the server SDK and other languages. */
+/** The docs from the idea to a working integration: keys, the widget, React, the client, the server SDKs and other languages. */
 export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl: string }) {
   return (
     <>
@@ -61,6 +63,15 @@ export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl
       <DocSection id="verify-package" title={text.verifyPackage.title}>
         <Prose>{text.verifyPackage.body}</Prose>
         <CodeBlock language="bash" code={auditSignatures} />
+      </DocSection>
+
+      <DocSection id="java" title={text.java.title}>
+        <Prose>{text.java.body}</Prose>
+        <CodeBlock language="xml" code={install.java} />
+        <CodeBlock language="kotlin" code={install.gradle} />
+        <CodeBlock language="java" code={javaVerify(baseUrl)} />
+        <Prose>{text.java.challenges}</Prose>
+        <CodeBlock language="java" code={javaChallenge(baseUrl)} />
       </DocSection>
 
       <DocSection id="other-languages" title={text.otherLanguages.title}>

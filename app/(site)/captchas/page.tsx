@@ -31,7 +31,7 @@ export default async function CaptchasPage() {
 
       <section className="grid gap-6">
         <h2 className="font-brand text-display font-semibold tracking-tight text-foreground">{text.typesTitle}</h2>
-        <ul className="grid gap-4 md:grid-cols-3">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {CAPTCHAS.map((captcha) => (
             <li key={captcha.id}>
               <MediaCard
@@ -73,10 +73,10 @@ export default async function CaptchasPage() {
                 <TableCell className="min-w-40 whitespace-normal">{guides[captcha.id].task}</TableCell>
                 <TableCell className="min-w-40 whitespace-normal">{guides[captcha.id].media}</TableCell>
                 <TableCell>
-                  {captcha.id === "slide_puzzle" ? (
-                    <Badge tone="warning">{text.compare.no}</Badge>
-                  ) : (
+                  {captcha.keyboard ? (
                     <Badge tone="positive">{text.compare.yes}</Badge>
+                  ) : (
+                    <Badge tone="warning">{text.compare.no}</Badge>
                   )}
                 </TableCell>
                 <TableCell className="min-w-40 whitespace-normal">{guides[captcha.id].bestFor}</TableCell>

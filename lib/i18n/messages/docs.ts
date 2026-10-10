@@ -4,7 +4,7 @@ import { docsReference } from "./docs-reference";
 
 const en = {
   metaTitle: "Documentation",
-  metaDescription: "Integrate WAU Captcha: the widget, the React component, the browser client, server verification in Node.js or any language, and the REST API.",
+  metaDescription: "Integrate WAU Captcha: the widget, the React component, the browser client, server verification in Node.js, Java or any language, and the REST API.",
   title: "Documentation",
   description: "Everything you need to put WAU Captcha in front of a form or an API.",
   toc: "On this page",
@@ -26,11 +26,11 @@ const en = {
     },
     widget: {
       title: "Browser widget",
-      body: "The widget shows the challenge, a text box and two buttons (for slide_puzzle, a slider instead of the text box and Verify), and loads a new challenge after a wrong answer. With the script build, any element with data-wau-captcha renders by itself.",
+      body: "The widget shows the challenge, a text box and two buttons (for slide_puzzle, a slider instead of the text box and Verify; for animal_jump, the two rounds and a Replay button), and loads a new challenge after a wrong answer. With the script build, any element with data-wau-captcha renders by itself.",
       bundler: "With a bundler, render it yourself to get callbacks and your own labels:",
       pinned: (version: string) =>
         `The snippet loads an exact release, ${version}, with its integrity hash: the browser refuses the file if it differs by a byte from the one published, so neither the CDN nor a later release can change what runs on your page. To move to another release, change the version in the URL and compute its hash:`,
-      attributes: "Attributes: data-site-key and data-base-url (required), data-challenge-type (image_distort, motion_noise or slide_puzzle), data-input-name (default wau-captcha-token) and data-lang (vi for Vietnamese texts).",
+      attributes: "Attributes: data-site-key and data-base-url (required), data-challenge-type (image_distort, motion_noise, slide_puzzle or animal_jump), data-input-name (default wau-captcha-token) and data-lang (vi for Vietnamese texts).",
     },
     react: {
       title: "React component",
@@ -45,7 +45,7 @@ const en = {
       props: [
         { name: "siteKey, baseUrl", meaning: "Required: the site key of your API key and the address of the WAU Captcha API." },
         { name: "mode", meaning: "WauCaptchaMode.INLINE (default) shows the challenge in place; WauCaptchaMode.MODAL opens it from a button." },
-        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (default), ChallengeType.MOTION_NOISE or ChallengeType.SLIDE_PUZZLE." },
+        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (default), ChallengeType.MOTION_NOISE, ChallengeType.SLIDE_PUZZLE or ChallengeType.ANIMAL_JUMP." },
         { name: "theme", meaning: "WauCaptchaTheme.AUTO (default) follows the color-scheme of the page; LIGHT and DARK force one." },
         { name: "inputName", meaning: "Name of the hidden field that carries the token. Default wau-captcha-token." },
         { name: "labels", meaning: 'Texts to replace in your language, e.g. { open: "Verify you are human", verify: "Verify" }.' },
@@ -55,11 +55,16 @@ const en = {
     },
     client: {
       title: "Custom UI in the browser",
-      body: "Use WauCaptchaClient to build your own interface. Fetch a challenge when it is shown, not ahead of time: from 1.3.0 the client solves its proof of work in the background meanwhile, and sends it and the site key with the answer. Pass what recordBehavior recorded as behavior, or keys that require behaviour data refuse the answer. A challenge can be answered once: after a wrong answer, fetch a new one.",
+      body: "Use WauCaptchaClient to build your own interface. Fetch a challenge when it is shown, not ahead of time: from 1.3.0 the client solves its proof of work in the background meanwhile, and sends it and the site key with the answer. Pass what recordBehavior recorded as behavior, or keys that require behaviour data refuse the answer. For slide_puzzle and animal_jump, trackSlide and trackJump record the drag and the clicks the way the service checks them, and verifySlide and verifyJump send them. A challenge can be answered once: after a wrong answer, fetch a new one.",
     },
     node: {
       title: "Verify on a Node.js server",
       body: "Redeem the token with @wau-captcha/server (Node.js 18 or later), and check result.hostname, the website the challenge was solved on, against your own domain. A thrown WauCaptchaError means the token could not be checked; treat it as a failure.",
+    },
+    java: {
+      title: "Verify on a Java server",
+      body: "Redeem the token with com.waucaptcha:wau-captcha-sdk (Java 17 or later, no dependencies), and check result.hostname(), the website the challenge was solved on, against your own domain. The client is immutable and safe to share between threads; a WauCaptchaException means the token could not be checked, so treat it as a failure.",
+      challenges: "The same client fetches and answers challenges of every type with the site key, and sends the site key and the proof of work as the browser SDK does. Keys that require behaviour data, the default for new keys, refuse answers sent without a Behavior, so these calls suit tests and desktop apps; on a website, use the JavaScript widget and verify its token in Java.",
     },
     verifyPackage: {
       title: "Verify the package",
@@ -76,7 +81,7 @@ const en = {
 
 const vi: Translation<typeof en> = {
   metaTitle: "Tài liệu",
-  metaDescription: "Tích hợp WAU Captcha: widget, component React, client trên trình duyệt, xác minh phía máy chủ bằng Node.js hoặc bất kỳ ngôn ngữ nào, và REST API.",
+  metaDescription: "Tích hợp WAU Captcha: widget, component React, client trên trình duyệt, xác minh phía máy chủ bằng Node.js, Java hoặc bất kỳ ngôn ngữ nào, và REST API.",
   title: "Tài liệu",
   description: "Mọi thứ bạn cần để đặt WAU Captcha trước một form hay một API.",
   toc: "Trên trang này",
@@ -98,11 +103,11 @@ const vi: Translation<typeof en> = {
     },
     widget: {
       title: "Widget trên trình duyệt",
-      body: "Widget hiển thị challenge, ô nhập và hai nút (với slide_puzzle là thanh trượt thay cho ô nhập và nút Verify), tự lấy challenge mới sau khi trả lời sai. Với bản script, phần tử nào có data-wau-captcha sẽ tự hiển thị.",
+      body: "Widget hiển thị challenge, ô nhập và hai nút (với slide_puzzle là thanh trượt thay cho ô nhập và nút Verify; với animal_jump là hai lượt kèm nút Xem lại), tự lấy challenge mới sau khi trả lời sai. Với bản script, phần tử nào có data-wau-captcha sẽ tự hiển thị.",
       bundler: "Nếu dùng bundler, hãy tự render để có callback và nhãn riêng:",
       pinned: (version) =>
         `Đoạn mã tải đúng một bản phát hành, ${version}, kèm mã integrity: trình duyệt từ chối tệp nếu nó khác dù chỉ một byte so với bản đã công bố, nên cả CDN lẫn bản phát hành sau đều không thể thay đổi thứ chạy trên trang của bạn. Muốn chuyển sang bản khác, hãy đổi phiên bản trong URL và tính lại mã:`,
-      attributes: "Thuộc tính: data-site-key và data-base-url (bắt buộc), data-challenge-type (image_distort, motion_noise hoặc slide_puzzle), data-input-name (mặc định wau-captcha-token) và data-lang (vi để hiện tiếng Việt).",
+      attributes: "Thuộc tính: data-site-key và data-base-url (bắt buộc), data-challenge-type (image_distort, motion_noise, slide_puzzle hoặc animal_jump), data-input-name (mặc định wau-captcha-token) và data-lang (vi để hiện tiếng Việt).",
     },
     react: {
       title: "Component React",
@@ -117,7 +122,7 @@ const vi: Translation<typeof en> = {
       props: [
         { name: "siteKey, baseUrl", meaning: "Bắt buộc: site key của khóa API và địa chỉ của WAU Captcha API." },
         { name: "mode", meaning: "WauCaptchaMode.INLINE (mặc định) hiển thị challenge tại chỗ; WauCaptchaMode.MODAL mở nó từ một nút." },
-        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (mặc định), ChallengeType.MOTION_NOISE hoặc ChallengeType.SLIDE_PUZZLE." },
+        { name: "challengeType", meaning: "ChallengeType.IMAGE_DISTORT (mặc định), ChallengeType.MOTION_NOISE, ChallengeType.SLIDE_PUZZLE hoặc ChallengeType.ANIMAL_JUMP." },
         { name: "theme", meaning: "WauCaptchaTheme.AUTO (mặc định) theo color-scheme của trang; LIGHT và DARK ép một chế độ." },
         { name: "inputName", meaning: "Tên trường ẩn chứa token. Mặc định wau-captcha-token." },
         { name: "labels", meaning: 'Các chữ muốn thay bằng ngôn ngữ của bạn, ví dụ { open: "Xác minh bạn là người", verify: "Xác minh" }.' },
@@ -127,11 +132,16 @@ const vi: Translation<typeof en> = {
     },
     client: {
       title: "Giao diện riêng trên trình duyệt",
-      body: "Dùng WauCaptchaClient để tự dựng giao diện. Hãy lấy challenge khi nó được hiển thị, không lấy trước: từ 1.3.0, trong lúc đó client tự giải proof of work, rồi gửi nó cùng site key với câu trả lời. Hãy truyền dữ liệu recordBehavior ghi được vào behavior, nếu không khóa bắt buộc dữ liệu hành vi sẽ từ chối câu trả lời. Mỗi challenge chỉ trả lời được một lần: trả lời sai thì lấy challenge mới.",
+      body: "Dùng WauCaptchaClient để tự dựng giao diện. Hãy lấy challenge khi nó được hiển thị, không lấy trước: từ 1.3.0, trong lúc đó client tự giải proof of work, rồi gửi nó cùng site key với câu trả lời. Hãy truyền dữ liệu recordBehavior ghi được vào behavior, nếu không khóa bắt buộc dữ liệu hành vi sẽ từ chối câu trả lời. Với slide_puzzle và animal_jump, trackSlide và trackJump ghi lại cú kéo và các lần bấm đúng như service kiểm tra, còn verifySlide và verifyJump gửi chúng đi. Mỗi challenge chỉ trả lời được một lần: trả lời sai thì lấy challenge mới.",
     },
     node: {
       title: "Xác minh trên máy chủ Node.js",
       body: "Đổi token bằng @wau-captcha/server (Node.js 18 trở lên), và so result.hostname, website nơi challenge được giải, với tên miền của bạn. Nếu gặp WauCaptchaError tức là không kiểm tra được token; hãy coi đó là thất bại.",
+    },
+    java: {
+      title: "Xác minh trên máy chủ Java",
+      body: "Đổi token bằng com.waucaptcha:wau-captcha-sdk (Java 17 trở lên, không phụ thuộc thư viện ngoài), và so result.hostname(), website nơi challenge được giải, với tên miền của bạn. Client bất biến và dùng chung an toàn giữa nhiều luồng; gặp WauCaptchaException tức là không kiểm tra được token, nên hãy coi đó là thất bại.",
+      challenges: "Cũng client đó lấy và trả lời challenge của mọi loại bằng site key, gửi kèm site key và proof of work như SDK trình duyệt. Khóa bắt buộc dữ liệu hành vi, mặc định với khóa mới, từ chối câu trả lời gửi không kèm Behavior, nên các lời gọi này hợp với kiểm thử và ứng dụng desktop; trên website, hãy dùng widget JavaScript rồi xác minh token bằng Java.",
     },
     verifyPackage: {
       title: "Kiểm chứng gói",
