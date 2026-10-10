@@ -66,6 +66,7 @@ const en = {
     tokenComment: "Send the token with your form when success is true",
     sdkComment: "@wau-captcha/client also sends behaviour data and the proof of work; keys that require behaviour refuse answers without them",
     siteVerifyComment: "Your server: verify the one-time token",
+    serverSdkComment: "Or with a server SDK: @wau-captcha/server (Node.js) or com.waucaptcha:wau-captcha-sdk (Java)",
   },
   notFound: {
     title: "API key not found",
@@ -142,6 +143,7 @@ const vi: Translation<typeof en> = {
     tokenComment: "Gửi token kèm form của bạn khi success = true",
     sdkComment: "@wau-captcha/client còn gửi dữ liệu hành vi và proof of work; khóa bắt buộc hành vi sẽ từ chối câu trả lời thiếu chúng",
     siteVerifyComment: "Máy chủ của bạn: xác minh token một lần",
+    serverSdkComment: "Hoặc dùng SDK máy chủ: @wau-captcha/server (Node.js) hoặc com.waucaptcha:wau-captcha-sdk (Java)",
   },
   notFound: {
     title: "Không tìm thấy khóa API",

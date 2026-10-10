@@ -114,7 +114,7 @@ export type DemoUsageLog = {
   timestamp: Date;
 };
 
-const logChallengeTypes = ["image_distort", "motion_noise", "slide_puzzle"];
+const logChallengeTypes = ["image_distort", "motion_noise", "slide_puzzle", "animal_jump"];
 const logStart = Date.UTC(2026, 8, 15, 7, 30, 0);
 
 export const usageLogs: DemoUsageLog[] = Array.from({ length: 137 }, (_, index) => ({
@@ -129,6 +129,7 @@ export const challengeTypeOptions: SelectOption[] = [
   { value: "image_distort", label: "image_distort", description: "Ảnh chữ bị bóp méo" },
   { value: "motion_noise", label: "motion_noise", description: "GIF nhiễu chuyển động" },
   { value: "slide_puzzle", label: "slide_puzzle", description: "Kéo mảnh ghép" },
+  { value: "animal_jump", label: "animal_jump", description: "Bấm con vật nhảy cao nhất" },
   { value: "behavioral_advanced", label: "behavioral_advanced", description: "Phân tích hành vi (sắp có)", disabled: true },
 ];
 

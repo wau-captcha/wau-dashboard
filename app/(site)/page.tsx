@@ -73,12 +73,13 @@ export default async function HomePage() {
             {t.captchas.allCaptchas}
           </Link>
         </div>
-        <ul className="grid gap-4 md:grid-cols-3">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {CAPTCHAS.map((captcha) => {
             const kind = {
               image_distort: text.challenges.imageDistort,
               motion_noise: text.challenges.motionNoise,
               slide_puzzle: text.challenges.slidePuzzle,
+              animal_jump: text.challenges.animalJump,
             }[captcha.id];
             return (
               <li key={captcha.id}>

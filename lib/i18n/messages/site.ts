@@ -23,7 +23,7 @@ const en = {
   },
   landing: {
     metaTitle: "Captcha that keeps bots out",
-    metaDescription: "WAU Captcha adds a human check to sign-ups, logins and APIs, with SDKs for the browser, React and Node.js.",
+    metaDescription: "WAU Captcha adds a human check to sign-ups, logins and APIs, with SDKs for the browser, React, Node.js and Java.",
     eyebrow: "Captcha as a service",
     title: "Keep bots out. Let people through.",
     description:
@@ -48,9 +48,9 @@ const en = {
       ],
     },
     challenges: {
-      title: "Three kinds of challenge",
+      title: "Four kinds of challenge",
       description:
-        "Pick per request. All three are generated fresh every time, so there is nothing to collect and replay. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
+        "Pick per request. All four are generated fresh every time, so there is nothing to collect and replay. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
       imageDistort: {
         name: "Distorted text",
         body: "Five characters, each turned, slanted and bent, crossed by thin strokes in the colours of the text. Quick for people, and a hurdle for generic OCR.",
@@ -63,6 +63,10 @@ const en = {
         name: "Slide puzzle",
         body: "Drag the piece into its hole in a freshly drawn picture; the drag itself is checked too, so it has to move like a human hand.",
       },
+      animalJump: {
+        name: "Jumping animals",
+        body: "Five animal heads jump, and one jumps clearly higher than the rest: click it, in two short rounds. Both clicks must be right, and when they come is checked too.",
+      },
     },
     features: {
       title: "Built for production",
@@ -72,7 +76,7 @@ const en = {
         { title: "Secret key rotation", body: "Reset a secret without downtime: the previous one keeps working for 24 hours, or until you revoke it." },
         { title: "Scraping protection", body: "Keys that collect challenges without answering them are throttled for the day, and suspended only when the pattern is unmistakable; owners can ask for a review." },
         { title: "Usage and quotas", body: "Daily charts per key and per challenge type, and a meter of your plan's daily quota, which resets at 00:00 GMT+7 (17:00 UTC)." },
-        { title: "SDKs", body: "A browser widget and client, a React component and a Node.js server SDK; any other backend calls /siteverify directly." },
+        { title: "SDKs", body: "A browser widget and client, a React component, and server SDKs for Node.js and Java; any other backend calls /siteverify directly." },
       ],
     },
     sdks: {
@@ -81,6 +85,7 @@ const en = {
       browser: "Browser",
       react: "React",
       node: "Node.js",
+      java: "Java",
     },
     cta: {
       title: "Protect your first form today",
@@ -113,7 +118,7 @@ const vi: Translation<typeof en> = {
   },
   landing: {
     metaTitle: "Captcha chặn bot",
-    metaDescription: "WAU Captcha thêm bước kiểm tra con người cho đăng ký, đăng nhập và API, kèm SDK cho trình duyệt, React và Node.js.",
+    metaDescription: "WAU Captcha thêm bước kiểm tra con người cho đăng ký, đăng nhập và API, kèm SDK cho trình duyệt, React, Node.js và Java.",
     eyebrow: "Captcha dạng dịch vụ",
     title: "Chặn bot. Mở cửa cho người thật.",
     description:
@@ -138,9 +143,9 @@ const vi: Translation<typeof en> = {
       ],
     },
     challenges: {
-      title: "Ba loại challenge",
+      title: "Bốn loại challenge",
       description:
-        "Chọn theo từng lần gọi. Cả ba đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
+        "Chọn theo từng lần gọi. Cả bốn đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
       imageDistort: {
         name: "Chữ méo",
         body: "Năm ký tự, mỗi ký tự xoay, nghiêng và uốn khác nhau, bị các nét mảnh cùng màu chữ cắt ngang. Nhanh với người, và là rào cản với OCR thông thường.",
@@ -153,6 +158,10 @@ const vi: Translation<typeof en> = {
         name: "Ghép hình trượt",
         body: "Kéo mảnh ghép vào đúng chỗ trống trên một bức ảnh vừa được vẽ; chính cú kéo cũng được kiểm tra, nên nó phải chuyển động như tay người.",
       },
+      animalJump: {
+        name: "Con vật nhảy cao",
+        body: "Năm đầu con vật nhảy lên, một con nhảy cao hơn hẳn các con còn lại: bấm vào nó, qua hai lượt ngắn. Cả hai lần bấm phải đúng, và thời điểm bấm cũng được kiểm tra.",
+      },
     },
     features: {
       title: "Sẵn sàng cho môi trường thật",
@@ -162,7 +171,7 @@ const vi: Translation<typeof en> = {
         { title: "Xoay secret key", body: "Đặt lại secret không gián đoạn: secret cũ vẫn dùng được 24 giờ, hoặc tới khi bạn thu hồi." },
         { title: "Chống cào dữ liệu", body: "Khóa nào lấy challenge mà không trả lời sẽ bị giới hạn trong ngày, và chỉ bị đình chỉ khi dấu hiệu quá rõ ràng; chủ khóa có thể yêu cầu xem xét." },
         { title: "Lượt dùng và hạn mức", body: "Biểu đồ theo ngày cho từng khóa và từng loại challenge, kèm thanh hạn mức mỗi ngày của gói, đặt lại lúc 00:00 GMT+7 (17:00 UTC)." },
-        { title: "SDK", body: "Widget và client cho trình duyệt, component React và SDK máy chủ cho Node.js; mọi backend khác gọi thẳng /siteverify." },
+        { title: "SDK", body: "Widget và client cho trình duyệt, component React, cùng SDK máy chủ cho Node.js và Java; mọi backend khác gọi thẳng /siteverify." },
       ],
     },
     sdks: {
@@ -171,6 +180,7 @@ const vi: Translation<typeof en> = {
       browser: "Trình duyệt",
       react: "React",
       node: "Node.js",
+      java: "Java",
     },
     cta: {
       title: "Bảo vệ form đầu tiên ngay hôm nay",

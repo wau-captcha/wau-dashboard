@@ -27,6 +27,7 @@ export default async function DocsPage() {
     { id: "client", title: sections.client.title },
     { id: "node", title: sections.node.title },
     { id: "verify-package", title: sections.verifyPackage.title },
+    { id: "java", title: sections.java.title },
     { id: "other-languages", title: sections.otherLanguages.title },
     { id: "site-binding", title: sections.siteBinding.title },
     { id: "sdk-versions", title: sections.sdkVersions.title },

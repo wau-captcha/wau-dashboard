@@ -9,6 +9,12 @@ export const install = {
   browser: "npm install @wau-captcha/client",
   react: "npm install @wau-captcha/react",
   node: "npm install @wau-captcha/server",
+  java: `<dependency>
+    <groupId>com.waucaptcha</groupId>
+    <artifactId>wau-captcha-sdk</artifactId>
+    <version>1.0.0</version>
+</dependency>`,
+  gradle: `implementation("com.waucaptcha:wau-captcha-sdk:1.0.0")`,
 };
 
 export const widgetScript = (baseUrl: string) => `<script
@@ -133,6 +139,45 @@ app.post("/signup", async (req, res) => {
   }
   // … create the account
 });`;
+
+export const javaVerify = (baseUrl: string) => `import com.waucaptcha.BehaviorVerdict;
+import com.waucaptcha.ErrorCode;
+import com.waucaptcha.SiteVerifyResult;
+import com.waucaptcha.WauCaptchaClient;
+import com.waucaptcha.WauCaptchaException;
+
+// Build it once and share it: it is immutable and safe to use from many threads.
+WauCaptchaClient wau = WauCaptchaClient.builder()
+        .baseUrl("${baseUrl}")
+        .secretKey(System.getenv("WAU_SECRET_KEY"))
+        .build();
+
+boolean captchaPassed(String token) {
+    try {
+        SiteVerifyResult result = wau.verifyToken(token);
+        // hostname is the website the captcha was solved on: compare it with yours.
+        if (!result.success() || !result.hostname().equals("shop.example.com")) return false;
+        // result.behavior(): verdict, score, reasons. NOT_MEASURED means no behaviour data was sent:
+        // untrusted. Decide about SUSPICIOUS per form; for sign-up, accept HUMAN only.
+        return result.behavior().verdict() == BehaviorVerdict.HUMAN;
+    } catch (WauCaptchaException e) {
+        if (ErrorCode.SECRET_KEY_INVALID.equals(e.getCode())) log.error("Check WAU_SECRET_KEY");
+        return false; // fail closed: the token could not be checked
+    }
+}`;
+
+export const javaChallenge = (baseUrl: string) => `WauCaptchaClient captcha = WauCaptchaClient.builder()
+        .baseUrl("${baseUrl}")
+        .siteKey("pk_…")
+        .build();
+
+Challenge challenge = captcha.newChallenge(ChallengeType.ANIMAL_JUMP);
+// Play challenge.image(), then challenge.secondImage(), each once, and record a click on each
+// round and how the person behaved. The call sends the site key and the proof of work too.
+AnswerResult result = captcha.verifyJump(challenge, List.of(round1, round2), behavior);
+if (result.success()) {
+    // Send result.token() to your server, which redeems it with verifyToken.
+}`;
 
 export const restNewChallenge = (baseUrl: string) => `curl "${baseUrl}/challenge/new?site_key=pk_…&challenge_type=image_distort"
 

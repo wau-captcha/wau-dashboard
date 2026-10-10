@@ -5,7 +5,7 @@ const en = {
   api: {
     title: "REST API",
     body: "The SDKs call these endpoints; any HTTP client can call them too. Errors come back as JSON {code, reason, message, metadata}.",
-    newChallenge: "Issues a challenge. Query: site_key (required), challenge_type (image_distort by default). image is base64; display it at width × height CSS pixels. slide_puzzle adds piece_image, piece_y, piece_width and piece_height. pow_salt and pow_difficulty are the proof of work the SDK solves before it answers. For a key with allowed domains, the Origin of the request (or else of its Referer) must be one of them: DOMAIN_NOT_ALLOWED otherwise.",
+    newChallenge: "Issues a challenge. Query: site_key (required), challenge_type (image_distort by default). image is base64; display it at width × height CSS pixels. slide_puzzle adds piece_image, piece_y, piece_width and piece_height; animal_jump adds second_image, round 2, while image is round 1. pow_salt and pow_difficulty are the proof of work the SDK solves before it answers. For a key with allowed domains, the Origin of the request (or else of its Referer) must be one of them: DOMAIN_NOT_ALLOWED otherwise.",
     verifyAnswer: "Checks an answer. success is false after a wrong answer; the challenge is used up either way. The SDKs also send site_key, pow_nonce (the proof of work) and behavior, how the person behaved while the challenge was on screen. An answer to a challenge of another key, or from another website than the one that fetched it, is wrong. A key that requires behaviour data answers 400 BEHAVIOR_REQUIRED to an answer without it.",
     siteVerify: "Redeems a token, once. Send the secret key as a bearer token and the token in the body, as JSON {\"token\": \"…\"} or as the form token=…, so it never lands in access logs; the query form (?token=) still works for SDKs before 1.3.0 but is deprecated. success is false when the token is unknown, expired, already used or issued for another key. behavior is the verdict of the behaviour check: human, suspicious or not_measured, a score from 0 to 1 and the reasons. hostname is the website the challenge was solved on.",
   },
@@ -14,7 +14,8 @@ const en = {
     imageDistort: "image_distort — five characters (letters and digits) distorted in a PNG. The default.",
     motionNoise: "motion_noise — five characters (capital letters and digits, without O, 0, Q, I and 1) hidden in a looping animated GIF of moving dots.",
     slidePuzzle: "slide_puzzle — a 300 × 150 JPEG background with a hole, and a PNG piece to drag horizontally into it. The answer is JSON the SDK writes from the drag, which is also checked for human movement, so use the SDK rather than building it by hand. Keyboard-only users cannot solve it: keep image_distort available where accessibility matters.",
-    note: "Text answers are not case-sensitive. The plan of your account decides which types a key may request. In the JavaScript SDKs, name them with ChallengeType.IMAGE_DISTORT, ChallengeType.MOTION_NOISE and ChallengeType.SLIDE_PUZZLE.",
+    animalJump: "animal_jump — two animated GIFs of 300 × 150, one per round, each playing once for 2 s: five animal heads jump, and one makes a jump clearly higher than every other. The answer is JSON the SDK writes from the click on each round, {\"c\": [{\"x\": …, \"y\": …, \"ms\": …, \"p\": …}, …]}: both clicks must land on the highest jumper, after its jump was on screen. The widget plays each round from a blob: URL, so a Content-Security-Policy must allow blob: in img-src. Keyboard-only users cannot solve it: keep image_distort available where accessibility matters.",
+    note: "Text answers are not case-sensitive. The plan of your account decides which types a key may request. In the JavaScript and Java SDKs, name them with ChallengeType.IMAGE_DISTORT, ChallengeType.MOTION_NOISE, ChallengeType.SLIDE_PUZZLE and ChallengeType.ANIMAL_JUMP.",
     more: "See every captcha, with real samples",
   },
   security: {
@@ -29,7 +30,7 @@ const en = {
   },
   errors: {
     title: "Errors",
-    sdkNote: "In the JavaScript SDKs, compare error.code with the ErrorCode constants, e.g. ErrorCode.SITE_KEY_INVALID.",
+    sdkNote: "In the JavaScript SDKs, compare error.code with the ErrorCode constants, e.g. ErrorCode.SITE_KEY_INVALID; in Java, compare e.getCode() with the same constants of com.waucaptcha.ErrorCode.",
     code: "Code",
     meaning: "Meaning",
     rows: [
@@ -41,7 +42,7 @@ const en = {
       { code: "CHALLENGE_TYPE_UNSUPPORTED", meaning: "challenge_type is not a known type." },
       { code: "CHALLENGE_NOT_FOUND", meaning: "The challenge expired or was already answered. The widget and <WauCaptcha /> load a new one by themselves." },
       { code: "CHALLENGE_ID_INVALID", meaning: "challenge_id is not one the service issues." },
-      { code: "BEHAVIOR_REQUIRED", meaning: "The key requires behaviour data and the answer came without it: update @wau-captcha/client." },
+      { code: "BEHAVIOR_REQUIRED", meaning: "The key requires behaviour data and the answer came without it: update @wau-captcha/client, or pass a Behavior in Java." },
       { code: "API_KEY_SUSPENDED", meaning: "Suspended by an administrator or by the scraping check." },
       { code: "ACCOUNT_BANNED", meaning: "The owner of the key was banned." },
       { code: "DAILY_QUOTA_EXCEEDED", meaning: "The account used up today's successful verifications." },
@@ -50,7 +51,7 @@ const en = {
       { code: "INTERNAL", meaning: "The service failed; the details stay in its log. Try again." },
       { code: "ROUTE_NOT_FOUND", meaning: "No service handles the path; check the base URL." },
       { code: "UPSTREAM_UNAVAILABLE", meaning: "The service is temporarily unavailable; try again later." },
-      { code: "NETWORK_ERROR, TIMEOUT, INVALID_RESPONSE", meaning: "Reported by the SDKs when no usable reply arrived." },
+      { code: "NETWORK_ERROR, TIMEOUT, INVALID_RESPONSE, INTERRUPTED", meaning: "Reported by the SDKs when no usable reply arrived; INTERRUPTED only by the Java SDK, when the waiting thread was interrupted." },
     ],
   },
 };
@@ -59,7 +60,7 @@ const vi: Translation<typeof en> = {
   api: {
     title: "REST API",
     body: "Các SDK gọi những endpoint này; mọi HTTP client đều gọi được. Lỗi trả về dạng JSON {code, reason, message, metadata}.",
-    newChallenge: "Cấp một challenge. Query: site_key (bắt buộc), challenge_type (mặc định image_distort). image là base64; hiển thị ở kích thước width × height pixel CSS. slide_puzzle có thêm piece_image, piece_y, piece_width và piece_height. pow_salt và pow_difficulty là bài proof of work mà SDK giải trước khi trả lời. Với khóa có danh sách tên miền được phép, Origin của yêu cầu (hoặc của Referer) phải thuộc danh sách: nếu không sẽ nhận DOMAIN_NOT_ALLOWED.",
+    newChallenge: "Cấp một challenge. Query: site_key (bắt buộc), challenge_type (mặc định image_distort). image là base64; hiển thị ở kích thước width × height pixel CSS. slide_puzzle có thêm piece_image, piece_y, piece_width và piece_height; animal_jump có thêm second_image là lượt 2, còn image là lượt 1. pow_salt và pow_difficulty là bài proof of work mà SDK giải trước khi trả lời. Với khóa có danh sách tên miền được phép, Origin của yêu cầu (hoặc của Referer) phải thuộc danh sách: nếu không sẽ nhận DOMAIN_NOT_ALLOWED.",
     verifyAnswer: "Kiểm tra câu trả lời. success là false khi trả lời sai; challenge bị dùng hết trong cả hai trường hợp. Các SDK gửi kèm site_key, pow_nonce (lời giải proof of work) và behavior, tức cách người dùng thao tác khi challenge hiện trên màn hình. Câu trả lời cho challenge của khóa khác, hoặc từ website khác với nơi đã lấy challenge, bị coi là sai. Khóa bắt buộc dữ liệu hành vi trả 400 BEHAVIOR_REQUIRED cho câu trả lời thiếu dữ liệu này.",
     siteVerify: "Đổi token, một lần duy nhất. Gửi secret key dạng bearer token và token trong body, dạng JSON {\"token\": \"…\"} hoặc form token=…, để token không bao giờ nằm trong access log; cách gửi qua query (?token=) vẫn dùng được cho SDK trước 1.3.0 nhưng đã lỗi thời. success là false khi token không tồn tại, hết hạn, đã dùng hoặc thuộc khóa khác. behavior là kết luận của phần kiểm tra hành vi: human, suspicious hoặc not_measured, điểm từ 0 đến 1 và các lý do. hostname là website nơi challenge được giải.",
   },
@@ -68,7 +69,8 @@ const vi: Translation<typeof en> = {
     imageDistort: "image_distort — năm ký tự (chữ và số) bị bóp méo trong ảnh PNG. Mặc định.",
     motionNoise: "motion_noise — năm ký tự (chữ in hoa và số, không có O, 0, Q, I, 1) ẩn trong ảnh GIF động lặp lại gồm các chấm chuyển động.",
     slidePuzzle: "slide_puzzle — ảnh nền JPEG 300 × 150 có một chỗ trống, và một mảnh ghép PNG để kéo ngang vào đó. Câu trả lời là JSON do SDK ghi lại từ cú kéo, và cú kéo cũng được kiểm tra xem có giống tay người không, nên hãy dùng SDK thay vì tự tạo. Người chỉ dùng bàn phím không giải được loại này: hãy giữ image_distort ở những nơi cần hỗ trợ tiếp cận.",
-    note: "Câu trả lời dạng chữ không phân biệt hoa thường. Gói của tài khoản quyết định khóa được dùng loại nào. Trong các SDK JavaScript, dùng ChallengeType.IMAGE_DISTORT, ChallengeType.MOTION_NOISE và ChallengeType.SLIDE_PUZZLE.",
+    animalJump: "animal_jump — hai ảnh GIF động 300 × 150, mỗi lượt một ảnh, phát một lần trong 2 giây: năm đầu con vật nhảy lên, và một con có cú nhảy cao hơn hẳn mọi cú nhảy khác. Câu trả lời là JSON do SDK ghi lại từ lần bấm ở mỗi lượt, {\"c\": [{\"x\": …, \"y\": …, \"ms\": …, \"p\": …}, …]}: cả hai lần bấm phải trúng con nhảy cao nhất, sau khi cú nhảy của nó đã hiện ra. Widget phát mỗi lượt từ một URL blob:, nên Content-Security-Policy phải cho phép blob: trong img-src. Người chỉ dùng bàn phím không giải được loại này: hãy giữ image_distort ở những nơi cần hỗ trợ tiếp cận.",
+    note: "Câu trả lời dạng chữ không phân biệt hoa thường. Gói của tài khoản quyết định khóa được dùng loại nào. Trong các SDK JavaScript và Java, dùng ChallengeType.IMAGE_DISTORT, ChallengeType.MOTION_NOISE, ChallengeType.SLIDE_PUZZLE và ChallengeType.ANIMAL_JUMP.",
     more: "Xem mọi loại captcha, kèm ảnh mẫu thật",
   },
   security: {
@@ -83,7 +85,7 @@ const vi: Translation<typeof en> = {
   },
   errors: {
     title: "Lỗi",
-    sdkNote: "Trong các SDK JavaScript, so error.code với các hằng ErrorCode, ví dụ ErrorCode.SITE_KEY_INVALID.",
+    sdkNote: "Trong các SDK JavaScript, so error.code với các hằng ErrorCode, ví dụ ErrorCode.SITE_KEY_INVALID; trong Java, so e.getCode() với các hằng cùng tên của com.waucaptcha.ErrorCode.",
     code: "Mã",
     meaning: "Ý nghĩa",
     rows: [
@@ -95,7 +97,7 @@ const vi: Translation<typeof en> = {
       { code: "CHALLENGE_TYPE_UNSUPPORTED", meaning: "challenge_type không phải loại đã biết." },
       { code: "CHALLENGE_NOT_FOUND", meaning: "Challenge đã hết hạn hoặc đã được trả lời. Widget và <WauCaptcha /> tự tải challenge mới." },
       { code: "CHALLENGE_ID_INVALID", meaning: "challenge_id không phải mã do service cấp." },
-      { code: "BEHAVIOR_REQUIRED", meaning: "Khóa bắt buộc dữ liệu hành vi mà câu trả lời không có: hãy cập nhật @wau-captcha/client." },
+      { code: "BEHAVIOR_REQUIRED", meaning: "Khóa bắt buộc dữ liệu hành vi mà câu trả lời không có: hãy cập nhật @wau-captcha/client, hoặc truyền Behavior trong Java." },
       { code: "API_KEY_SUSPENDED", meaning: "Bị quản trị viên hoặc cơ chế chống cào đình chỉ." },
       { code: "ACCOUNT_BANNED", meaning: "Chủ khóa đã bị khóa tài khoản." },
       { code: "DAILY_QUOTA_EXCEEDED", meaning: "Tài khoản đã dùng hết lượt xác minh thành công của hôm nay." },
@@ -104,7 +106,7 @@ const vi: Translation<typeof en> = {
       { code: "INTERNAL", meaning: "Service gặp sự cố; chi tiết nằm trong log của nó. Hãy thử lại." },
       { code: "ROUTE_NOT_FOUND", meaning: "Không service nào xử lý đường dẫn này; hãy kiểm tra base URL." },
       { code: "UPSTREAM_UNAVAILABLE", meaning: "Service tạm thời không phản hồi; hãy thử lại sau." },
-      { code: "NETWORK_ERROR, TIMEOUT, INVALID_RESPONSE", meaning: "Do SDK báo khi không nhận được phản hồi dùng được." },
+      { code: "NETWORK_ERROR, TIMEOUT, INVALID_RESPONSE, INTERRUPTED", meaning: "Do SDK báo khi không nhận được phản hồi dùng được; INTERRUPTED chỉ do SDK Java báo, khi luồng đang chờ bị ngắt." },
     ],
   },
 };

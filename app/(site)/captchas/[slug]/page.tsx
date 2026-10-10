@@ -96,7 +96,7 @@ export default async function CaptchaTypePage({ params }: Params) {
 
       <section className="grid gap-3">
         <SubHeading>{text.sections.choose}</SubHeading>
-        <Alert tone={captcha.id === "slide_puzzle" ? "warning" : "neutral"}>{guide.choose}</Alert>
+        <Alert tone={captcha.keyboard ? "neutral" : "warning"}>{guide.choose}</Alert>
       </section>
 
       <section className="grid gap-3">

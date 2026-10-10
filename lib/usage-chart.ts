@@ -18,6 +18,7 @@ const CHALLENGE_TYPE_SLOTS: Record<string, number> = {
   motion_noise: 2,
   slide_puzzle: 3,
   behavioral_advanced: 4,
+  animal_jump: 5,
 };
 
 export function challengeTypeSlot(id: string): number | undefined {

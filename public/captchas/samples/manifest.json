@@ -2,77 +2,77 @@
   {
     "file": "image_distort-01.png",
     "type": "image_distort",
-    "answer": "R9Csx",
+    "answer": "YmGeO",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-02.png",
     "type": "image_distort",
-    "answer": "NpNL3",
+    "answer": "QIKL5",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-03.png",
     "type": "image_distort",
-    "answer": "LFz8B",
+    "answer": "mmU0n",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-04.png",
     "type": "image_distort",
-    "answer": "aNv96",
+    "answer": "dE1OH",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-05.png",
     "type": "image_distort",
-    "answer": "pT9cu",
+    "answer": "8uMPl",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-06.png",
     "type": "image_distort",
-    "answer": "Dbc03",
+    "answer": "oVHtx",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-07.png",
     "type": "image_distort",
-    "answer": "w7fJ5",
+    "answer": "6gFSY",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-08.png",
     "type": "image_distort",
-    "answer": "tqpmQ",
+    "answer": "sg96l",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-09.png",
     "type": "image_distort",
-    "answer": "IHOva",
+    "answer": "CF4mR",
     "width": 200,
     "height": 70
   },
   {
     "file": "image_distort-10.png",
     "type": "image_distort",
-    "answer": "0lE3P",
+    "answer": "BXNq7",
     "width": 200,
     "height": 70
   },
   {
     "file": "motion_noise-01.gif",
     "type": "motion_noise",
-    "answer": "UDLES",
+    "answer": "4UMYV",
     "width": 300,
     "height": 150,
     "poster": "motion_noise-01-frame.png"
@@ -80,7 +80,7 @@
   {
     "file": "motion_noise-02.gif",
     "type": "motion_noise",
-    "answer": "NS9Z4",
+    "answer": "G23TE",
     "width": 300,
     "height": 150,
     "poster": "motion_noise-02-frame.png"
@@ -88,7 +88,7 @@
   {
     "file": "motion_noise-03.gif",
     "type": "motion_noise",
-    "answer": "X3266",
+    "answer": "EN4F9",
     "width": 300,
     "height": 150,
     "poster": "motion_noise-03-frame.png"
@@ -96,7 +96,7 @@
   {
     "file": "motion_noise-04.gif",
     "type": "motion_noise",
-    "answer": "AGMWV",
+    "answer": "VYCZ5",
     "width": 300,
     "height": 150,
     "poster": "motion_noise-04-frame.png"
@@ -104,7 +104,7 @@
   {
     "file": "motion_noise-05.gif",
     "type": "motion_noise",
-    "answer": "KYAJF",
+    "answer": "SGF4Z",
     "width": 300,
     "height": 150,
     "poster": "motion_noise-05-frame.png"
@@ -112,131 +112,256 @@
   {
     "file": "slide_puzzle-01.jpg",
     "type": "slide_puzzle",
-    "answer": "240",
+    "answer": "156",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-01-piece.png",
-    "target_x": 240,
-    "piece_y": 20,
-    "piece_width": 50,
-    "piece_height": 62,
+    "target_x": 156,
+    "piece_y": 39,
+    "piece_width": 72,
+    "piece_height": 72,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-02.jpg",
     "type": "slide_puzzle",
-    "answer": "134",
+    "answer": "162",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-02-piece.png",
-    "target_x": 134,
-    "piece_y": 86,
-    "piece_width": 62,
-    "piece_height": 50,
+    "target_x": 162,
+    "piece_y": 56,
+    "piece_width": 50,
+    "piece_height": 62,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-03.jpg",
     "type": "slide_puzzle",
-    "answer": "117",
+    "answer": "82",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-03-piece.png",
-    "target_x": 117,
-    "piece_y": 70,
-    "piece_width": 72,
+    "target_x": 82,
+    "piece_y": 30,
+    "piece_width": 61,
     "piece_height": 50,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-04.jpg",
     "type": "slide_puzzle",
-    "answer": "229",
+    "answer": "168",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-04-piece.png",
-    "target_x": 229,
-    "piece_y": 59,
-    "piece_width": 50,
-    "piece_height": 61,
+    "target_x": 168,
+    "piece_y": 16,
+    "piece_width": 61,
+    "piece_height": 62,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-05.jpg",
     "type": "slide_puzzle",
-    "answer": "224",
+    "answer": "117",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-05-piece.png",
-    "target_x": 224,
-    "piece_y": 6,
-    "piece_width": 50,
-    "piece_height": 62,
+    "target_x": 117,
+    "piece_y": 79,
+    "piece_width": 62,
+    "piece_height": 50,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-06.jpg",
     "type": "slide_puzzle",
-    "answer": "106",
+    "answer": "139",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-06-piece.png",
-    "target_x": 106,
-    "piece_y": 53,
-    "piece_width": 50,
-    "piece_height": 50,
+    "target_x": 139,
+    "piece_y": 17,
+    "piece_width": 72,
+    "piece_height": 72,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-07.jpg",
     "type": "slide_puzzle",
-    "answer": "173",
+    "answer": "115",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-07-piece.png",
-    "target_x": 173,
-    "piece_y": 61,
-    "piece_width": 72,
-    "piece_height": 73,
+    "target_x": 115,
+    "piece_y": 79,
+    "piece_width": 50,
+    "piece_height": 61,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-08.jpg",
     "type": "slide_puzzle",
-    "answer": "163",
+    "answer": "157",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-08-piece.png",
-    "target_x": 163,
-    "piece_y": 21,
+    "target_x": 157,
+    "piece_y": 70,
     "piece_width": 50,
-    "piece_height": 72,
+    "piece_height": 50,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-09.jpg",
     "type": "slide_puzzle",
-    "answer": "110",
+    "answer": "187",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-09-piece.png",
-    "target_x": 110,
-    "piece_y": 52,
-    "piece_width": 62,
+    "target_x": 187,
+    "piece_y": 71,
+    "piece_width": 61,
     "piece_height": 50,
     "tolerance_px": 4
   },
   {
     "file": "slide_puzzle-10.jpg",
     "type": "slide_puzzle",
-    "answer": "166",
+    "answer": "120",
     "width": 300,
     "height": 150,
     "piece_file": "slide_puzzle-10-piece.png",
-    "target_x": 166,
-    "piece_y": 6,
-    "piece_width": 61,
-    "piece_height": 62,
+    "target_x": 120,
+    "piece_y": 39,
+    "piece_width": 62,
+    "piece_height": 50,
     "tolerance_px": 4
+  },
+  {
+    "file": "animal_jump-01-1.gif",
+    "type": "animal_jump",
+    "answer": "{\"r\":[{\"x0\":183,\"x1\":233.8,\"y0\":32.8,\"y1\":142,\"apex\":649},{\"x0\":5.7,\"x1\":59.6,\"y0\":41.9,\"y1\":142,\"apex\":1292}]}",
+    "width": 300,
+    "height": 150,
+    "poster": "animal_jump-01-frame.png",
+    "second_file": "animal_jump-01-2.gif",
+    "rounds": [
+      {
+        "x0": 183,
+        "x1": 233.8,
+        "y0": 32.8,
+        "y1": 142,
+        "apex": 649
+      },
+      {
+        "x0": 5.7,
+        "x1": 59.6,
+        "y0": 41.9,
+        "y1": 142,
+        "apex": 1292
+      }
+    ]
+  },
+  {
+    "file": "animal_jump-02-1.gif",
+    "type": "animal_jump",
+    "answer": "{\"r\":[{\"x0\":8.7,\"x1\":56.5,\"y0\":38,\"y1\":142,\"apex\":903},{\"x0\":185.3,\"x1\":237.9,\"y0\":38,\"y1\":142,\"apex\":1476}]}",
+    "width": 300,
+    "height": 150,
+    "poster": "animal_jump-02-frame.png",
+    "second_file": "animal_jump-02-2.gif",
+    "rounds": [
+      {
+        "x0": 8.7,
+        "x1": 56.5,
+        "y0": 38,
+        "y1": 142,
+        "apex": 903
+      },
+      {
+        "x0": 185.3,
+        "x1": 237.9,
+        "y0": 38,
+        "y1": 142,
+        "apex": 1476
+      }
+    ]
+  },
+  {
+    "file": "animal_jump-03-1.gif",
+    "type": "animal_jump",
+    "answer": "{\"r\":[{\"x0\":63.4,\"x1\":115.2,\"y0\":36.1,\"y1\":142,\"apex\":626},{\"x0\":123.5,\"x1\":174.3,\"y0\":37.1,\"y1\":142,\"apex\":535}]}",
+    "width": 300,
+    "height": 150,
+    "poster": "animal_jump-03-frame.png",
+    "second_file": "animal_jump-03-2.gif",
+    "rounds": [
+      {
+        "x0": 63.4,
+        "x1": 115.2,
+        "y0": 36.1,
+        "y1": 142,
+        "apex": 626
+      },
+      {
+        "x0": 123.5,
+        "x1": 174.3,
+        "y0": 37.1,
+        "y1": 142,
+        "apex": 535
+      }
+    ]
+  },
+  {
+    "file": "animal_jump-04-1.gif",
+    "type": "animal_jump",
+    "answer": "{\"r\":[{\"x0\":4.6,\"x1\":55.4,\"y0\":35.3,\"y1\":142,\"apex\":830},{\"x0\":63.4,\"x1\":118,\"y0\":30.8,\"y1\":142,\"apex\":616}]}",
+    "width": 300,
+    "height": 150,
+    "poster": "animal_jump-04-frame.png",
+    "second_file": "animal_jump-04-2.gif",
+    "rounds": [
+      {
+        "x0": 4.6,
+        "x1": 55.4,
+        "y0": 35.3,
+        "y1": 142,
+        "apex": 830
+      },
+      {
+        "x0": 63.4,
+        "x1": 118,
+        "y0": 30.8,
+        "y1": 142,
+        "apex": 616
+      }
+    ]
+  },
+  {
+    "file": "animal_jump-05-1.gif",
+    "type": "animal_jump",
+    "answer": "{\"r\":[{\"x0\":243.9,\"x1\":298.4,\"y0\":33.8,\"y1\":142,\"apex\":1257},{\"x0\":246.7,\"x1\":297.3,\"y0\":33.2,\"y1\":142,\"apex\":892}]}",
+    "width": 300,
+    "height": 150,
+    "poster": "animal_jump-05-frame.png",
+    "second_file": "animal_jump-05-2.gif",
+    "rounds": [
+      {
+        "x0": 243.9,
+        "x1": 298.4,
+        "y0": 33.8,
+        "y1": 142,
+        "apex": 1257
+      },
+      {
+        "x0": 246.7,
+        "x1": 297.3,
+        "y0": 33.2,
+        "y1": 142,
+        "apex": 892
+      }
+    ]
   }
 ]

@@ -15,6 +15,10 @@ const en = {
       label: "Slide puzzle",
       description: "Drag the piece into the right spot on the background image; the movement is checked too.",
     },
+    animal_jump: {
+      label: "Jumping animals",
+      description: "Two short rounds of jumping animal heads: click the one that jumps highest in each.",
+    },
     behavioral_advanced: {
       label: "Behaviour analysis",
       description: "Scores mouse and keyboard activity; most people never have to solve anything.",
@@ -36,6 +40,10 @@ const vi: Translation<typeof en> = {
     slide_puzzle: {
       label: "Ghép hình trượt",
       description: "Kéo mảnh ghép vào đúng vị trí trên ảnh nền; chuyển động cũng được kiểm tra.",
+    },
+    animal_jump: {
+      label: "Con vật nhảy cao",
+      description: "Hai lượt ngắn, các đầu con vật nhảy lên: bấm vào con vật nhảy cao nhất ở mỗi lượt.",
     },
     behavioral_advanced: {
       label: "Phân tích hành vi",

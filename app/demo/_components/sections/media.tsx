@@ -2,12 +2,14 @@ import { ScanEye } from "lucide-react";
 import Image from "next/image";
 import { AnimatedImage } from "@/components/ui/animated-image";
 import { Figure } from "@/components/ui/figure";
+import { JumpPreview } from "@/components/ui/jump-preview";
 import { MediaCard } from "@/components/ui/media-card";
 import { SlidePreview } from "@/components/ui/slide-preview";
 import { SAMPLES } from "@/lib/captchas";
 import { DemoBlock, DemoSection } from "../demo-shell";
 
 const slide = SAMPLES.slidePuzzle;
+const jump = SAMPLES.animalJump;
 
 export function MediaSection() {
   return (
@@ -43,6 +45,19 @@ export function MediaSection() {
           targetX={slide.x}
           pieceY={slide.y}
           alt="Challenge slide_puzzle mẫu"
+        />
+      </DemoBlock>
+
+      <DemoBlock title="JumpPreview" description="Hai lượt animal_jump phát nối nhau như trong widget, có bộ đếm lượt; mỗi lần phát dùng URL riêng nên GIF luôn chạy từ đầu.">
+        <JumpPreview
+          poster={jump.poster}
+          rounds={jump.rounds}
+          width={300}
+          height={150}
+          alt="Khung hình đầu của một challenge animal_jump"
+          playingAlt="Challenge animal_jump đang phát"
+          playLabel="Phát cả hai lượt (240 KB)"
+          replayLabel="Xem lại"
         />
       </DemoBlock>
 
