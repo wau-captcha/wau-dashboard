@@ -80,6 +80,14 @@ const en = {
     next: "Next page",
     page: (page: number) => `Page ${page}`,
   },
+  rotatePreview: {
+    rotateLeft: "Rotate left",
+    rotateRight: "Rotate right",
+    rounds: "Round",
+    round: (round: number) => `Round ${round}`,
+    /** Frames count from 0, as the API and the samples do. */
+    frame: (frame: number) => `Frame ${frame}`,
+  },
   secret: {
     hide: "Hide",
     show: "Show",
@@ -175,6 +183,13 @@ const vi: Translation<UIText> = {
     previous: "Trang trước",
     next: "Trang sau",
     page: (page) => `Trang ${page}`,
+  },
+  rotatePreview: {
+    rotateLeft: "Xoay trái",
+    rotateRight: "Xoay phải",
+    rounds: "Lượt",
+    round: (round) => `Lượt ${round}`,
+    frame: (frame) => `Khung ${frame}`,
   },
   secret: {
     hide: "Ẩn",

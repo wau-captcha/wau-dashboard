@@ -38,6 +38,7 @@ export function ReferenceSections({ text, baseUrl }: { text: Sections; baseUrl: 
             text.challengeTypes.motionNoise,
             text.challengeTypes.slidePuzzle,
             text.challengeTypes.animalJump,
+            text.challengeTypes.objectRotate,
           ]}
         />
         <Prose>{text.challengeTypes.note}</Prose>

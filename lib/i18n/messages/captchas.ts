@@ -10,7 +10,7 @@ const en = {
   index: {
     title: "Captchas people solve and scripts don't",
     description:
-      "WAU Captcha has four kinds of challenge. Each one is drawn fresh for every request, and while it is on screen the way the person behaves is checked too.",
+      "WAU Captcha has five kinds of challenge. Each one is drawn fresh for every request, and while it is on screen the way the person behaves is checked too.",
     typesTitle: "The challenges",
     compare: {
       title: "Side by side",
@@ -39,13 +39,15 @@ const en = {
     description:
       "Real output of the generators behind /challenge/new, each with its answer, to test a solver, an accessibility tool or your own integration against.",
     live: "Live challenges are generated fresh for every request, and each one can be answered once: a sample says nothing about the next challenge.",
-    download: "Download the manifest: file names, answers, the target and tolerance of slide_puzzle, and the target of each animal_jump round",
+    download:
+      "Download the manifest: file names, answers, the target and tolerance of slide_puzzle, the target of each animal_jump round, and the frame of each object_rotate round that faces the arrow",
     answer: (answer: string) => `Answer: ${answer}`,
     target: (x: string, tolerance: string) => `The piece ends at x = ${x} px, within ${tolerance} px`,
     play: "Play (3 MB)",
     playRounds: "Play both rounds",
     replay: "Replay",
     round: (round: string, from: string, to: string, apex: string) => `Round ${round}: target at x ${from}–${to} px, highest at ${apex} ms`,
+    rotateRound: (round: string, frame: string, object: string) => `Round ${round}: frame ${frame} faces the arrow (${object})`,
     alt: (type: string, index: string) => `${type}, sample ${index}`,
     playing: (type: string, index: string) => `${type}, sample ${index}, playing`,
     link: "Sample challenges with their answers",
@@ -69,7 +71,7 @@ const vi: Translation<typeof en> = {
   index: {
     title: "Captcha người giải được, script thì không",
     description:
-      "WAU Captcha có bốn loại challenge. Mỗi challenge được vẽ mới cho từng yêu cầu, và trong lúc nó hiện trên màn hình, cách người dùng thao tác cũng được kiểm tra.",
+      "WAU Captcha có năm loại challenge. Mỗi challenge được vẽ mới cho từng yêu cầu, và trong lúc nó hiện trên màn hình, cách người dùng thao tác cũng được kiểm tra.",
     typesTitle: "Các loại challenge",
     compare: {
       title: "So sánh",
@@ -98,13 +100,15 @@ const vi: Translation<typeof en> = {
     description:
       "Kết quả thật của các bộ sinh đứng sau /challenge/new, mỗi mẫu kèm đáp án, để thử một bộ giải, một công cụ hỗ trợ tiếp cận hay chính phần tích hợp của bạn.",
     live: "Challenge thật được sinh mới cho mỗi yêu cầu, và mỗi challenge chỉ trả lời được một lần: một mẫu không nói gì về challenge tiếp theo.",
-    download: "Tải manifest: tên tệp, đáp án, vị trí đích cùng sai số cho phép của slide_puzzle, và con mục tiêu của từng lượt animal_jump",
+    download:
+      "Tải manifest: tên tệp, đáp án, vị trí đích cùng sai số cho phép của slide_puzzle, con mục tiêu của từng lượt animal_jump, và khung hướng theo mũi tên của từng lượt object_rotate",
     answer: (answer) => `Đáp án: ${answer}`,
     target: (x, tolerance) => `Mảnh ghép dừng ở x = ${x} px, sai lệch tối đa ${tolerance} px`,
     play: "Phát (3 MB)",
     playRounds: "Phát cả hai lượt",
     replay: "Xem lại",
     round: (round, from, to, apex) => `Lượt ${round}: con mục tiêu ở x ${from}–${to} px, cao nhất lúc ${apex} ms`,
+    rotateRound: (round, frame, object) => `Lượt ${round}: khung ${frame} hướng theo mũi tên (${object})`,
     alt: (type, index) => `${type}, mẫu ${index}`,
     playing: (type, index) => `${type}, mẫu ${index}, đang phát`,
     link: "Challenge mẫu kèm đáp án",
