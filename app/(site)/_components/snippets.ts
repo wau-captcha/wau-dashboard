@@ -213,6 +213,23 @@ export const restSiteVerify = (baseUrl: string) => `curl -X POST "${baseUrl}/sit
   "hostname": "shop.example.com"
 }`;
 
+export const autoCheckWidget = (baseUrl: string) => `<div
+  data-wau-captcha
+  data-site-key="pk_…"
+  data-base-url="${baseUrl}"
+  data-challenge-type="auto_check"
+  data-fallback-type="image_distort"
+  data-appearance="interaction-only"></div>`;
+
+export const autoCheckServer = `import { ChallengeType } from "@wau-captcha/server";
+
+const result = await wau.verifyToken(token);
+if (!result.success || result.hostname !== "shop.example.com") throw new Error("Please solve the captcha.");
+// Passed without a puzzle: for a sign-up, ask for a score of your own as well.
+if (result.challengeType === ChallengeType.AUTO_CHECK && (result.behavior.score ?? 0) < 0.9) {
+  // e.g. send a code by e-mail before creating the account
+}`;
+
 export const hostnameCheck = `const result = await wau.verifyToken(token);
 if (!result.success || result.hostname !== "shop.example.com") {
   // Unknown token, or solved on another website: refuse the request.

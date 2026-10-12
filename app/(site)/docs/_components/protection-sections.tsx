@@ -1,8 +1,10 @@
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 import { CodeBlock } from "@/components/ui/code-block";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Dictionary } from "@/lib/i18n/dictionary";
-import { hostnameCheck } from "../../_components/snippets";
-import { Bullets, DocSection, Prose } from "./doc-section";
+import { autoCheckServer, autoCheckWidget, hostnameCheck } from "../../_components/snippets";
+import { Bullets, DocSection, Prose, SubHeading } from "./doc-section";
 
 type Sections = Dictionary["docs"]["sections"];
 
@@ -49,6 +51,29 @@ export function BindingSections({ text }: { text: Sections }) {
         <Prose>{versions.oldClients}</Prose>
       </DocSection>
     </>
+  );
+}
+
+/** What auto_check stops and what it does not, what it sends and how to ask for it: after the reference. */
+export function AutoCheckSection({ text, baseUrl }: { text: Sections; baseUrl: string }) {
+  const auto = text.autoCheck;
+  return (
+    <DocSection id="auto-check" title={auto.title}>
+      <Prose>{auto.body}</Prose>
+      <SubHeading>{auto.stopsTitle}</SubHeading>
+      <Bullets items={auto.stops} />
+      <SubHeading>{auto.limitsTitle}</SubHeading>
+      <Bullets items={auto.limits} />
+      <Prose>{auto.sends}</Prose>
+      <Prose>{auto.fallback}</Prose>
+      <Prose>{auto.integration}</Prose>
+      <CodeBlock language="html" code={autoCheckWidget(baseUrl)} />
+      <CodeBlock language="javascript" code={autoCheckServer} />
+      <Prose>{auto.usage}</Prose>
+      <Link href="/captchas/auto-check" className={buttonVariants({ variant: "link", className: "justify-self-start px-0" })}>
+        {auto.more}
+      </Link>
+    </DocSection>
   );
 }
 

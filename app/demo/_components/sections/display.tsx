@@ -27,6 +27,7 @@ const challengeCards = [
   { id: "slide_puzzle", description: "Kéo mảnh ghép vào đúng vị trí trên ảnh nền.", tier: "Premium" },
   { id: "animal_jump", description: "Bấm vào con vật nhảy cao nhất, qua hai lượt.", tier: "Free" },
   { id: "object_rotate", description: "Xoay vật thể cho mặt trước hướng theo mũi tên, qua hai lượt.", tier: "Free" },
+  { id: "auto_check", description: "Xác minh ngầm, chỉ hiện captcha khi chưa chắc chắn.", tier: "Free" },
 ];
 
 export async function DisplaySection() {

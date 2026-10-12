@@ -2,18 +2,22 @@
  * The captcha types WAU Captcha has, for the public captcha pages and the overview: their address,
  * their id in the API and the sample media under public/captchas. The samples are real output of
  * the renderers of wau-services, so the pages show exactly what visitors are asked to solve.
+ * auto_check has no media: most visitors solve nothing, and the rest get a challenge of its fallback type.
  */
-export type CaptchaTypeId = "image_distort" | "motion_noise" | "slide_puzzle" | "animal_jump" | "object_rotate";
+export type CaptchaTypeId = "image_distort" | "motion_noise" | "slide_puzzle" | "animal_jump" | "object_rotate" | "auto_check";
 
 export type CaptchaInfo = {
-  slug: "image-distort" | "motion-noise" | "slide-puzzle" | "animal-jump" | "object-rotate";
+  slug: "image-distort" | "motion-noise" | "slide-puzzle" | "animal-jump" | "object-rotate" | "auto-check";
   id: CaptchaTypeId;
   /** The ChallengeType constant of the JavaScript and Java SDKs. */
-  constant: "IMAGE_DISTORT" | "MOTION_NOISE" | "SLIDE_PUZZLE" | "ANIMAL_JUMP" | "OBJECT_ROTATE";
-  /** Size of the media in CSS pixels; for object_rotate, of one frame. */
+  constant: "IMAGE_DISTORT" | "MOTION_NOISE" | "SLIDE_PUZZLE" | "ANIMAL_JUMP" | "OBJECT_ROTATE" | "AUTO_CHECK";
+  /** Size of the media in CSS pixels; for object_rotate, of one frame; for auto_check, of its box. */
   width: number;
   height: number;
-  /** Whether a person with a keyboard alone can solve it; the others need a pointer. Every type needs sight. */
+  /**
+   * Whether a person with a keyboard alone can solve it; the others need a pointer. Every type needs
+   * sight, auto_check only for its fallback.
+   */
   keyboard: boolean;
 };
 
@@ -23,6 +27,7 @@ export const CAPTCHAS: readonly CaptchaInfo[] = [
   { slug: "slide-puzzle", id: "slide_puzzle", constant: "SLIDE_PUZZLE", width: 300, height: 150, keyboard: false },
   { slug: "animal-jump", id: "animal_jump", constant: "ANIMAL_JUMP", width: 300, height: 150, keyboard: false },
   { slug: "object-rotate", id: "object_rotate", constant: "OBJECT_ROTATE", width: 300, height: 150, keyboard: true },
+  { slug: "auto-check", id: "auto_check", constant: "AUTO_CHECK", width: 300, height: 64, keyboard: true },
 ];
 
 export function captchaBySlug(slug: string): CaptchaInfo | undefined {

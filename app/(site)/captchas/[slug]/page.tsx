@@ -24,8 +24,15 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return { title: challengeTypeLabel(captcha.id, t.challengeTypes), description: t.captchaGuides.types[captcha.id].tagline };
 }
 
-/** How the three ways of asking for a type look, with the site's own API address. */
+/** How the three ways of asking for a type look, with the site's own API address; auto_check with its fallback and appearance. */
 function usage(captcha: CaptchaInfo, baseUrl: string): string {
+  if (captcha.id === "auto_check") {
+    return [
+      `<WauCaptcha siteKey="pk_…" baseUrl="${baseUrl}" challengeType={ChallengeType.AUTO_CHECK}\n  fallbackChallengeType={ChallengeType.IMAGE_DISTORT} appearance={Appearance.INTERACTION_ONLY} />`,
+      `<div data-wau-captcha data-site-key="pk_…" data-base-url="${baseUrl}" data-challenge-type="auto_check"\n  data-fallback-type="image_distort" data-appearance="interaction-only"></div>`,
+      `GET ${baseUrl}/challenge/new?site_key=pk_…&challenge_type=auto_check&fallback_type=image_distort`,
+    ].join("\n\n");
+  }
   return [
     `<WauCaptcha siteKey="pk_…" baseUrl="${baseUrl}" challengeType={ChallengeType.${captcha.constant}} />`,
     `<div data-wau-captcha data-site-key="pk_…" data-base-url="${baseUrl}" data-challenge-type="${captcha.id}"></div>`,
@@ -40,6 +47,8 @@ export default async function CaptchaTypePage({ params }: Params) {
   if (!captcha) notFound();
   const text = t.captchaGuides;
   const guide = text.types[captcha.id];
+  // auto_check says more: what it does not stop, what it sends, the fallback and the usage charts.
+  const auto = captcha.id === "auto_check" ? text.types.auto_check : null;
   const position = CAPTCHAS.indexOf(captcha);
   const previous = CAPTCHAS[position - 1];
   const next = CAPTCHAS[position + 1];
@@ -94,16 +103,44 @@ export default async function CaptchaTypePage({ params }: Params) {
         </section>
       </div>
 
+      {auto && (
+        <div className="grid gap-10 md:grid-cols-2">
+          <section className="grid content-start gap-3">
+            <SubHeading>{auto.limitsTitle}</SubHeading>
+            <Bullets items={auto.limits} />
+          </section>
+          <section className="grid content-start gap-3">
+            <SubHeading>{auto.sendsTitle}</SubHeading>
+            <Bullets items={auto.sends} />
+          </section>
+        </div>
+      )}
+
       <section className="grid gap-3">
         <SubHeading>{text.sections.choose}</SubHeading>
         <Alert tone={captcha.keyboard ? "neutral" : "warning"}>{guide.choose}</Alert>
       </section>
 
+      {auto && (
+        <section className="grid gap-3">
+          <SubHeading>{auto.fallbackTitle}</SubHeading>
+          <Bullets items={auto.fallback} />
+        </section>
+      )}
+
       <section className="grid gap-3">
         <SubHeading>{text.sections.use}</SubHeading>
         <Prose>{text.sections.useBody}</Prose>
         <CodeBlock code={usage(captcha, docsBaseUrl())} />
+        {auto && <Bullets items={auto.integration} />}
       </section>
+
+      {auto && (
+        <section className="grid gap-3">
+          <SubHeading>{auto.usageTitle}</SubHeading>
+          <Prose>{auto.usage}</Prose>
+        </section>
+      )}
 
       <nav aria-label={t.captchas.allCaptchas} className="flex flex-wrap justify-between gap-3 border-t border-border pt-6">
         {previous ? (

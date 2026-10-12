@@ -47,7 +47,8 @@ export default async function SamplesPage() {
         </a>
       </div>
 
-      {CAPTCHAS.map((captcha) => {
+      {/* auto_check has no media, so no samples. */}
+      {CAPTCHAS.filter((captcha) => samples.some((sample) => sample.type === captcha.id)).map((captcha) => {
         const label = challengeTypeLabel(captcha.id, t.challengeTypes);
         const ofType = samples.filter((sample) => sample.type === captcha.id);
         return (

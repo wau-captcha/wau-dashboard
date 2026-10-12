@@ -1,6 +1,7 @@
 import { ScanEye } from "lucide-react";
 import Image from "next/image";
 import { AnimatedImage } from "@/components/ui/animated-image";
+import { AutoCheckPreview } from "@/components/ui/auto-check-preview";
 import { Figure } from "@/components/ui/figure";
 import { JumpPreview } from "@/components/ui/jump-preview";
 import { MediaCard } from "@/components/ui/media-card";
@@ -36,18 +37,49 @@ export function MediaSection() {
         />
       </DemoBlock>
 
-      <DemoBlock title="SlidePreview" description="Mảnh ghép tự trượt vào chỗ trống rồi về, lặp lại; giảm chuyển động thì đứng yên ở đầu.">
-        <SlidePreview
-          background={slide.background}
-          piece={slide.piece}
-          width={300}
-          height={150}
-          pieceWidth={slide.width}
-          pieceHeight={slide.height}
-          targetX={slide.x}
-          pieceY={slide.y}
-          alt="Challenge slide_puzzle mẫu"
-        />
+      <DemoBlock title="SlidePreview" description="Mảnh ghép tự trượt vào chỗ trống rồi về, lặp lại; giảm chuyển động thì đứng yên ở đầu. still giữ mảnh ghép ở đầu, như lúc challenge vừa hiện.">
+        <div className="grid max-w-3xl items-start gap-6 sm:grid-cols-2">
+          <SlidePreview
+            background={slide.background}
+            piece={slide.piece}
+            width={300}
+            height={150}
+            pieceWidth={slide.width}
+            pieceHeight={slide.height}
+            targetX={slide.x}
+            pieceY={slide.y}
+            alt="Challenge slide_puzzle mẫu"
+          />
+          <SlidePreview
+            background={slide.background}
+            piece={slide.piece}
+            width={300}
+            height={150}
+            pieceWidth={slide.width}
+            pieceHeight={slide.height}
+            targetX={slide.x}
+            pieceY={slide.y}
+            alt="Challenge slide_puzzle mẫu, mảnh ghép ở vị trí đầu"
+            still
+          />
+        </div>
+      </DemoBlock>
+
+      <DemoBlock
+        title="AutoCheckPreview"
+        description="Ô auto_check như trong widget, lặp lại: biểu tượng xoay và chữ đang kiểm tra, rồi Đã xác minh; nút chuyển hiện nhánh dự phòng, với một slide_puzzle đứng yên và chữ yêu cầu giải thêm. still chỉ hiện ô đang kiểm tra, cho thẻ."
+      >
+        <div className="grid max-w-3xl items-start gap-6 sm:grid-cols-2">
+          <AutoCheckPreview
+            alt="Ô auto_check: đang kiểm tra, rồi Đã xác minh"
+            fallback={{ background: slide.background, piece: slide.piece, width: 300, height: 150, pieceWidth: slide.width, pieceHeight: slide.height, targetX: slide.x, pieceY: slide.y }}
+          />
+          <AutoCheckPreview
+            alt="Ô auto_check đang kiểm tra"
+            fallback={{ background: slide.background, piece: slide.piece, width: 300, height: 150, pieceWidth: slide.width, pieceHeight: slide.height, targetX: slide.x, pieceY: slide.y }}
+            still
+          />
+        </div>
       </DemoBlock>
 
       <DemoBlock title="JumpPreview" description="Hai lượt animal_jump phát nối nhau như trong widget, có bộ đếm lượt; mỗi lần phát dùng URL riêng nên GIF luôn chạy từ đầu.">

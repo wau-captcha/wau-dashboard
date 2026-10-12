@@ -15,6 +15,8 @@ export type SlidePreviewProps = {
   /** Top edge of the piece, which slides along its row. */
   pieceY: number;
   alt: string;
+  /** The piece at the start, as a challenge is shown, without moving: e.g. auto_check's fallback. */
+  still?: boolean;
   className?: string;
 };
 
@@ -22,9 +24,9 @@ const percent = (part: number, whole: number) => `${(part / whole) * 100}%`;
 
 /**
  * A slide puzzle that solves itself: the piece slides along its row into the hole and back, on a
- * loop. With reduced motion it stays at the start. Everything scales with the width.
+ * loop. With reduced motion, or `still`, it stays at the start. Everything scales with the width.
  */
-export function SlidePreview({ background, piece, width, height, pieceWidth, pieceHeight, targetX, pieceY, alt, className }: SlidePreviewProps) {
+export function SlidePreview({ background, piece, width, height, pieceWidth, pieceHeight, targetX, pieceY, alt, still = false, className }: SlidePreviewProps) {
   return (
     <div
       data-slot="slide-preview"
@@ -40,7 +42,7 @@ export function SlidePreview({ background, piece, width, height, pieceWidth, pie
         width={pieceWidth}
         height={pieceHeight}
         unoptimized
-        className="absolute left-0 h-auto animate-slide-preview motion-reduce:animate-none"
+        className={cn("absolute left-0 h-auto", !still && "animate-slide-preview motion-reduce:animate-none")}
         style={{ top: percent(pieceY, height), width: percent(pieceWidth, width) }}
       />
     </div>

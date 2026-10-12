@@ -81,6 +81,7 @@ const monthlySummary = [
   { type: "slide_puzzle", total: 12780, success: 12004 },
   { type: "animal_jump", total: 6410, success: 6013 },
   { type: "object_rotate", total: 4127, success: 3884 },
+  { type: "auto_check", total: 9318, success: 8236 },
 ];
 
 function ApiKeysTable() {
