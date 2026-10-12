@@ -88,6 +88,15 @@ const en = {
     /** Frames count from 0, as the API and the samples do. */
     frame: (frame: number) => `Frame ${frame}`,
   },
+  autoCheckPreview: {
+    /** The texts of the widget's auto_check box. */
+    checking: "Checking that you are human…",
+    verified: "Verified",
+    fallback: "One more step: please solve this challenge.",
+    outcome: "Outcome",
+    pass: "Passes",
+    fallBack: "Falls back",
+  },
   secret: {
     hide: "Hide",
     show: "Show",
@@ -190,6 +199,14 @@ const vi: Translation<UIText> = {
     rounds: "Lượt",
     round: (round) => `Lượt ${round}`,
     frame: (frame) => `Khung ${frame}`,
+  },
+  autoCheckPreview: {
+    checking: "Đang kiểm tra bạn là người…",
+    verified: "Đã xác minh",
+    fallback: "Cần thêm một bước: hãy giải captcha này.",
+    outcome: "Kết quả",
+    pass: "Qua ngay",
+    fallBack: "Chuyển dự phòng",
   },
   secret: {
     hide: "Ẩn",

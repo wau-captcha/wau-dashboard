@@ -114,7 +114,7 @@ export type DemoUsageLog = {
   timestamp: Date;
 };
 
-const logChallengeTypes = ["image_distort", "motion_noise", "slide_puzzle", "animal_jump", "object_rotate"];
+const logChallengeTypes = ["image_distort", "motion_noise", "slide_puzzle", "animal_jump", "object_rotate", "auto_check"];
 const logStart = Date.UTC(2026, 8, 15, 7, 30, 0);
 
 export const usageLogs: DemoUsageLog[] = Array.from({ length: 137 }, (_, index) => ({
@@ -131,6 +131,7 @@ export const challengeTypeOptions: SelectOption[] = [
   { value: "slide_puzzle", label: "slide_puzzle", description: "Kéo mảnh ghép" },
   { value: "animal_jump", label: "animal_jump", description: "Bấm con vật nhảy cao nhất" },
   { value: "object_rotate", label: "object_rotate", description: "Xoay vật theo mũi tên" },
+  { value: "auto_check", label: "auto_check", description: "Xác minh ngầm, chỉ hiện captcha khi chưa chắc chắn" },
   { value: "behavioral_advanced", label: "behavioral_advanced", description: "Phân tích hành vi (sắp có)", disabled: true },
 ];
 

@@ -48,9 +48,9 @@ const en = {
       ],
     },
     challenges: {
-      title: "Five kinds of challenge",
+      title: "Five challenges, and a check without one",
       description:
-        "Pick per request. All five are generated fresh every time, so there is nothing to collect and replay. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
+        "Pick per request. The five challenges are generated fresh every time, so there is nothing to collect and replay, and auto_check lets most visitors through without any. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
       imageDistort: {
         name: "Distorted text",
         body: "Five characters, each turned, slanted and bent, crossed by thin strokes in the colours of the text. Quick for people, and a hurdle for generic OCR.",
@@ -70,6 +70,10 @@ const en = {
       objectRotate: {
         name: "Rotate to arrow",
         body: "An object stands beside an arrow on the ground: turn it a step at a time until it faces the arrow, in two rounds. The arrow keys work too; both rounds must be right, and the pace of the presses is checked.",
+      },
+      autoCheck: {
+        name: "Auto check",
+        body: "Most visitors do nothing: a small box checks the browser and how it is used, and only those it is unsure of get a puzzle. It stops plain scripts and headless browsers that do not hide themselves; for sign-ups and payments, check the score on your server too.",
       },
     },
     features: {
@@ -147,9 +151,9 @@ const vi: Translation<typeof en> = {
       ],
     },
     challenges: {
-      title: "Năm loại challenge",
+      title: "Năm loại challenge, và một cách xác minh không cần giải",
       description:
-        "Chọn theo từng lần gọi. Cả năm đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
+        "Chọn theo từng lần gọi. Năm loại challenge đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại, còn auto_check cho phần lớn khách truy cập qua mà không phải giải gì. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
       imageDistort: {
         name: "Chữ méo",
         body: "Năm ký tự, mỗi ký tự xoay, nghiêng và uốn khác nhau, bị các nét mảnh cùng màu chữ cắt ngang. Nhanh với người, và là rào cản với OCR thông thường.",
@@ -169,6 +173,10 @@ const vi: Translation<typeof en> = {
       objectRotate: {
         name: "Xoay vật theo mũi tên",
         body: "Một vật thể đứng cạnh mũi tên trên mặt đất: xoay nó từng nấc cho tới khi hướng theo mũi tên, qua hai lượt. Dùng được cả phím mũi tên; cả hai lượt phải đúng, và nhịp bấm cũng được kiểm tra.",
+      },
+      autoCheck: {
+        name: "Xác minh tự động",
+        body: "Phần lớn khách truy cập không phải làm gì: một ô nhỏ kiểm tra trình duyệt và cách nó được dùng, chỉ người mà nó chưa chắc chắn mới phải giải câu đố. Nó chặn được script thuần và trình duyệt headless không che giấu bản thân; với đăng ký và thanh toán, hãy kiểm tra cả điểm ở máy chủ.",
       },
     },
     features: {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { AnimatedImage } from "@/components/ui/animated-image";
+import { AutoCheckPreview } from "@/components/ui/auto-check-preview";
 import { JumpPreview } from "@/components/ui/jump-preview";
 import { RotatePreview } from "@/components/ui/rotate-preview";
 import { SlidePreview } from "@/components/ui/slide-preview";
@@ -79,6 +80,25 @@ export function CaptchaIllustration({ captcha, text, compact = false }: CaptchaI
     );
   }
   const slide = SAMPLES.slidePuzzle;
+  if (captcha.id === "auto_check") {
+    // No media of its own: the box, and a slide_puzzle sample as the fallback it shows when unsure.
+    return (
+      <AutoCheckPreview
+        alt={text.auto_check.alt}
+        still={compact}
+        fallback={{
+          background: slide.background,
+          piece: slide.piece,
+          width: 300,
+          height: 150,
+          pieceWidth: slide.width,
+          pieceHeight: slide.height,
+          targetX: slide.x,
+          pieceY: slide.y,
+        }}
+      />
+    );
+  }
   return (
     <SlidePreview
       background={slide.background}

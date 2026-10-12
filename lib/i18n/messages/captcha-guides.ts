@@ -119,6 +119,56 @@ const en = {
       task: "Turns an object to face an arrow, twice",
       bestFor: "People who find reading distorted text hard, touch screens and keyboard users",
     },
+    auto_check: {
+      tagline: "Most visitors do nothing: the check runs in the background, and only those it is unsure of get a puzzle.",
+      alt: "An auto_check box as visitors see it: a spinner and “Checking that you are human…”, then a check mark and “Verified”",
+      caption: "The box as visitors see it. Switch to the fallback to see what a visitor the check is unsure of gets instead: here, a slide_puzzle.",
+      does: [
+        "Nothing, most of the time. Once the box comes into view it says “Checking that you are human…”, while the browser solves a proof of work and the SDK looks at the browser and at how the pointer moves on the page.",
+        "After a second and a half, or a little more, the box turns into “Verified” and the form has its token.",
+        "A visitor the check is unsure of is never told why: “One more step: please solve this challenge.” and a challenge of the fallback type appear in the same place.",
+      ],
+      why: [
+        "Plain HTTP scripts: an answer needs a proof of work, behaviour recorded for over a second and the headers of a real browser, and a User-Agent of an HTTP library or an automation tool is refused outright.",
+        "Headless browsers that do not hide themselves: navigator.webdriver, a HeadlessChrome User-Agent, a window without an outer size, WebGL drawn in software (SwiftShader, llvmpipe), or notifications denied while the browser says it would ask.",
+        "Stealth plugins that patch browser functions: a navigator.webdriver or a Function.prototype.toString that is not native, or a User-Agent or language that differs from the one in the request's headers.",
+        "Every pass costs the browser a proof of work of 18 bits, about 8 times that of the other types, and one address gets at most 30 automatic passes an hour; after that it sees the fallback.",
+        "The decision has no randomness: the same browser asking again gets the same result, so trying again gains a script nothing but more work.",
+      ],
+      media: "None: a box of about 300 × 64",
+      answer: "Browser checks and behaviour, sent by the SDK",
+      choose: "Where every extra step costs you visitors: newsletter sign-ups, comments, contact forms. For sign-ups, logins and payments, check behavior.score on your backend, or ask for an interactive type there. Choose image_distort as the fallback where people use a keyboard alone.",
+      task: "Nothing, most of the time; the rest solve the fallback",
+      bestFor: "Forms where friction costs visitors, with a puzzle only for doubtful ones",
+      limitsTitle: "What it does not stop",
+      limits: [
+        "A determined attacker who drives a real browser, moves the mouse like a person and has many addresses can pass the automatic check: every signal a browser gives can be faked, and a current headless Chrome that changes its User-Agent looks like any other Chrome.",
+        "Cloudflare Turnstile and Google reCAPTCHA judge with far more data, such as what they see of an address across millions of websites; WAU Captcha sees your own traffic only.",
+        "So for sign-ups, logins and payments, require behavior.score at or above a threshold of your own on your backend, or use an interactive type for those forms.",
+      ],
+      sendsTitle: "What the SDK sends",
+      sends: [
+        "The names of the checks that tripped, such as outer_zero or software_gl: yes-or-no findings, never the values behind them. No fingerprint, no canvas or WebGL output, no list of fonts or plugins.",
+        "navigator.userAgent and navigator.language, which the browser sends in the headers of every request anyway, so that the service can compare them.",
+        "The behaviour the SDK records for every type, here on the whole page while the check runs: pointer moves and presses, measured from the widget. Never keys or page content.",
+        "Nothing is kept beyond what the other types keep: the verdict, the score and the reason codes in the usage history of the key. Redis also counts the automatic passes of each address for an hour, for the limit above.",
+      ],
+      fallbackTitle: "Choosing the fallback",
+      fallback: [
+        "Name it with data-fallback-type or fallbackChallengeType; slide_puzzle is the default. When your plan does not include the one you name, the service picks the first it does of slide_puzzle, image_distort, animal_jump and motion_noise.",
+        "auto_check is as accessible as its fallback: most people do nothing, the rest solve the fallback. Where people use a keyboard alone, choose image_distort.",
+        "From the fallback on, the widget behaves like one of that type until the visitor passes: a wrong answer loads another challenge of the fallback type, never auto_check again.",
+        "Falling back is the normal path, not a sign of attack: it does not count as a wrong answer of the visitor's address, unless the answer was judged automated.",
+      ],
+      integration: [
+        "data-fallback-type and data-appearance on the element, or fallbackChallengeType and appearance on <WauCaptcha />: always (the default) shows the box from the start, interaction-only keeps the captcha hidden unless the fallback or an error must be shown.",
+        "It always runs inline, also in MODAL mode, and starts once the box is in view. When its token expires unused, it checks again on the visitor's next click, key press or focus in the page, not by itself: every pass counts against your daily quota.",
+        "/siteverify reports challenge_type auto_check for a visitor who passed without a puzzle, and the fallback's type for one who solved the fallback.",
+      ],
+      usageTitle: "In your usage charts",
+      usage:
+        "The success rate of auto_check is the share of visitors who passed without a puzzle. A visitor who fell back counts as answered and not solved for auto_check, and the fallback challenge counts under its own type.",
+    },
   },
   behavior: {
     metaTitle: "Behaviour check",
@@ -158,7 +208,7 @@ const en = {
       "not_measured means the client sent no behaviour: an SDK older than 1.2.0 or a hand-written integration. Only the answer was checked, so treat the token as untrusted and refuse it. New keys require behaviour data, which refuses such answers before any token is issued; the switch is on the key's page.",
     collectTitle: "What we collect",
     collect:
-      "The behaviour data is sent with the answer, judged in memory and dropped: it is never stored. What stays is the verdict, the score and the reason codes, in the usage history of the key, and with the token until the site's server redeems it. While a challenge can be answered, 2 minutes at most, Redis also holds the visitor's IP address, the website it was asked for from and a hash of the User-Agent, to check that the answer comes from the same browser. Redis also counts, per IP address, wrong answers for 10 minutes and answers judged automated for an hour, to slow down addresses that keep failing.",
+      "The behaviour data is sent with the answer, judged in memory and dropped: it is never stored. What stays is the verdict, the score and the reason codes, in the usage history of the key, and with the token until the site's server redeems it. While a challenge can be answered, 2 minutes at most, Redis also holds the visitor's IP address, the website it was asked for from and a hash of the User-Agent, to check that the answer comes from the same browser. Redis also counts, per IP address, wrong answers for 10 minutes and answers judged automated for an hour, to slow down addresses that keep failing, and the automatic passes of auto_check for an hour, to cap them.",
     privacyLink: "Read the privacy policy",
   },
 };
@@ -281,6 +331,56 @@ const vi: Translation<typeof en> = {
       task: "Xoay vật thể cho hướng theo mũi tên, hai lần",
       bestFor: "Người thấy khó đọc chữ bị bóp méo, màn hình cảm ứng và người dùng bàn phím",
     },
+    auto_check: {
+      tagline: "Phần lớn khách truy cập không phải làm gì: việc kiểm tra chạy ngầm, chỉ người mà nó chưa chắc chắn mới phải giải một câu đố.",
+      alt: "Một ô auto_check như khách truy cập thấy: biểu tượng xoay và “Đang kiểm tra bạn là người…”, rồi dấu tích và “Đã xác minh”",
+      caption: "Ô kiểm tra như khách truy cập thấy. Chuyển sang phần dự phòng để xem người mà phép kiểm tra chưa chắc chắn nhận được gì thay vào đó: ở đây là một slide_puzzle.",
+      does: [
+        "Phần lớn thời gian không phải làm gì. Khi ô kiểm tra xuất hiện trong khung nhìn, nó hiện “Đang kiểm tra bạn là người…”, trong lúc trình duyệt giải một proof of work và SDK xem xét trình duyệt cùng cách con trỏ di chuyển trên trang.",
+        "Sau một giây rưỡi, hoặc lâu hơn một chút, ô chuyển thành “Đã xác minh” và form đã có token.",
+        "Người mà phép kiểm tra chưa chắc chắn không bao giờ được cho biết lý do: “Cần thêm một bước: hãy giải captcha này.” cùng một challenge thuộc loại dự phòng hiện ra ở đúng chỗ đó.",
+      ],
+      why: [
+        "Script HTTP thuần: câu trả lời cần một proof of work, dữ liệu hành vi được ghi trong hơn một giây và các header của trình duyệt thật; User-Agent của thư viện HTTP hay công cụ tự động hóa bị từ chối ngay.",
+        "Trình duyệt headless không che giấu bản thân: navigator.webdriver, User-Agent ghi HeadlessChrome, cửa sổ không có kích thước ngoài, WebGL vẽ bằng phần mềm (SwiftShader, llvmpipe), hoặc thông báo bị chặn trong khi trình duyệt nói nó sẽ hỏi.",
+        "Plugin stealth vá các hàm của trình duyệt: navigator.webdriver hay Function.prototype.toString không còn là hàm gốc, hoặc User-Agent hay ngôn ngữ khác với giá trị trong header của yêu cầu.",
+        "Mỗi lượt qua tốn cho trình duyệt một proof of work 18 bit, khoảng gấp 8 lần các loại khác, và một địa chỉ chỉ được tối đa 30 lượt qua tự động mỗi giờ; sau đó nó nhận phần dự phòng.",
+        "Quyết định không có yếu tố ngẫu nhiên: cùng một trình duyệt hỏi lại sẽ nhận cùng kết quả, nên thử lại chẳng giúp script được gì ngoài tốn thêm công.",
+      ],
+      media: "Không có: một ô khoảng 300 × 64",
+      answer: "Kết quả kiểm tra trình duyệt và dữ liệu hành vi, do SDK gửi",
+      choose: "Ở nơi mỗi bước thêm vào đều làm bạn mất khách: đăng ký nhận tin, bình luận, form liên hệ. Với đăng ký tài khoản, đăng nhập và thanh toán, hãy kiểm tra behavior.score ở backend, hoặc dùng một loại cần tương tác ở đó. Chọn image_distort làm loại dự phòng ở nơi có người chỉ dùng bàn phím.",
+      task: "Phần lớn thời gian không làm gì; số còn lại giải phần dự phòng",
+      bestFor: "Form mà mỗi trở ngại đều làm mất khách, chỉ đưa câu đố cho người đáng ngờ",
+      limitsTitle: "Những gì nó không chặn được",
+      limits: [
+        "Kẻ tấn công quyết tâm điều khiển một trình duyệt thật, di chuột giống người và có nhiều địa chỉ thì có thể vượt qua phần kiểm tra tự động: mọi tín hiệu trình duyệt đưa ra đều giả được, và một Chrome headless đời mới đổi User-Agent thì trông như mọi Chrome khác.",
+        "Cloudflare Turnstile và Google reCAPTCHA đánh giá với nhiều dữ liệu hơn hẳn, chẳng hạn những gì họ thấy về một địa chỉ trên hàng triệu website; WAU Captcha chỉ thấy lưu lượng của chính bạn.",
+        "Vì vậy với đăng ký tài khoản, đăng nhập và thanh toán, hãy yêu cầu behavior.score từ một ngưỡng do bạn chọn ở backend, hoặc dùng một loại cần tương tác cho những form đó.",
+      ],
+      sendsTitle: "SDK gửi những gì",
+      sends: [
+        "Tên của các phép kiểm tra bị kích hoạt, như outer_zero hay software_gl: kết quả có hoặc không, không bao giờ là giá trị đằng sau. Không có dấu vân tay, không có kết quả vẽ canvas hay WebGL, không có danh sách font hay plugin.",
+        "navigator.userAgent và navigator.language, vốn đã được trình duyệt gửi trong header của mọi yêu cầu, để service so sánh.",
+        "Dữ liệu hành vi SDK ghi cho mọi loại, ở đây là trên toàn trang trong lúc kiểm tra: di chuyển và nhấn của con trỏ, đo từ widget. Không bao giờ ghi phím hay nội dung trang.",
+        "Không lưu gì nhiều hơn các loại khác: kết luận, điểm và mã lý do trong lịch sử sử dụng của khóa. Redis cũng đếm số lượt qua tự động của từng địa chỉ trong một giờ, cho giới hạn nói trên.",
+      ],
+      fallbackTitle: "Chọn loại dự phòng",
+      fallback: [
+        "Ghi bằng data-fallback-type hoặc fallbackChallengeType; mặc định là slide_puzzle. Khi gói của bạn không có loại bạn ghi, service chọn loại đầu tiên mà gói có trong slide_puzzle, image_distort, animal_jump và motion_noise.",
+        "auto_check dễ tiếp cận đúng bằng loại dự phòng của nó: phần lớn người dùng không phải làm gì, số còn lại giải phần dự phòng. Ở nơi có người chỉ dùng bàn phím, hãy chọn image_distort.",
+        "Từ lúc chuyển sang dự phòng, widget hoạt động như widget của loại đó cho tới khi khách truy cập qua: trả lời sai sẽ nhận một challenge khác cùng loại dự phòng, không bao giờ quay lại auto_check.",
+        "Chuyển sang dự phòng là chuyện bình thường, không phải dấu hiệu tấn công: nó không bị tính là câu trả lời sai của địa chỉ đó, trừ khi câu trả lời bị đánh giá là tự động.",
+      ],
+      integration: [
+        "data-fallback-type và data-appearance trên phần tử, hoặc fallbackChallengeType và appearance trên <WauCaptcha />: always (mặc định) hiện ô kiểm tra ngay từ đầu, interaction-only giữ captcha ẩn trừ khi phải hiện phần dự phòng hoặc một lỗi.",
+        "Nó luôn chạy tại chỗ, kể cả ở chế độ MODAL, và bắt đầu khi ô kiểm tra xuất hiện trong khung nhìn. Khi token hết hạn mà chưa dùng, nó kiểm tra lại ở lần bấm, nhấn phím hay lấy focus tiếp theo của khách trên trang, chứ không tự chạy: mỗi lượt qua đều tính vào hạn mức mỗi ngày của bạn.",
+        "/siteverify báo challenge_type là auto_check với khách qua mà không phải giải gì, và là loại dự phòng với người đã giải phần dự phòng.",
+      ],
+      usageTitle: "Trong biểu đồ sử dụng",
+      usage:
+        "Tỷ lệ thành công của auto_check là tỷ lệ khách truy cập qua được mà không phải giải câu đố nào. Khách đã chuyển sang dự phòng được tính là đã trả lời nhưng không qua với auto_check, còn challenge dự phòng được tính vào loại của nó.",
+    },
   },
   behavior: {
     metaTitle: "Kiểm tra hành vi",
@@ -320,7 +420,7 @@ const vi: Translation<typeof en> = {
       "not_measured nghĩa là client không gửi dữ liệu hành vi: SDK cũ hơn 1.2.0 hoặc tích hợp tự viết. Chỉ câu trả lời được kiểm tra, nên hãy coi token đó là không đáng tin và từ chối. Khóa mới bắt buộc dữ liệu hành vi, nên các câu trả lời như vậy bị từ chối trước khi có token; công tắc nằm ở trang của khóa.",
     collectTitle: "Những gì chúng tôi thu thập",
     collect:
-      "Dữ liệu hành vi được gửi cùng câu trả lời, được đánh giá trong bộ nhớ rồi bỏ đi: nó không bao giờ được lưu. Thứ còn lại là kết luận, điểm và mã lý do, trong lịch sử sử dụng của khóa, và cùng với token cho tới khi máy chủ của trang web đổi nó. Trong lúc challenge còn trả lời được, tối đa 2 phút, Redis còn giữ địa chỉ IP của người truy cập, trang web đã yêu cầu nó và giá trị băm của User-Agent, để kiểm tra câu trả lời đến từ đúng trình duyệt đó. Redis cũng đếm, theo từng địa chỉ IP, số câu trả lời sai trong 10 phút và số câu trả lời bị coi là tự động trong một giờ, để làm chậm các địa chỉ liên tục thất bại.",
+      "Dữ liệu hành vi được gửi cùng câu trả lời, được đánh giá trong bộ nhớ rồi bỏ đi: nó không bao giờ được lưu. Thứ còn lại là kết luận, điểm và mã lý do, trong lịch sử sử dụng của khóa, và cùng với token cho tới khi máy chủ của trang web đổi nó. Trong lúc challenge còn trả lời được, tối đa 2 phút, Redis còn giữ địa chỉ IP của người truy cập, trang web đã yêu cầu nó và giá trị băm của User-Agent, để kiểm tra câu trả lời đến từ đúng trình duyệt đó. Redis cũng đếm, theo từng địa chỉ IP, số câu trả lời sai trong 10 phút và số câu trả lời bị coi là tự động trong một giờ, để làm chậm các địa chỉ liên tục thất bại, cùng số lượt qua tự động của auto_check trong một giờ, để giới hạn chúng.",
     privacyLink: "Đọc chính sách quyền riêng tư",
   },
 };

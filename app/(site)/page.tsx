@@ -81,6 +81,7 @@ export default async function HomePage() {
               slide_puzzle: text.challenges.slidePuzzle,
               animal_jump: text.challenges.animalJump,
               object_rotate: text.challenges.objectRotate,
+              auto_check: text.challenges.autoCheck,
             }[captcha.id];
             return (
               <li key={captcha.id}>

@@ -5,7 +5,7 @@ import { TableOfContents } from "@/components/ui/table-of-contents";
 import { getI18n } from "@/lib/i18n/server";
 import { docsBaseUrl } from "../_components/base-url";
 import { IntegrationSections } from "./_components/integration-sections";
-import { BindingSections, LimitationsSection } from "./_components/protection-sections";
+import { AutoCheckSection, BindingSections, LimitationsSection } from "./_components/protection-sections";
 import { ReferenceSections } from "./_components/reference-sections";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -35,6 +35,7 @@ export default async function DocsPage() {
     { id: "challenge-types", title: sections.challengeTypes.title },
     { id: "security", title: sections.security.title },
     { id: "errors", title: sections.errors.title },
+    { id: "auto-check", title: sections.autoCheck.title },
     { id: "limitations", title: sections.limitations.title },
   ];
 
@@ -54,6 +55,7 @@ export default async function DocsPage() {
         <IntegrationSections text={sections} baseUrl={baseUrl} />
         <BindingSections text={sections} />
         <ReferenceSections text={sections} baseUrl={baseUrl} />
+        <AutoCheckSection text={sections} baseUrl={baseUrl} />
         <LimitationsSection text={sections} />
       </div>
     </div>

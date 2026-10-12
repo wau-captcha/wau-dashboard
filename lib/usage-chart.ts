@@ -20,6 +20,7 @@ const CHALLENGE_TYPE_SLOTS: Record<string, number> = {
   behavioral_advanced: 4,
   animal_jump: 5,
   object_rotate: 6,
+  auto_check: 7,
 };
 
 export function challengeTypeSlot(id: string): number | undefined {

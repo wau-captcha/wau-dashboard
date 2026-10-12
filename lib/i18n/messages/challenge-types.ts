@@ -23,6 +23,10 @@ const en = {
       label: "Rotate to arrow",
       description: "Two rounds: turn an object a step at a time until it faces the arrow on the ground.",
     },
+    auto_check: {
+      label: "Auto check",
+      description: "Verifies visitors in the background and shows a challenge only when unsure",
+    },
     behavioral_advanced: {
       label: "Behaviour analysis",
       description: "Scores mouse and keyboard activity; most people never have to solve anything.",
@@ -52,6 +56,10 @@ const vi: Translation<typeof en> = {
     object_rotate: {
       label: "Xoay vật theo mũi tên",
       description: "Hai lượt: xoay vật thể từng nấc cho tới khi mặt trước hướng theo mũi tên trên mặt đất.",
+    },
+    auto_check: {
+      label: "Xác minh tự động",
+      description: "Xác minh ngầm, chỉ hiện captcha khi chưa chắc chắn",
     },
     behavioral_advanced: {
       label: "Phân tích hành vi",

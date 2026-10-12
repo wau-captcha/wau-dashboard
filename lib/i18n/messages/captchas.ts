@@ -10,7 +10,7 @@ const en = {
   index: {
     title: "Captchas people solve and scripts don't",
     description:
-      "WAU Captcha has five kinds of challenge. Each one is drawn fresh for every request, and while it is on screen the way the person behaves is checked too.",
+      "WAU Captcha has five kinds of challenge, each drawn fresh for every request, and auto_check, which lets most visitors through without one. While a challenge is on screen, the way the person behaves is checked too.",
     typesTitle: "The challenges",
     compare: {
       title: "Side by side",
@@ -71,7 +71,7 @@ const vi: Translation<typeof en> = {
   index: {
     title: "Captcha người giải được, script thì không",
     description:
-      "WAU Captcha có năm loại challenge. Mỗi challenge được vẽ mới cho từng yêu cầu, và trong lúc nó hiện trên màn hình, cách người dùng thao tác cũng được kiểm tra.",
+      "WAU Captcha có năm loại challenge, mỗi challenge được vẽ mới cho từng yêu cầu, và auto_check, cho phần lớn khách truy cập qua mà không cần challenge nào. Trong lúc challenge hiện trên màn hình, cách người dùng thao tác cũng được kiểm tra.",
     typesTitle: "Các loại challenge",
     compare: {
       title: "So sánh",

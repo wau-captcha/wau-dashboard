@@ -38,7 +38,7 @@ const en = {
           "For every challenge a site asks for, one row in our database: the API key, the challenge type, when it was issued, whether it was answered and answered right, and the verdict and score of the behaviour check. The row holds no IP address, no browser details and no behaviour data.",
           "While a challenge can be answered, 2 minutes at most, Redis keeps its answer, the visitor's IP address, the website it was asked for from (its origin) and a hash of the browser's User-Agent, to check that the answer comes from the same browser. Answering it, right or wrong, deletes it.",
           "A token earned by a right answer stays in Redis until the site's server redeems it, 2 minutes at most, with the API key, the challenge type, when it was solved, the website's host name and the behaviour verdict.",
-          "Against abuse, Redis counts requests per IP address in one-minute windows, and wrong answers and automated verdicts per IP address over the last hour. Daily counters per account and per key (challenges, answers, right answers) live for 24 hours and hold no IP address.",
+          "Against abuse, Redis counts requests per IP address in one-minute windows, and wrong answers, automated verdicts and the automatic passes of auto_check per IP address over the last hour. Daily counters per account and per key (challenges, answers, right answers) live for 24 hours and hold no IP address.",
         ],
       },
       {
@@ -81,7 +81,7 @@ const en = {
         title: "How long we keep it",
         items: [
           "Challenges and tokens: 2 minutes at most.",
-          "Counters per IP address: one minute, and one hour for the history of wrong answers. Daily counters: 24 hours.",
+          "Counters per IP address: one minute, and one hour for the history of wrong answers and of automatic passes. Daily counters: 24 hours.",
           "Challenge rows, the usage history: there is no deletion rule yet. [RETENTION: e.g. 12 months]",
           "Accounts, API keys and their activity log: as long as the account exists. A deleted key stays, marked deleted, for its usage history. [RETENTION: e.g. erased 30 days after the account is closed]",
           "Payments: [RETENTION: e.g. 10 years, as Vietnamese accounting law requires]",
@@ -222,7 +222,7 @@ const vi: Translation<typeof en> = {
           "Với mỗi challenge một trang web yêu cầu, có một dòng trong cơ sở dữ liệu: khóa API, loại challenge, thời điểm cấp, đã được trả lời và trả lời đúng hay chưa, cùng kết luận và điểm của phần kiểm tra hành vi. Dòng này không chứa địa chỉ IP, thông tin trình duyệt hay dữ liệu hành vi.",
           "Trong lúc challenge còn trả lời được, tối đa 2 phút, Redis giữ đáp án, địa chỉ IP của người truy cập, trang web đã yêu cầu nó (origin) và giá trị băm của User-Agent trình duyệt, để kiểm tra câu trả lời đến từ đúng trình duyệt đó. Trả lời, dù đúng hay sai, đều xóa nó.",
           "Token có được nhờ trả lời đúng nằm trong Redis tới khi máy chủ của trang web đổi nó, tối đa 2 phút, kèm khóa API, loại challenge, thời điểm giải, tên miền của trang web và kết luận hành vi.",
-          "Để chống lạm dụng, Redis đếm số yêu cầu theo địa chỉ IP trong từng khung một phút, và số câu trả lời sai cùng số kết luận automated theo địa chỉ IP trong một giờ gần nhất. Bộ đếm theo ngày của từng tài khoản và từng khóa (challenge, câu trả lời, câu trả lời đúng) tồn tại 24 giờ và không chứa địa chỉ IP.",
+          "Để chống lạm dụng, Redis đếm số yêu cầu theo địa chỉ IP trong từng khung một phút, và số câu trả lời sai, số kết luận automated cùng số lượt qua tự động của auto_check theo địa chỉ IP trong một giờ gần nhất. Bộ đếm theo ngày của từng tài khoản và từng khóa (challenge, câu trả lời, câu trả lời đúng) tồn tại 24 giờ và không chứa địa chỉ IP.",
         ],
       },
       {
@@ -265,7 +265,7 @@ const vi: Translation<typeof en> = {
         title: "Thời gian lưu",
         items: [
           "Challenge và token: tối đa 2 phút.",
-          "Bộ đếm theo địa chỉ IP: một phút, và một giờ với lịch sử trả lời sai. Bộ đếm theo ngày: 24 giờ.",
+          "Bộ đếm theo địa chỉ IP: một phút, và một giờ với lịch sử trả lời sai và lượt qua tự động. Bộ đếm theo ngày: 24 giờ.",
           "Các dòng challenge, tức lịch sử sử dụng: hiện chưa có quy tắc xóa. [THỜI HẠN LƯU: ví dụ 12 tháng]",
           "Tài khoản, khóa API và nhật ký hoạt động: chừng nào tài khoản còn tồn tại. Khóa đã xóa vẫn được giữ, có đánh dấu đã xóa, để giữ lịch sử sử dụng. [THỜI HẠN LƯU: ví dụ xóa hẳn 30 ngày sau khi đóng tài khoản]",
           "Thanh toán: [THỜI HẠN LƯU: ví dụ 10 năm, theo quy định kế toán của Việt Nam]",
