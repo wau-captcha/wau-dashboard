@@ -9,7 +9,7 @@ const en = {
     title: "Draft, under review",
     body: "This page describes what WAU Captcha does today. Parts in [brackets] are placeholders the operator still has to fill in.",
   },
-  updated: "Last updated 8 October 2026",
+  updated: "Last updated 12 October 2026",
   contact: "Contact",
   privacy: {
     metaTitle: "Privacy policy",
@@ -137,7 +137,8 @@ const en = {
         items: [
           "Use the service to protect your own websites and APIs, or ones you are allowed to protect.",
           "Do not attack, overload or probe the service beyond what the security page allows.",
-          "Do not collect challenges without showing them to people, resell them, or train or benchmark solvers against the live API; use the published samples for that.",
+          "Bots that solve the captchas for research, testing or teaching are welcome with your own account and keys, within your plan's quota and rate limits; never aim them at another customer's website or key, and run large benchmarks on the published samples.",
+          "Do not fetch challenges in bulk without answering them, resell challenges or their answers, or run a solving service for others.",
           "Do not try to get around rate limits, quotas, suspensions or the domains bound to a key.",
           "Do not use the service for anything illegal in Vietnam or where you operate.",
         ],
@@ -193,7 +194,7 @@ const vi: Translation<typeof en> = {
     title: "Bản nháp, đang được xem xét",
     body: "Trang này mô tả những gì WAU Captcha đang làm hiện nay. Các phần trong [ngoặc vuông] là chỗ trống mà bên vận hành còn phải điền.",
   },
-  updated: "Cập nhật lần cuối ngày 8 tháng 10 năm 2026",
+  updated: "Cập nhật lần cuối ngày 12 tháng 10 năm 2026",
   contact: "Liên hệ",
   privacy: {
     metaTitle: "Chính sách quyền riêng tư",
@@ -321,7 +322,8 @@ const vi: Translation<typeof en> = {
         items: [
           "Dùng dịch vụ để bảo vệ trang web và API của chính bạn, hoặc của nơi bạn được phép bảo vệ.",
           "Không tấn công, làm quá tải hay dò quét dịch vụ ngoài phạm vi trang bảo mật cho phép.",
-          "Không thu thập challenge mà không cho người thật xem, không bán lại chúng, và không huấn luyện hay đo bộ giải trên API thật; hãy dùng bộ mẫu đã công bố cho việc đó.",
+          "Bot giải captcha để nghiên cứu, thử nghiệm hay giảng dạy được hoan nghênh khi dùng tài khoản và khóa của chính bạn, trong hạn mức và giới hạn tần suất của gói; không bao giờ nhắm chúng vào website hay khóa của khách hàng khác, và hãy chạy các bài đo lớn trên bộ mẫu đã công bố.",
+          "Không lấy challenge hàng loạt mà không trả lời, không bán lại challenge hay đáp án của chúng, và không vận hành dịch vụ giải captcha cho người khác.",
           "Không tìm cách vượt qua giới hạn tần suất, hạn mức, việc đình chỉ hay tên miền đã gắn với khóa.",
           "Không dùng dịch vụ cho việc gì trái pháp luật Việt Nam hoặc nơi bạn hoạt động.",
         ],
