@@ -80,6 +80,7 @@ const monthlySummary = [
   { type: "motion_noise", total: 31877, success: 30011 },
   { type: "slide_puzzle", total: 12780, success: 12004 },
   { type: "animal_jump", total: 6410, success: 6013 },
+  { type: "object_rotate", total: 4127, success: 3884 },
 ];
 
 function ApiKeysTable() {

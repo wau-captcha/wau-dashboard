@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { AnimatedImage } from "@/components/ui/animated-image";
 import { JumpPreview } from "@/components/ui/jump-preview";
+import { RotatePreview } from "@/components/ui/rotate-preview";
 import { SlidePreview } from "@/components/ui/slide-preview";
 import { type CaptchaInfo, SAMPLES } from "@/lib/captchas";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -60,6 +61,20 @@ export function CaptchaIllustration({ captcha, text, compact = false }: CaptchaI
         playLabel={sample.play}
         replayLabel={sample.replay}
         className="w-full max-w-[450px] [&_img]:w-full"
+      />
+    );
+  }
+  if (captcha.id === "object_rotate") {
+    const rotate = SAMPLES.objectRotate;
+    return (
+      <RotatePreview
+        rounds={rotate.rounds}
+        frames={rotate.frames}
+        width={300}
+        height={150}
+        alt={text.object_rotate.alt}
+        still={compact}
+        className="max-w-[450px]"
       />
     );
   }

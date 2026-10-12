@@ -7,6 +7,7 @@ import { AnimatedImage } from "@/components/ui/animated-image";
 import { buttonVariants } from "@/components/ui/button";
 import { Figure } from "@/components/ui/figure";
 import { JumpPreview } from "@/components/ui/jump-preview";
+import { RotatePreview } from "@/components/ui/rotate-preview";
 import { SlidePreview } from "@/components/ui/slide-preview";
 import { CAPTCHAS, SAMPLES_DIR, type CaptchaSample } from "@/lib/captchas";
 import { challengeTypeLabel } from "@/lib/challenge-types";
@@ -83,6 +84,31 @@ export default async function SamplesPage() {
                         playLabel={text.playRounds}
                         replayLabel={text.replay}
                         className="w-full [&_img]:w-full"
+                      />
+                    </Figure>
+                  );
+                }
+                if (sample.type === "object_rotate" && sample.second_file && sample.frame_count) {
+                  const targets = (sample.targets ?? []).map((target, i) =>
+                    text.rotateRound(format.number(i + 1), format.number(target.frame), target.object),
+                  );
+                  return (
+                    <Figure
+                      key={sample.file}
+                      caption={
+                        <span className="grid">
+                          {targets.map((target) => (
+                            <span key={target}>{target}</span>
+                          ))}
+                        </span>
+                      }
+                    >
+                      <RotatePreview
+                        rounds={[file(sample.file), file(sample.second_file)]}
+                        frames={sample.frame_count}
+                        width={sample.width}
+                        height={sample.height}
+                        alt={alt}
                       />
                     </Figure>
                   );

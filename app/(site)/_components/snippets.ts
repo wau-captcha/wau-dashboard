@@ -12,9 +12,9 @@ export const install = {
   java: `<dependency>
     <groupId>com.waucaptcha</groupId>
     <artifactId>wau-captcha-sdk</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>`,
-  gradle: `implementation("com.waucaptcha:wau-captcha-sdk:1.0.0")`,
+  gradle: `implementation("com.waucaptcha:wau-captcha-sdk:1.1.0")`,
 };
 
 export const widgetScript = (baseUrl: string) => `<script
@@ -171,10 +171,11 @@ export const javaChallenge = (baseUrl: string) => `WauCaptchaClient captcha = Wa
         .siteKey("pk_…")
         .build();
 
-Challenge challenge = captcha.newChallenge(ChallengeType.ANIMAL_JUMP);
-// Play challenge.image(), then challenge.secondImage(), each once, and record a click on each
-// round and how the person behaved. The call sends the site key and the proof of work too.
-AnswerResult result = captcha.verifyJump(challenge, List.of(round1, round2), behavior);
+Challenge challenge = captcha.newChallenge(ChallengeType.OBJECT_ROTATE);
+// Show frame 0 of challenge.image(), then of challenge.secondImage(): each is a strip of
+// challenge.frameCount() frames. Record each round's presses, as RotateRound(frame, presses,
+// doneMs), and how the person behaved. The call sends the site key and the proof of work too.
+AnswerResult result = captcha.verifyRotate(challenge, List.of(round1, round2), behavior);
 if (result.success()) {
     // Send result.token() to your server, which redeems it with verifyToken.
 }`;

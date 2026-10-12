@@ -4,12 +4,14 @@ import { AnimatedImage } from "@/components/ui/animated-image";
 import { Figure } from "@/components/ui/figure";
 import { JumpPreview } from "@/components/ui/jump-preview";
 import { MediaCard } from "@/components/ui/media-card";
+import { RotatePreview } from "@/components/ui/rotate-preview";
 import { SlidePreview } from "@/components/ui/slide-preview";
 import { SAMPLES } from "@/lib/captchas";
 import { DemoBlock, DemoSection } from "../demo-shell";
 
 const slide = SAMPLES.slidePuzzle;
 const jump = SAMPLES.animalJump;
+const rotate = SAMPLES.objectRotate;
 
 export function MediaSection() {
   return (
@@ -59,6 +61,16 @@ export function MediaSection() {
           playLabel="Phát cả hai lượt (240 KB)"
           replayLabel="Xem lại"
         />
+      </DemoBlock>
+
+      <DemoBlock
+        title="RotatePreview"
+        description="Xoay vật thể như trong widget: nút Xoay trái, Xoay phải hoặc phím mũi tên trên ảnh, và chuyển giữa hai lượt; mỗi lượt bắt đầu từ khung 0. still chỉ hiện khung 0 của lượt 1, cho thẻ."
+      >
+        <div className="grid max-w-3xl items-start gap-6 sm:grid-cols-2">
+          <RotatePreview rounds={rotate.rounds} frames={rotate.frames} width={300} height={150} alt="Challenge object_rotate mẫu" />
+          <RotatePreview rounds={rotate.rounds} frames={rotate.frames} width={300} height={150} alt="Khung 0 của challenge object_rotate mẫu" still />
+        </div>
       </DemoBlock>
 
       <DemoBlock title="MediaCard" description="Cả thẻ là một link: minh họa, tiêu đề, meta (mã, badge), mô tả và lời mời ở cuối.">

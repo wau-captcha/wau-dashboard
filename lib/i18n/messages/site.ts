@@ -48,9 +48,9 @@ const en = {
       ],
     },
     challenges: {
-      title: "Four kinds of challenge",
+      title: "Five kinds of challenge",
       description:
-        "Pick per request. All four are generated fresh every time, so there is nothing to collect and replay. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
+        "Pick per request. All five are generated fresh every time, so there is nothing to collect and replay. They slow down generic OCR and cheap scripts; the behaviour check and the server's own signals do most of the work, and no CAPTCHA stops a determined attacker on its own.",
       imageDistort: {
         name: "Distorted text",
         body: "Five characters, each turned, slanted and bent, crossed by thin strokes in the colours of the text. Quick for people, and a hurdle for generic OCR.",
@@ -66,6 +66,10 @@ const en = {
       animalJump: {
         name: "Jumping animals",
         body: "Five animal heads jump, and one jumps clearly higher than the rest: click it, in two short rounds. Both clicks must be right, and when they come is checked too.",
+      },
+      objectRotate: {
+        name: "Rotate to arrow",
+        body: "An object stands beside an arrow on the ground: turn it a step at a time until it faces the arrow, in two rounds. The arrow keys work too; both rounds must be right, and the pace of the presses is checked.",
       },
     },
     features: {
@@ -143,9 +147,9 @@ const vi: Translation<typeof en> = {
       ],
     },
     challenges: {
-      title: "Bốn loại challenge",
+      title: "Năm loại challenge",
       description:
-        "Chọn theo từng lần gọi. Cả bốn đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
+        "Chọn theo từng lần gọi. Cả năm đều được sinh mới mỗi lần, nên không có gì để thu thập rồi dùng lại. Chúng làm chậm OCR thông thường và script rẻ tiền; phần lớn công việc do kiểm tra hành vi và các tín hiệu của máy chủ đảm nhận, và không CAPTCHA nào tự mình chặn được kẻ tấn công quyết tâm.",
       imageDistort: {
         name: "Chữ méo",
         body: "Năm ký tự, mỗi ký tự xoay, nghiêng và uốn khác nhau, bị các nét mảnh cùng màu chữ cắt ngang. Nhanh với người, và là rào cản với OCR thông thường.",
@@ -161,6 +165,10 @@ const vi: Translation<typeof en> = {
       animalJump: {
         name: "Con vật nhảy cao",
         body: "Năm đầu con vật nhảy lên, một con nhảy cao hơn hẳn các con còn lại: bấm vào nó, qua hai lượt ngắn. Cả hai lần bấm phải đúng, và thời điểm bấm cũng được kiểm tra.",
+      },
+      objectRotate: {
+        name: "Xoay vật theo mũi tên",
+        body: "Một vật thể đứng cạnh mũi tên trên mặt đất: xoay nó từng nấc cho tới khi hướng theo mũi tên, qua hai lượt. Dùng được cả phím mũi tên; cả hai lượt phải đúng, và nhịp bấm cũng được kiểm tra.",
       },
     },
     features: {

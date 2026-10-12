@@ -19,6 +19,10 @@ const en = {
       label: "Jumping animals",
       description: "Two short rounds of jumping animal heads: click the one that jumps highest in each.",
     },
+    object_rotate: {
+      label: "Rotate to arrow",
+      description: "Two rounds: turn an object a step at a time until it faces the arrow on the ground.",
+    },
     behavioral_advanced: {
       label: "Behaviour analysis",
       description: "Scores mouse and keyboard activity; most people never have to solve anything.",
@@ -44,6 +48,10 @@ const vi: Translation<typeof en> = {
     animal_jump: {
       label: "Con vật nhảy cao",
       description: "Hai lượt ngắn, các đầu con vật nhảy lên: bấm vào con vật nhảy cao nhất ở mỗi lượt.",
+    },
+    object_rotate: {
+      label: "Xoay vật theo mũi tên",
+      description: "Hai lượt: xoay vật thể từng nấc cho tới khi mặt trước hướng theo mũi tên trên mặt đất.",
     },
     behavioral_advanced: {
       label: "Phân tích hành vi",

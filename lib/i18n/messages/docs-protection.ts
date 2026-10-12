@@ -19,7 +19,7 @@ const en = {
     query: "Query string (deprecated)",
     rows: [
       { sdk: "client 1.3.0+, react 1.2.0+, server 1.3.0+", siteKey: true, behavior: true, pow: true, hints: true, body: true },
-      { sdk: "Java 1.0.0", siteKey: true, behavior: false, pow: true, hints: false, body: true },
+      { sdk: "Java 1.0.0+", siteKey: true, behavior: false, pow: true, hints: false, body: true },
       { sdk: "client 1.2.0, server 1.2.0", siteKey: false, behavior: true, pow: false, hints: false, body: false },
       { sdk: "client and server 1.1.x", siteKey: false, behavior: false, pow: false, hints: false, body: false },
     ],
@@ -34,6 +34,7 @@ const en = {
       "Paid IP reputation feeds: the service only keeps its own short history of each address.",
       "slide_puzzle: image matching finds where the hole is; its value is in the drag, which must move like a hand.",
       "animal_jump: a script that analyses the frames can find the highest jump; a random click passes 1 time in 25, but most of its value lies in the behaviour and timing checks.",
+      "object_rotate: a script trained on the 28 objects could learn which way each one faces; random presses pass about 1 time in 64, but most of its value lies in the behaviour and timing checks.",
       "motion_noise: a script that compares the frames can bring the characters out; it stops tools that read a single picture.",
       "Text challenges: a model trained on these images can read many of them. Each challenge can be answered once, so a code cannot be brute-forced, and the per-address limits slow down guessing across challenges.",
       "Origin and the browser hints can be forged by a script outside a browser.",
@@ -60,7 +61,7 @@ const vi: Translation<typeof en> = {
     query: "Query string (lỗi thời)",
     rows: [
       { sdk: "client 1.3.0+, react 1.2.0+, server 1.3.0+", siteKey: true, behavior: true, pow: true, hints: true, body: true },
-      { sdk: "Java 1.0.0", siteKey: true, behavior: false, pow: true, hints: false, body: true },
+      { sdk: "Java 1.0.0+", siteKey: true, behavior: false, pow: true, hints: false, body: true },
       { sdk: "client 1.2.0, server 1.2.0", siteKey: false, behavior: true, pow: false, hints: false, body: false },
       { sdk: "client và server 1.1.x", siteKey: false, behavior: false, pow: false, hints: false, body: false },
     ],
@@ -75,6 +76,7 @@ const vi: Translation<typeof en> = {
       "Nguồn dữ liệu uy tín IP trả phí: service chỉ giữ lịch sử ngắn của riêng mình cho từng địa chỉ.",
       "slide_puzzle: so khớp ảnh tìm được vị trí chỗ trống; giá trị của nó nằm ở cú kéo, vốn phải giống tay người.",
       "animal_jump: script phân tích các khung hình tìm được cú nhảy cao nhất; bấm ngẫu nhiên chỉ qua được 1 lần trong 25, nhưng phần lớn giá trị của loại này nằm ở phần kiểm tra hành vi và thời gian.",
+      "object_rotate: script được huấn luyện trên 28 vật thể có thể học được mỗi vật hướng về đâu; bấm ngẫu nhiên chỉ qua được khoảng 1 lần trong 64, nhưng phần lớn giá trị của loại này nằm ở phần kiểm tra hành vi và thời gian.",
       "motion_noise: script so sánh các khung hình có thể làm lộ ký tự; loại này chặn được công cụ chỉ đọc một bức ảnh.",
       "Challenge dạng chữ: mô hình được huấn luyện trên chính các ảnh này đọc được nhiều ảnh. Mỗi challenge chỉ trả lời được một lần nên không thể dò mã, và giới hạn theo địa chỉ làm chậm việc đoán qua nhiều challenge.",
       "Origin và các gợi ý trình duyệt có thể bị script chạy ngoài trình duyệt giả mạo.",

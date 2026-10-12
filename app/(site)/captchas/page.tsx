@@ -31,7 +31,7 @@ export default async function CaptchasPage() {
 
       <section className="grid gap-6">
         <h2 className="font-brand text-display font-semibold tracking-tight text-foreground">{text.typesTitle}</h2>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CAPTCHAS.map((captcha) => (
             <li key={captcha.id}>
               <MediaCard
