@@ -59,6 +59,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
               <NavLink href="/captchas">{t.captchas.nav}</NavLink>
               <NavLink href="/pricing">{nav.pricing}</NavLink>
               <NavLink href="/docs">{nav.docs}</NavLink>
+              <NavLink href="/about">{nav.about}</NavLink>
               {/* On phones the bar has no room for the button below, so the menu offers it. */}
               <NavLink href="/login" className="sm:hidden">
                 {nav.signIn}

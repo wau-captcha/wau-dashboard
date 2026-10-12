@@ -58,12 +58,66 @@ const en = {
   },
   about: {
     metaTitle: "About",
-    metaDescription: "Who runs WAU Captcha, since when, where it is hosted and how to reach us.",
+    metaDescription:
+      "What WAU Captcha is, what this website offers, why bots that solve its captchas for research and testing are welcome, and who runs it.",
     title: "About WAU Captcha",
-    description: "A hosted CAPTCHA service for websites and APIs.",
+    description: "A hosted CAPTCHA service for websites and APIs: open about its limits, and open to research.",
     body: [
       "WAU Captcha puts a short human check in front of sign-ups, logins and forms: challenges drawn fresh for every request, a check of how the person behaved while solving it, and one-time tokens your server redeems.",
+      "This website is where you use it and learn how it works: the dashboard for your keys, the docs for the widget, React and the server SDKs, a page for each captcha type that says what it stops and what it does not, and real sample challenges with their answers.",
     ],
+    offersTitle: "On this website",
+    offers: {
+      captchas: {
+        title: "Captchas",
+        body: "Six types, each with a page on what the person does, why it is hard for bots and what it does not stop.",
+        action: "See the captchas",
+      },
+      docs: {
+        title: "Docs",
+        body: "The widget, <WauCaptcha /> for React, the SDKs for Node.js and Java, the REST API, its limits and its error codes.",
+        action: "Read the docs",
+      },
+      samples: {
+        title: "Sample challenges",
+        body: "Real challenges from the production generators, with their answers: the place to benchmark a solver.",
+        action: "Browse the samples",
+      },
+      dashboard: {
+        title: "Dashboard",
+        body: "Your API keys and the websites each one may be used on, usage charts per key and per captcha type, and your plan.",
+        action: "Open the dashboard",
+      },
+      pricing: {
+        title: "Pricing",
+        body: "The plans, with the daily quota and the captcha types of each, priced in VND by the month or the year.",
+        action: "See the plans",
+      },
+      changelog: {
+        title: "Changelog",
+        body: "What changed in the service, the website and the SDKs, newest first.",
+        action: "See what changed",
+      },
+    },
+    research: {
+      title: "Bots for research and testing are welcome",
+      welcome:
+        "You may build bots that solve every captcha here, all six types: image_distort, motion_noise, slide_puzzle, animal_jump, object_rotate and auto_check. Use them to research the captchas, test them, teach with them or build accessibility tools.",
+      body: "A captcha nobody has tried to break has not been tested. Each captcha page says what it stops and what it does not; bots that put that to the test are part of the point. Run them against your own keys and pages, and tell us what gets through.",
+      rulesTitle: "Within these limits",
+      rules: [
+        "Use your own account and keys, on websites and pages you control. Never aim a bot at another customer's website or key: getting past someone else's captcha is abuse, not research.",
+        "Stay within the daily quota and the rate limits of your plan, and do not overload the service: floods and load tests are out of scope, as the security page says.",
+        "For large benchmarks, use the sample challenges and their answers: they cost no quota and put no load on the live service.",
+        "Do not resell solved challenges or their answers, or run a solving service for others.",
+      ],
+      expectTitle: "What to expect",
+      expect: [
+        "The live service defends itself against your bot as against any other: answers judged automated are refused even when right, and every pass of auto_check costs a proof of work.",
+        "A key with at least 200 answers in a day, more than half of them judged automated, is throttled to 60 challenges a minute until midnight (GMT+7), and an address with more than 20 wrong answers in 10 minutes waits until those 10 minutes are over. Use a key of its own for research, not the key of your live website.",
+        "Found a way through? Write to us with what you did, and give us time to fix it before you publish: research done this way is covered by the promise on the security page.",
+      ],
+    },
     factsTitle: "Facts",
     facts: {
       operator: "Run by",
@@ -170,12 +224,66 @@ const vi: Translation<typeof en> = {
   },
   about: {
     metaTitle: "Giới thiệu",
-    metaDescription: "Ai vận hành WAU Captcha, từ khi nào, lưu trữ ở đâu và cách liên hệ.",
+    metaDescription:
+      "WAU Captcha là gì, website này có những gì, vì sao bot giải captcha để nghiên cứu và thử nghiệm được hoan nghênh, và ai vận hành dịch vụ.",
     title: "Về WAU Captcha",
-    description: "Dịch vụ CAPTCHA được lưu trữ sẵn cho trang web và API.",
+    description: "Dịch vụ CAPTCHA được lưu trữ sẵn cho trang web và API: nói rõ giới hạn của mình, và mở cho nghiên cứu.",
     body: [
       "WAU Captcha đặt một bước kiểm tra con người ngắn trước form đăng ký, đăng nhập và các form khác: challenge được vẽ mới cho từng yêu cầu, việc kiểm tra cách người dùng thao tác khi giải, và token dùng một lần mà máy chủ của bạn đổi lấy kết quả.",
+      "Website này là nơi bạn dùng dịch vụ và tìm hiểu cách nó hoạt động: bảng điều khiển cho các khóa của bạn, tài liệu cho widget, React và các SDK máy chủ, một trang cho từng loại captcha nói rõ nó chặn được gì và không chặn được gì, cùng các challenge mẫu thật kèm đáp án.",
     ],
+    offersTitle: "Trên website này",
+    offers: {
+      captchas: {
+        title: "Captcha",
+        body: "Sáu loại, mỗi loại có một trang nói người dùng làm gì, vì sao bot khó vượt qua và nó không chặn được gì.",
+        action: "Xem các loại captcha",
+      },
+      docs: {
+        title: "Tài liệu",
+        body: "Widget, <WauCaptcha /> cho React, các SDK cho Node.js và Java, REST API, các giới hạn và mã lỗi của nó.",
+        action: "Đọc tài liệu",
+      },
+      samples: {
+        title: "Challenge mẫu",
+        body: "Challenge thật do các bộ sinh đang chạy tạo ra, kèm đáp án: nơi để đo một bộ giải.",
+        action: "Xem bộ mẫu",
+      },
+      dashboard: {
+        title: "Bảng điều khiển",
+        body: "Các khóa API và những website mà mỗi khóa được dùng, biểu đồ sử dụng theo khóa và theo loại captcha, cùng gói của bạn.",
+        action: "Mở bảng điều khiển",
+      },
+      pricing: {
+        title: "Bảng giá",
+        body: "Các gói, kèm hạn mức mỗi ngày và các loại captcha của từng gói, giá bằng VND theo tháng hoặc theo năm.",
+        action: "Xem các gói",
+      },
+      changelog: {
+        title: "Nhật ký thay đổi",
+        body: "Những gì đã thay đổi ở dịch vụ, website và các SDK, mới nhất trước.",
+        action: "Xem các thay đổi",
+      },
+    },
+    research: {
+      title: "Hoan nghênh bot dùng cho nghiên cứu và thử nghiệm",
+      welcome:
+        "Bạn được phép viết bot giải mọi captcha ở đây, cả sáu loại: image_distort, motion_noise, slide_puzzle, animal_jump, object_rotate và auto_check. Hãy dùng chúng để nghiên cứu các captcha, thử nghiệm, giảng dạy hay làm công cụ hỗ trợ tiếp cận.",
+      body: "Một captcha chưa ai thử phá thì chưa được kiểm chứng. Trang của từng loại captcha nói rõ nó chặn được gì và không chặn được gì; bot đem những điều đó ra thử là một phần mục đích của dịch vụ. Hãy cho bot chạy trên khóa và trang của chính bạn, và báo cho chúng tôi những gì lọt qua.",
+      rulesTitle: "Trong các giới hạn sau",
+      rules: [
+        "Dùng tài khoản và khóa của chính bạn, trên website và trang do bạn quản lý. Không bao giờ nhắm bot vào website hay khóa của khách hàng khác: vượt qua captcha của người khác là lạm dụng, không phải nghiên cứu.",
+        "Giữ trong hạn mức mỗi ngày và giới hạn tần suất của gói, và không làm quá tải dịch vụ: tấn công dồn dập và kiểm thử tải nằm ngoài phạm vi, như trang bảo mật đã nêu.",
+        "Với các bài đo lớn, hãy dùng bộ challenge mẫu kèm đáp án: chúng không tốn hạn mức và không tạo tải cho dịch vụ thật.",
+        "Không bán lại challenge đã giải hay đáp án của chúng, và không vận hành dịch vụ giải captcha cho người khác.",
+      ],
+      expectTitle: "Điều cần biết trước",
+      expect: [
+        "Dịch vụ thật tự vệ trước bot của bạn như trước mọi bot khác: câu trả lời bị đánh giá là tự động sẽ bị từ chối kể cả khi đúng, và mỗi lượt qua auto_check đều tốn một proof of work.",
+        "Khóa có ít nhất 200 câu trả lời trong một ngày mà hơn một nửa bị đánh giá là tự động sẽ bị giới hạn còn 60 challenge mỗi phút tới nửa đêm (GMT+7), và địa chỉ có hơn 20 câu trả lời sai trong 10 phút phải chờ hết 10 phút đó. Hãy dùng một khóa riêng cho nghiên cứu, không dùng khóa của website đang chạy thật.",
+        "Tìm được cách vượt qua? Hãy viết cho chúng tôi những gì bạn đã làm, và cho chúng tôi thời gian sửa trước khi công bố: nghiên cứu làm theo cách này được bảo đảm bởi cam kết trên trang bảo mật.",
+      ],
+    },
     factsTitle: "Thông tin",
     facts: {
       operator: "Đơn vị vận hành",

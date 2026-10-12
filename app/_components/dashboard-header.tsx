@@ -8,8 +8,8 @@ import { getI18n } from "@/lib/i18n/server";
 import { UserMenu } from "./user-menu";
 
 /**
- * The header of a signed-in user: the dashboard pages, and the public ones (captchas, docs) while
- * signed in, so the navigation stays the same wherever the user goes.
+ * The header of a signed-in user: the dashboard pages, and the public ones (captchas, docs, about)
+ * while signed in, so the navigation stays the same wherever the user goes.
  */
 export async function DashboardHeader({ user }: { user: User }) {
   const { t } = await getI18n();
@@ -27,6 +27,7 @@ export async function DashboardHeader({ user }: { user: User }) {
           <NavLink href="/account">{nav.account}</NavLink>
           <NavLink href="/captchas">{t.captchas.nav}</NavLink>
           <NavLink href="/docs">{t.site.nav.docs}</NavLink>
+          <NavLink href="/about">{t.site.nav.about}</NavLink>
         </>
       }
       settings={
