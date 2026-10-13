@@ -331,9 +331,10 @@
 /*
  * CodeBlock (components/ui/code-block.tsx): an editor window with a fixed palette of its own,
  * Material Lighter on the light site and Material Oceanic on the dark one, never the site's tokens.
- * Tokens carry both themes' colours as --shiki-light and --shiki-dark (lib/code-themes.ts). Fira Code
- * sets the code and Victor Mono its italics, both 0.6em wide so columns stay aligned. Each line is
- * one fixed line-height tall, as the two fonts would otherwise make some lines taller.
+ * Tokens carry both themes' colours as --shiki-light and --shiki-dark (lib/code-themes.ts). The code
+ * is set in JetBrains Mono (--font-code), italic tokens in its own true italic, as wide as the
+ * upright so columns stay aligned. Each line is one fixed line-height tall, so a glyph from another
+ * font (a fallback, or the italic face still loading) can never make a line taller.
  */
 @layer components {
   .code-window {
@@ -355,9 +356,10 @@
     color: var(--code-window-text);
     font-family: var(--font-code, ui-monospace, monospace);
     font-size: 12.5px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: var(--code-window-line);
-    /* The body turns contextual alternates on, which would bring Fira Code's ligatures back. */
+    /* No ligatures: => != </ stay separate characters. The body turns contextual alternates on,
+       which would bring JetBrains Mono's ligatures back. */
     font-feature-settings: normal;
     font-variant-ligatures: none;
   }
@@ -466,22 +468,16 @@
     color: var(--shiki-dark);
   }
 
-  /* Italic tokens use the italic font itself, never a slant synthesized from Fira Code. */
+  /* JetBrains Mono's own italic face, loaded with the upright, so the browser never slants a glyph. */
   .code-window-line > [data-italic~="light"] {
-    font-family: var(--font-code-italic, ui-monospace, monospace);
     font-style: italic;
-    font-weight: 700;
   }
 
   .dark .code-window-line > [data-italic] {
-    font-family: inherit;
     font-style: normal;
-    font-weight: inherit;
   }
 
   .dark .code-window-line > [data-italic~="dark"] {
-    font-family: var(--font-code-italic, ui-monospace, monospace);
     font-style: italic;
-    font-weight: 700;
   }
 }
