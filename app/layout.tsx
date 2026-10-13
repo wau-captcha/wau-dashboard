@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fira_Code, Geist_Mono, Plus_Jakarta_Sans, Victor_Mono } from "next/font/google";
+import { Geist_Mono, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { InlineScript } from "@/components/inline-script";
 import { Providers } from "@/components/providers";
 import { getI18n } from "@/lib/i18n/server";
@@ -18,26 +18,15 @@ const geistMono = Geist_Mono({
 });
 
 /**
- * The fonts of CodeBlock only: Fira Code for code, Victor Mono's cursive italic for the italic
- * tokens. Both are 0.6em wide; a glyph they lack (Fira Code has no Vietnamese) comes from a system
- * monospace font rather than next/font's Arial-based fallback. Not preloaded: most pages show no
- * code, and the swap cannot move a line, as each is one fixed line-height tall. next/font only
- * takes literal options, hence the fallback list twice.
+ * The font of CodeBlock only: JetBrains Mono, made for reading code, with a true italic of its own
+ * for the italic tokens. A glyph it lacks comes from a system monospace font rather than
+ * next/font's Arial-based fallback. Not preloaded: most pages show no code, and the swap cannot
+ * move a line, as each is one fixed line-height tall.
  */
-const firaCode = Fira_Code({
+const jetbrainsMono = JetBrains_Mono({
   variable: "--font-code",
-  weight: ["500"],
-  subsets: ["latin"],
-  display: "swap",
-  preload: false,
-  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "monospace"],
-  adjustFontFallback: false,
-});
-
-const victorMono = Victor_Mono({
-  variable: "--font-code-italic",
-  weight: ["700"],
-  style: ["italic"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
   preload: false,
@@ -62,7 +51,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang={locale}
       suppressHydrationWarning
-      className={`${jakarta.variable} ${geistMono.variable} ${firaCode.variable} ${victorMono.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${geistMono.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <head>
         {/* Sets the theme class before first paint, hence suppressHydrationWarning on <html>. */}
