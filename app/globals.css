@@ -327,3 +327,161 @@
     }
   }
 }
+
+/*
+ * CodeBlock (components/ui/code-block.tsx): an editor window with a fixed palette of its own,
+ * Material Lighter on the light site and Material Oceanic on the dark one, never the site's tokens.
+ * Tokens carry both themes' colours as --shiki-light and --shiki-dark (lib/code-themes.ts). Fira Code
+ * sets the code and Victor Mono its italics, both 0.6em wide so columns stay aligned. Each line is
+ * one fixed line-height tall, as the two fonts would otherwise make some lines taller.
+ */
+@layer components {
+  .code-window {
+    --code-window-bg: #fafafa;
+    --code-window-border: #e7eaec;
+    --code-window-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --code-window-text: #37474f;
+    --code-window-gutter: #b0bec5;
+    --code-window-chrome: #90a4ae;
+    --code-window-chrome-hover: #37474f;
+    --code-window-line: 16px;
+
+    /* 16px 16px 15px 14px from the outer edge in both themes: the dark border is transparent. */
+    border: 1px solid var(--code-window-border);
+    border-radius: 4px;
+    padding: 15px 15px 14px 13px;
+    background-color: var(--code-window-bg);
+    box-shadow: var(--code-window-shadow);
+    color: var(--code-window-text);
+    font-family: var(--font-code, ui-monospace, monospace);
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: var(--code-window-line);
+    /* The body turns contextual alternates on, which would bring Fira Code's ligatures back. */
+    font-feature-settings: normal;
+    font-variant-ligatures: none;
+  }
+
+  .dark .code-window {
+    --code-window-bg: #263238;
+    --code-window-border: transparent;
+    --code-window-shadow: 0 20px 68px rgba(0, 0, 0, 0.55);
+    --code-window-text: #eeffff;
+    --code-window-gutter: #37474f;
+    --code-window-chrome: #546e7a;
+    --code-window-chrome-hover: #eeffff;
+  }
+
+  @media (width >= 40rem) {
+    .code-window {
+      --code-window-line: 17px;
+      font-size: 13px;
+    }
+  }
+
+  .code-window-bar {
+    display: flex;
+    align-items: center;
+    height: 12px;
+    margin-bottom: 12px;
+  }
+
+  .code-window-dots {
+    display: flex;
+    flex: none;
+    gap: 8px;
+  }
+
+  .code-window-dots > span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .code-window-dots > :nth-child(1) {
+    background-color: #ff5f5a;
+  }
+
+  .code-window-dots > :nth-child(2) {
+    background-color: #ffbe2e;
+  }
+
+  .code-window-dots > :nth-child(3) {
+    background-color: #2aca44;
+  }
+
+  .code-window-label {
+    min-width: 0;
+    margin-left: 12px;
+    overflow: hidden;
+    color: var(--code-window-chrome);
+    font-size: 12px;
+    line-height: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .code-window-body,
+  .code-window-code {
+    font: inherit;
+  }
+
+  .code-window-body {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .code-window-rows {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  /* Stays at the left edge while the code scrolls under it, with the gap to the code. */
+  .code-window-numbers {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    flex: none;
+    min-width: calc(2ch + 14px);
+    padding-right: 14px;
+    background-color: var(--code-window-bg);
+    color: var(--code-window-gutter);
+    text-align: right;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .code-window-numbers > span,
+  .code-window-line {
+    display: block;
+    height: var(--code-window-line);
+  }
+
+  .code-window-line > span {
+    color: var(--shiki-light);
+  }
+
+  .dark .code-window-line > span {
+    color: var(--shiki-dark);
+  }
+
+  /* Italic tokens use the italic font itself, never a slant synthesized from Fira Code. */
+  .code-window-line > [data-italic~="light"] {
+    font-family: var(--font-code-italic, ui-monospace, monospace);
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  .dark .code-window-line > [data-italic] {
+    font-family: inherit;
+    font-style: normal;
+    font-weight: inherit;
+  }
+
+  .dark .code-window-line > [data-italic~="dark"] {
+    font-family: var(--font-code-italic, ui-monospace, monospace);
+    font-style: italic;
+    font-weight: 700;
+  }
+}

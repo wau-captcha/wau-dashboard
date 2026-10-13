@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { CodeBlock } from "@/components/ui/code-block";
 import { Combobox } from "@/components/ui/combobox";
 import { DateInput } from "@/components/ui/date-input";
 import { Field } from "@/components/ui/field";
@@ -152,9 +153,7 @@ export function FormExampleSection() {
           </form>
           <div className="grid content-start gap-2">
             <p className="text-overline font-medium text-muted-foreground">Dữ liệu gửi đi</p>
-            <pre className="min-h-40 overflow-auto rounded-md border border-border bg-muted p-3 font-mono text-overline text-foreground scrollbar-thin">
-              {result ?? "Chưa gửi form."}
-            </pre>
+            <CodeBlock language="json" copyable={false} code={result ?? "Chưa gửi form."} className="min-h-40" />
           </div>
         </div>
       </DemoBlock>

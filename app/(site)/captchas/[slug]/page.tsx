@@ -131,7 +131,7 @@ export default async function CaptchaTypePage({ params }: Params) {
       <section className="grid gap-3">
         <SubHeading>{text.sections.use}</SubHeading>
         <Prose>{text.sections.useBody}</Prose>
-        <CodeBlock code={usage(captcha, docsBaseUrl())} />
+        <CodeBlock language="tsx" code={usage(captcha, docsBaseUrl())} />
         {auto && <Bullets items={auto.integration} />}
       </section>
 
