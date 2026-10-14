@@ -1,7 +1,7 @@
 "use client";
 
 import { Check, X } from "lucide-react";
-import { useState, type KeyboardEvent, type ReactNode } from "react";
+import { useState, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Field } from "./field";
@@ -27,9 +27,14 @@ export type InlineEditProps = {
   className?: string;
 };
 
+/** Pressing a button leaves the caret in the input, as the input's own buttons do. */
+function keepFocus(event: MouseEvent) {
+  event.preventDefault();
+}
+
 /**
- * A value edited in place. Save and cancel only appear once the text differs from the
- * stored value; Enter saves and Escape cancels.
+ * A value edited in place, as wide as its container. Cancel and save appear inside the input, at
+ * its end, once the text differs from the stored value; Enter saves and Escape cancels.
  */
 export function InlineEdit({
   value,
@@ -75,7 +80,7 @@ export function InlineEdit({
 
   return (
     <Field label={label} description={description} error={error} className={cn("min-w-0", className)}>
-      <div data-slot="inline-edit" className="flex items-center gap-2">
+      <div data-slot="inline-edit">
         <TextInput
           value={draft}
           onValueChange={setDraft}
@@ -85,18 +90,36 @@ export function InlineEdit({
           maxLength={maxLength}
           disabled={disabled || saving}
           aria-label={ariaLabel}
-          className="min-w-0 flex-1"
+          actions={
+            changed && (
+              <>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  aria-label={text.cancel}
+                  disabled={saving}
+                  onMouseDown={keepFocus}
+                  onClick={() => setDraft(value)}
+                  className="rounded-sm"
+                >
+                  <X />
+                </Button>
+                <Button
+                  type="button"
+                  size="icon-xs"
+                  aria-label={text.save}
+                  loading={saving}
+                  onMouseDown={keepFocus}
+                  onClick={() => void save()}
+                  className="rounded-sm"
+                >
+                  <Check />
+                </Button>
+              </>
+            )
+          }
         />
-        {changed && (
-          <>
-            <Button type="button" variant="ghost" size="icon" aria-label={text.cancel} disabled={saving} onClick={() => setDraft(value)}>
-              <X />
-            </Button>
-            <Button type="button" size="icon" aria-label={text.save} loading={saving} onClick={() => void save()}>
-              <Check />
-            </Button>
-          </>
-        )}
       </div>
     </Field>
   );

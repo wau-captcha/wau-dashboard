@@ -83,7 +83,6 @@ export function KeySettings({ apiKey }: { apiKey: ApiKey }) {
           maxLength={64}
           error={nameError && formMessageText(nameError, t)}
           onSave={rename}
-          className="max-w-xl"
         />
 
         <Separator />

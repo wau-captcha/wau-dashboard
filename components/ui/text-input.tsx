@@ -20,6 +20,11 @@ export type TextInputProps = Omit<Input.Props, "className" | "size"> & {
   startAdornment?: ReactNode;
   /** Icon or text after the value, e.g. a unit. */
   endAdornment?: ReactNode;
+  /**
+   * Buttons inside the box, at its end, e.g. the cancel and save of InlineEdit. Use size="icon-xs"
+   * buttons in an md input: they sit as far from the right edge as from the top and bottom.
+   */
+  actions?: ReactNode;
   /** Shows a clear button while the input has a value. */
   clearable?: boolean;
   onClear?: () => void;
@@ -40,6 +45,7 @@ export function TextInput({
   type = "text",
   startAdornment,
   endAdornment,
+  actions,
   clearable,
   onClear,
   invalid,
@@ -86,7 +92,7 @@ export function TextInput({
         className={cn(
           controlInput,
           startAdornment && "pl-2",
-          (endAdornment || showClear || isPassword) && "pr-1.5",
+          (endAdornment || showClear || isPassword || actions) && "pr-1.5",
           inputClassName,
         )}
         {...props}
@@ -116,6 +122,7 @@ export function TextInput({
         </button>
       )}
       {endAdornment && <span className={cn(controlAdornment, "pl-1.5 pr-3")}>{endAdornment}</span>}
+      {actions && <span className="flex h-full shrink-0 items-center gap-1 pr-1.25">{actions}</span>}
     </div>
   );
 }
