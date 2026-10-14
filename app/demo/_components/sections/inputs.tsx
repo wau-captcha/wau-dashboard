@@ -27,7 +27,7 @@ export function InputsSection() {
     >
       <DemoBlock
         title="InlineEdit"
-        description="Sửa tại chỗ: hai nút chỉ hiện khi nội dung khác giá trị đã lưu. Enter để lưu, Esc để hoàn tác."
+        description="Sửa tại chỗ, rộng hết chỗ chứa: nút hủy và lưu nằm trong ô, chỉ hiện khi nội dung khác giá trị đã lưu. Enter để lưu, Esc để hoàn tác."
       >
         <div className="grid gap-4 sm:grid-cols-2">
           <InlineEdit label="Tên khóa" value={keyName} maxLength={64} onSave={setKeyName} />
@@ -41,7 +41,10 @@ export function InputsSection() {
           />
         </div>
       </DemoBlock>
-      <DemoBlock title="TextInput" description="Icon hoặc chữ hai bên, nút xóa, hiện/ẩn mật khẩu, hai kích thước.">
+      <DemoBlock
+        title="TextInput"
+        description="Icon hoặc chữ hai bên, nút xóa, hiện/ẩn mật khẩu, nút đặt trong ô (actions, như InlineEdit), hai kích thước."
+      >
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Tên đăng nhập" description={`Giá trị hiện tại: "${username}"`}>
             <TextInput value={username} onValueChange={setUsername} clearable placeholder="john_doe" />
