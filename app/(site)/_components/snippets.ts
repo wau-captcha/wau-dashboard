@@ -198,7 +198,7 @@ export const restVerifyAnswer = (baseUrl: string) => `curl -X POST "${baseUrl}/c
   -H "Content-Type: application/json" \\
   -d '{"challenge_id": "0f9c…", "answer": "a8Kq2", "site_key": "pk_…", "pow_nonce": "48213", "behavior": { "version": 1, "elapsed_ms": 4210, … }}'
 
-{ "success": true, "token": "…", "expires_in": 120 }`;
+{ "success": true, "token": "…", "expires_in": 120, "clearance": "…" }`;
 
 export const restSiteVerify = (baseUrl: string) => `curl -X POST "${baseUrl}/siteverify" \\
   -H "Authorization: Bearer $WAU_SECRET_KEY" \\
@@ -221,13 +221,11 @@ export const autoCheckWidget = (baseUrl: string) => `<div
   data-fallback-type="image_distort"
   data-appearance="interaction-only"></div>`;
 
-export const autoCheckServer = `import { ChallengeType } from "@wau-captcha/server";
-
-const result = await wau.verifyToken(token);
+export const autoCheckServer = `const result = await wau.verifyToken(token);
 if (!result.success || result.hostname !== "shop.example.com") throw new Error("Please solve the captcha.");
-// Passed without a puzzle: for a sign-up, ask for a score of your own as well.
-if (result.challengeType === ChallengeType.AUTO_CHECK && (result.behavior.score ?? 0) < 0.9) {
-  // e.g. send a code by e-mail before creating the account
+// Passed auto_check on its signals alone, without a puzzle: a sign-up asks for one instead.
+if (result.behavior.reasons.includes("first_visit")) {
+  // e.g. show the form again with challengeType slide_puzzle
 }`;
 
 export const hostnameCheck = `const result = await wau.verifyToken(token);
