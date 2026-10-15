@@ -54,20 +54,32 @@ export function BindingSections({ text }: { text: Sections }) {
   );
 }
 
-/** What auto_check stops and what it does not, what it sends and how to ask for it: after the reference. */
+/**
+ * What an auto_check pass rests on, its modes, what it stops and what it does not, what it costs
+ * people, what it sends and stores, and how to ask for it and check it: after the reference.
+ */
 export function AutoCheckSection({ text, baseUrl }: { text: Sections; baseUrl: string }) {
   const auto = text.autoCheck;
   return (
     <DocSection id="auto-check" title={auto.title}>
       <Prose>{auto.body}</Prose>
+      <SubHeading>{auto.restsTitle}</SubHeading>
+      <Prose>{auto.restsBody}</Prose>
+      <Bullets items={auto.rests} />
+      <SubHeading>{auto.modesTitle}</SubHeading>
+      <Bullets items={auto.modes} />
       <SubHeading>{auto.stopsTitle}</SubHeading>
       <Bullets items={auto.stops} />
       <SubHeading>{auto.limitsTitle}</SubHeading>
       <Bullets items={auto.limits} />
+      <SubHeading>{auto.costTitle}</SubHeading>
+      <Bullets items={auto.cost} />
       <Prose>{auto.sends}</Prose>
       <Prose>{auto.fallback}</Prose>
       <Prose>{auto.integration}</Prose>
       <CodeBlock language="html" code={autoCheckWidget(baseUrl)} />
+      <SubHeading>{auto.backendTitle}</SubHeading>
+      <Prose>{auto.backend}</Prose>
       <CodeBlock language="javascript" code={autoCheckServer} />
       <Prose>{auto.usage}</Prose>
       <Link href="/captchas/auto-check" className={buttonVariants({ variant: "link", className: "justify-self-start px-0" })}>

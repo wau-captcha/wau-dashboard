@@ -9,7 +9,7 @@ const en = {
     title: "Draft, under review",
     body: "This page describes what WAU Captcha does today. Parts in [brackets] are placeholders the operator still has to fill in.",
   },
-  updated: "Last updated 12 October 2026",
+  updated: "Last updated 14 October 2026",
   contact: "Contact",
   privacy: {
     metaTitle: "Privacy policy",
@@ -38,7 +38,7 @@ const en = {
           "For every challenge a site asks for, one row in our database: the API key, the challenge type, when it was issued, whether it was answered and answered right, and the verdict and score of the behaviour check. The row holds no IP address, no browser details and no behaviour data.",
           "While a challenge can be answered, 2 minutes at most, Redis keeps its answer, the visitor's IP address, the website it was asked for from (its origin) and a hash of the browser's User-Agent, to check that the answer comes from the same browser. Answering it, right or wrong, deletes it.",
           "A token earned by a right answer stays in Redis until the site's server redeems it, 2 minutes at most, with the API key, the challenge type, when it was solved, the website's host name and the behaviour verdict.",
-          "Against abuse, Redis counts requests per IP address in one-minute windows, and wrong answers, automated verdicts and the automatic passes of auto_check per IP address over the last hour. Daily counters per account and per key (challenges, answers, right answers) live for 24 hours and hold no IP address.",
+          "Against abuse, Redis counts requests per IP address in one-minute windows, and wrong answers, automated verdicts and the automatic passes of auto_check per IP address over the last hour, those without a clearance too. The passes of each auto_check clearance are counted for an hour and a day under its random id, which holds no IP address. Daily counters per account and per key (challenges, answers, right answers) live for 24 hours and hold no IP address.",
         ],
       },
       {
@@ -62,13 +62,14 @@ const en = {
           "wau_google_nonce ties a Google sign-in to your browser, for one hour.",
           "wau_locale remembers the language you chose, for one year.",
           "wau-theme, in local storage, remembers the light or dark theme.",
+          "On the websites that use WAU Captcha, once a visitor solves a puzzle the SDK keeps wau-captcha:clearance:<site key> in local storage: a signed clearance with a random id, the API key, a hash of the User-Agent and its dates, which lets that browser pass auto_check there for up to 7 days. It goes back to WAU Captcha with auto_check answers only.",
           "There are no analytics or advertising cookies and no tracking scripts. Google's sign-in script loads from accounts.google.com on the sign-in pages only, and on /demo, which shows the button.",
         ],
       },
       {
         title: "Server logs",
         paragraphs: [
-          "The services write operational logs: errors, with challenge ids, API key ids or payment codes, and refused payment notifications with the address they came from. They stay on the server for [RETENTION: e.g. 14 days].",
+          "The services write operational logs: errors, with challenge ids, API key ids or payment codes, refused payment notifications with the address they came from, and for each auto_check answer a line with its challenge id, whether it passed, the score, the reason codes, the pointer type, counts of how the mouse moved, whether a clearance came with it and whether the address belongs to a hosting provider, without the visitor's IP address, User-Agent or clearance. They stay on the server for [RETENTION: e.g. 14 days].",
         ],
       },
       {
@@ -194,7 +195,7 @@ const vi: Translation<typeof en> = {
     title: "Bản nháp, đang được xem xét",
     body: "Trang này mô tả những gì WAU Captcha đang làm hiện nay. Các phần trong [ngoặc vuông] là chỗ trống mà bên vận hành còn phải điền.",
   },
-  updated: "Cập nhật lần cuối ngày 12 tháng 10 năm 2026",
+  updated: "Cập nhật lần cuối ngày 14 tháng 10 năm 2026",
   contact: "Liên hệ",
   privacy: {
     metaTitle: "Chính sách quyền riêng tư",
@@ -223,7 +224,7 @@ const vi: Translation<typeof en> = {
           "Với mỗi challenge một trang web yêu cầu, có một dòng trong cơ sở dữ liệu: khóa API, loại challenge, thời điểm cấp, đã được trả lời và trả lời đúng hay chưa, cùng kết luận và điểm của phần kiểm tra hành vi. Dòng này không chứa địa chỉ IP, thông tin trình duyệt hay dữ liệu hành vi.",
           "Trong lúc challenge còn trả lời được, tối đa 2 phút, Redis giữ đáp án, địa chỉ IP của người truy cập, trang web đã yêu cầu nó (origin) và giá trị băm của User-Agent trình duyệt, để kiểm tra câu trả lời đến từ đúng trình duyệt đó. Trả lời, dù đúng hay sai, đều xóa nó.",
           "Token có được nhờ trả lời đúng nằm trong Redis tới khi máy chủ của trang web đổi nó, tối đa 2 phút, kèm khóa API, loại challenge, thời điểm giải, tên miền của trang web và kết luận hành vi.",
-          "Để chống lạm dụng, Redis đếm số yêu cầu theo địa chỉ IP trong từng khung một phút, và số câu trả lời sai, số kết luận automated cùng số lượt qua tự động của auto_check theo địa chỉ IP trong một giờ gần nhất. Bộ đếm theo ngày của từng tài khoản và từng khóa (challenge, câu trả lời, câu trả lời đúng) tồn tại 24 giờ và không chứa địa chỉ IP.",
+          "Để chống lạm dụng, Redis đếm số yêu cầu theo địa chỉ IP trong từng khung một phút, và số câu trả lời sai, số kết luận automated cùng số lượt qua tự động của auto_check, kể cả số lượt không có clearance, theo địa chỉ IP trong một giờ gần nhất. Số lượt qua của mỗi clearance của auto_check được đếm trong một giờ và một ngày theo mã ngẫu nhiên của nó, không chứa địa chỉ IP. Bộ đếm theo ngày của từng tài khoản và từng khóa (challenge, câu trả lời, câu trả lời đúng) tồn tại 24 giờ và không chứa địa chỉ IP.",
         ],
       },
       {
@@ -247,13 +248,14 @@ const vi: Translation<typeof en> = {
           "wau_google_nonce gắn lần đăng nhập Google với trình duyệt của bạn, trong một giờ.",
           "wau_locale ghi nhớ ngôn ngữ bạn chọn, trong một năm.",
           "wau-theme, trong local storage, ghi nhớ giao diện sáng hay tối.",
+          "Trên các trang web dùng WAU Captcha, khi khách truy cập giải xong một câu đố, SDK giữ wau-captcha:clearance:<site key> trong local storage: một clearance đã ký, gồm mã ngẫu nhiên, khóa API, giá trị băm của User-Agent và các mốc thời gian, cho trình duyệt đó qua auto_check trên trang ấy trong tối đa 7 ngày. Nó chỉ được gửi lại cho WAU Captcha cùng câu trả lời auto_check.",
           "Không có cookie phân tích hay quảng cáo và không có script theo dõi. Script đăng nhập của Google chỉ tải từ accounts.google.com trên các trang đăng nhập, và trên /demo, nơi trình bày nút đó.",
         ],
       },
       {
         title: "Log máy chủ",
         paragraphs: [
-          "Các service ghi log vận hành: lỗi, kèm mã challenge, mã khóa API hoặc mã thanh toán, và các thông báo thanh toán bị từ chối kèm địa chỉ gửi tới. Log được giữ trên máy chủ trong [THỜI HẠN LƯU: ví dụ 14 ngày].",
+          "Các service ghi log vận hành: lỗi, kèm mã challenge, mã khóa API hoặc mã thanh toán, các thông báo thanh toán bị từ chối kèm địa chỉ gửi tới, và với mỗi câu trả lời auto_check một dòng gồm mã challenge, có qua hay không, điểm, mã lý do, loại con trỏ, số đếm về cách chuột di chuyển, có kèm clearance hay không và địa chỉ có thuộc nhà cung cấp hosting hay không, không có địa chỉ IP, User-Agent hay clearance của khách truy cập. Log được giữ trên máy chủ trong [THỜI HẠN LƯU: ví dụ 14 ngày].",
         ],
       },
       {

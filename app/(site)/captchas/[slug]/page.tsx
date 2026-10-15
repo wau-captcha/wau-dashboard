@@ -47,7 +47,8 @@ export default async function CaptchaTypePage({ params }: Params) {
   if (!captcha) notFound();
   const text = t.captchaGuides;
   const guide = text.types[captcha.id];
-  // auto_check says more: what it does not stop, what it sends, the fallback and the usage charts.
+  // auto_check says more: its modes, what a backend can check, what it does not stop, what it sends
+  // and stores, what it costs people, the fallback and the usage charts.
   const auto = captcha.id === "auto_check" ? text.types.auto_check : null;
   const position = CAPTCHAS.indexOf(captcha);
   const previous = CAPTCHAS[position - 1];
@@ -106,6 +107,19 @@ export default async function CaptchaTypePage({ params }: Params) {
       {auto && (
         <div className="grid gap-10 md:grid-cols-2">
           <section className="grid content-start gap-3">
+            <SubHeading>{auto.modesTitle}</SubHeading>
+            <Bullets items={auto.modes} />
+          </section>
+          <section className="grid content-start gap-3">
+            <SubHeading>{auto.backendTitle}</SubHeading>
+            <Bullets items={auto.backend} />
+          </section>
+        </div>
+      )}
+
+      {auto && (
+        <div className="grid gap-10 md:grid-cols-2">
+          <section className="grid content-start gap-3">
             <SubHeading>{auto.limitsTitle}</SubHeading>
             <Bullets items={auto.limits} />
           </section>
@@ -120,6 +134,13 @@ export default async function CaptchaTypePage({ params }: Params) {
         <SubHeading>{text.sections.choose}</SubHeading>
         <Alert tone={captcha.keyboard ? "neutral" : "warning"}>{guide.choose}</Alert>
       </section>
+
+      {auto && (
+        <section className="grid gap-3">
+          <SubHeading>{auto.costTitle}</SubHeading>
+          <Bullets items={auto.cost} />
+        </section>
+      )}
 
       {auto && (
         <section className="grid gap-3">
