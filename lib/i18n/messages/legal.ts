@@ -9,7 +9,7 @@ const en = {
     title: "Draft, under review",
     body: "This page describes what WAU Captcha does today. Parts in [brackets] are placeholders the operator still has to fill in.",
   },
-  updated: "Last updated 14 October 2026",
+  updated: "Last updated 16 October 2026",
   contact: "Contact",
   privacy: {
     metaTitle: "Privacy policy",
@@ -63,7 +63,7 @@ const en = {
           "wau_locale remembers the language you chose, for one year.",
           "wau-theme, in local storage, remembers the light or dark theme.",
           "On the websites that use WAU Captcha, once a visitor solves a puzzle the SDK keeps wau-captcha:clearance:<site key> in local storage: a signed clearance with a random id, the API key, a hash of the User-Agent and its dates, which lets that browser pass auto_check there for up to 7 days. It goes back to WAU Captcha with auto_check answers only.",
-          "There are no analytics or advertising cookies and no tracking scripts. Google's sign-in script loads from accounts.google.com on the sign-in pages only, and on /demo, which shows the button.",
+          "There are no analytics or advertising cookies and no tracking scripts. Google's sign-in script loads from accounts.google.com on the sign-in pages only.",
         ],
       },
       {
@@ -195,7 +195,7 @@ const vi: Translation<typeof en> = {
     title: "Bản nháp, đang được xem xét",
     body: "Trang này mô tả những gì WAU Captcha đang làm hiện nay. Các phần trong [ngoặc vuông] là chỗ trống mà bên vận hành còn phải điền.",
   },
-  updated: "Cập nhật lần cuối ngày 14 tháng 10 năm 2026",
+  updated: "Cập nhật lần cuối ngày 16 tháng 10 năm 2026",
   contact: "Liên hệ",
   privacy: {
     metaTitle: "Chính sách quyền riêng tư",
@@ -249,7 +249,7 @@ const vi: Translation<typeof en> = {
           "wau_locale ghi nhớ ngôn ngữ bạn chọn, trong một năm.",
           "wau-theme, trong local storage, ghi nhớ giao diện sáng hay tối.",
           "Trên các trang web dùng WAU Captcha, khi khách truy cập giải xong một câu đố, SDK giữ wau-captcha:clearance:<site key> trong local storage: một clearance đã ký, gồm mã ngẫu nhiên, khóa API, giá trị băm của User-Agent và các mốc thời gian, cho trình duyệt đó qua auto_check trên trang ấy trong tối đa 7 ngày. Nó chỉ được gửi lại cho WAU Captcha cùng câu trả lời auto_check.",
-          "Không có cookie phân tích hay quảng cáo và không có script theo dõi. Script đăng nhập của Google chỉ tải từ accounts.google.com trên các trang đăng nhập, và trên /demo, nơi trình bày nút đó.",
+          "Không có cookie phân tích hay quảng cáo và không có script theo dõi. Script đăng nhập của Google chỉ tải từ accounts.google.com trên các trang đăng nhập.",
         ],
       },
       {

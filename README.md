@@ -3,7 +3,8 @@
 The website of WAU Captcha at https://waucaptcha.com, built with Next.js. It has the public site
 (home page, captcha pages, docs, pricing, changelog, legal and status pages), the customer
 dashboard where users sign in with Google to manage API keys, usage and billing, a separate admin
-console, and `/demo`, a living style guide of the components in `components/ui`. It holds no data
+console, and `/demo`, a living style guide of the components in `components/ui` that only `next dev`
+serves (a production build answers 404 there). It holds no data
 of its own: its server calls the tenant and billing services of wau-services.
 
 ## Stack
@@ -44,13 +45,13 @@ CI and the Docker image use Node.js 24.
 | `(admin)` | `/admin` | Admin overview: stats and usage. |
 | | `/admin/users`, `/admin/users/[id]` | Users; one user with their keys and usage. |
 | | `/admin/appeals` | Reviews owners asked for, of keys that were suspended or throttled. |
-| `demo` | `/demo` | Living style guide: every component in `components/ui`. |
+| `demo` | `/demo` | Living style guide: every component in `components/ui`. Development only: 404 in a production build. |
 
 Also `app/status.json/route.ts` (`/status.json`, the status check as JSON for monitors) and
 `app/.well-known/security.txt/route.ts`.
 
 `proxy.ts` lets visitors without a session cookie reach only the public pages, the sign-in pages and
-`/demo`; it sends them to `/login`, or to `/admin/login` for `/admin`. Users and administrators
+`/demo` (under `next dev`); it sends them to `/login`, or to `/admin/login` for `/admin`. Users and administrators
 have separate sessions.
 
 ## Run locally
