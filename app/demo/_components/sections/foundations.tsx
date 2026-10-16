@@ -1,3 +1,4 @@
+import { Logo, LogoTile } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 import { DemoBlock, DemoSection } from "../demo-shell";
 
@@ -90,6 +91,26 @@ export function FoundationsSection() {
       title="Nền tảng"
       description="Token màu, chữ, bo góc và độ nổi. Mọi component chỉ dùng các token này, nên đổi giao diện sáng/tối là tự động."
     >
+      <DemoBlock
+        title="Logo"
+        description="SVG gốc của file thương hiệu trong public/brand, tự đổi theo giao diện: tím trên nền sáng, xanh chanh trên nền tối. Không tô lại màu, kéo méo hay thêm hiệu ứng."
+      >
+        <div className="flex flex-wrap items-end gap-x-10 gap-y-6">
+          <div className="grid justify-items-start gap-2">
+            <Logo />
+            <code className="font-mono text-overline text-muted-foreground">Logo · cao 24 px (ít nhất 20 px)</code>
+          </div>
+          <div className="grid justify-items-start gap-2">
+            <div className="flex items-end gap-3">
+              <LogoTile className="size-4" />
+              <LogoTile />
+              <LogoTile className="size-12" />
+            </div>
+            <code className="font-mono text-overline text-muted-foreground">LogoTile · 16 px favicon, 18 px widget</code>
+          </div>
+        </div>
+      </DemoBlock>
+
       <DemoBlock title="Màu sắc">
         <div className="grid gap-6">
           {colorGroups.map((group) => (
