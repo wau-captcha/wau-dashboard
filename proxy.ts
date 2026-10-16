@@ -14,8 +14,10 @@ const ADMIN_LOGIN = `${ADMIN_PATH}/login`;
 /**
  * Pages reachable without signing in: the home page, the captcha pages, the docs, the pages about
  * the service and the sign-in pages. /privacy and /terms redirect to /legal before the proxy runs.
+ * The image of shared links too, which link previews fetch without a session.
  */
 const publicPaths = [
+  "/opengraph-image",
   "/captchas",
   "/docs",
   "/pricing",

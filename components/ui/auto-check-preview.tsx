@@ -1,9 +1,10 @@
 "use client";
 
-import { Check, ShieldCheck } from "lucide-react";
+import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useUIText } from "./locale";
+import { LogoTile } from "./logo";
 import { SegmentedControl } from "./segmented-control";
 import { SlidePreview, type SlidePreviewProps } from "./slide-preview";
 import { Spinner } from "./spinner";
@@ -53,11 +54,9 @@ export function AutoCheckPreview({ alt, fallback, still = false, className }: Au
       <span className={cn("min-w-0 flex-1 text-body text-foreground", passed && "font-medium text-positive-text")}>
         {passed ? text.verified : text.checking}
       </span>
-      {/* The mark of the widget: the shield tile of the logo over the name. */}
+      {/* The mark of the widget: the app tile of the logo over the name. */}
       <span className="grid shrink-0 justify-items-center gap-1 text-[10px] leading-none font-semibold text-muted-foreground">
-        <span className="flex size-[18px] items-center justify-center rounded-sm bg-primary text-primary-foreground">
-          <ShieldCheck aria-hidden className="size-3" />
-        </span>
+        <LogoTile />
         WAU Captcha
       </span>
     </div>

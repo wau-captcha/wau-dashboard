@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { InlineScript } from "@/components/inline-script";
 import { Providers } from "@/components/providers";
+import { SITE_URL } from "@/lib/contact";
 import { getI18n } from "@/lib/i18n/server";
 import { getNonce } from "@/lib/nonce";
 import { themeInitScript } from "@/lib/theme";
@@ -34,11 +35,19 @@ const jetbrainsMono = JetBrains_Mono({
   adjustFontFallback: false,
 });
 
+/**
+ * The icons (icon.svg, apple-icon.png, favicon.ico) and the image of shared links
+ * (opengraph-image.tsx) are files of this folder. Link previews need absolute URLs, hence
+ * metadataBase; they take the title and the description of the page itself.
+ */
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getI18n();
   return {
+    metadataBase: new URL(SITE_URL),
     title: { default: t.common.app.name, template: `%s · ${t.common.app.name}` },
     description: t.common.app.description,
+    openGraph: { type: "website", siteName: t.common.app.name },
+    twitter: { card: "summary_large_image" },
   };
 }
 
