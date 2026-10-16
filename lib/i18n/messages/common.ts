@@ -29,6 +29,14 @@ const en = {
     description: "The server isn't responding. Check your connection and try again.",
     retry: "Try again",
   },
+  notFound: {
+    title: "This page doesn't exist",
+    description: "The link may be broken, or the page may have moved. Check the address, or carry on from one of these.",
+    home: "Back to home",
+    dashboard: "Go to dashboard",
+    docs: "Read the docs",
+    elsewhere: "Or try",
+  },
 };
 
 const vi: Translation<typeof en> = {
@@ -59,6 +67,14 @@ const vi: Translation<typeof en> = {
     title: "Không tải được dữ liệu",
     description: "Máy chủ đang không phản hồi. Kiểm tra kết nối rồi thử lại.",
     retry: "Thử lại",
+  },
+  notFound: {
+    title: "Trang này không tồn tại",
+    description: "Đường link có thể đã hỏng, hoặc trang đã được chuyển đi. Hãy kiểm tra lại địa chỉ, hoặc đi tiếp từ một trong các trang dưới đây.",
+    home: "Về trang chủ",
+    dashboard: "Vào bảng điều khiển",
+    docs: "Xem tài liệu",
+    elsewhere: "Hoặc thử",
   },
 };
 
