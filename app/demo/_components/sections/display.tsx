@@ -12,6 +12,7 @@ import {
   StatCard,
 } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { ErrorState } from "@/components/ui/error-state";
 import { Kbd } from "@/components/ui/kbd";
 import { SecretValue } from "@/components/ui/secret-value";
 import { Separator } from "@/components/ui/separator";
@@ -226,6 +227,28 @@ export async function DisplaySection() {
           </div>
         </DemoBlock>
       </div>
+
+      <DemoBlock title="ErrorState" description="Cả trang không hiển thị được, như trang 404 (app/not-found.tsx): mã lỗi lớn trên chữ W mờ của logo.">
+        <div className="grid place-items-center overflow-hidden py-10">
+          <ErrorState
+            code="404"
+            title="Trang này không tồn tại"
+            description="Đường link có thể đã hỏng, hoặc trang đã được chuyển đi."
+            actions={
+              <>
+                <Button>Về trang chủ</Button>
+                <Button variant="outline">Xem tài liệu</Button>
+              </>
+            }
+            linksLabel="Hoặc thử"
+            links={[
+              { href: "/demo#display", label: "Captcha" },
+              { href: "/demo#plans", label: "Bảng giá" },
+              { href: "/demo#tables", label: "Nhật ký thay đổi" },
+            ]}
+          />
+        </div>
+      </DemoBlock>
 
       <DemoBlock title="Spinner · Kbd · Separator">
         <div className="flex flex-wrap items-center gap-6">
