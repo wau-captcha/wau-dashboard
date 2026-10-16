@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { AppShellSection } from "./_components/sections/app-shell";
 import { AuthSection } from "./_components/sections/auth";
 import { DemoShell, type DemoNavItem } from "./_components/demo-shell";
@@ -41,8 +42,13 @@ const nav: DemoNavItem[] = [
   { id: "toast", label: "Thông báo" },
 ];
 
-/** Living style guide: every component in components/ui. Keep it in sync when components change. */
+/**
+ * Living style guide: every component in components/ui. Keep it in sync when components change.
+ * Only `next dev` serves it: it is for whoever works on the components, so the production build
+ * answers 404.
+ */
 export default function DemoPage() {
+  if (process.env.NODE_ENV === "production") notFound();
   return (
     <DemoShell nav={nav}>
       <div className="grid gap-3 pb-4">
