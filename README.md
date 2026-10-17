@@ -138,7 +138,7 @@ docker run -p 3000:3000 -e WAU_TENANT_URL=<tenant-url> -e WAU_BILLING_URL=<billi
   unknown ids are shown as they are.
 - `lib/captchas.ts`: the captcha types the public pages show (slug, API id, SDK constant, size,
   keyboard support) and the shape of the samples in `public/captchas/samples`.
-- `lib/sdk-cdn.ts`: the `@wau-captcha/client` version and Subresource Integrity hash that the CDN
+- `lib/sdk-cdn.ts`: the `@waucaptcha-sdk/client` version and Subresource Integrity hash that the CDN
   snippet in the docs uses.
 - `lib/contact.ts`: operator name, contact email and site URL, as the public pages and
   `security.txt` state them.
@@ -171,10 +171,10 @@ A new module also needs its `en` and `vi` entries, and its type, in `lib/i18n/di
 
 ## After each SDK release
 
-The docs show a `<script>` tag that loads `@wau-captcha/client` from jsDelivr, pinned to an exact
+The docs show a `<script>` tag that loads `@waucaptcha-sdk/client` from jsDelivr, pinned to an exact
 version with its integrity hash. Both live in `lib/sdk-cdn.ts` and change together:
 
-1. Once the new `@wau-captcha/client` version is on npm, run in wau-sdk-js:
+1. Once the new `@waucaptcha-sdk/client` version is on npm, run in wau-sdk-js:
 
    ```bash
    node scripts/sri.mjs <version>

@@ -6,15 +6,15 @@ import { CLIENT_CDN_INTEGRITY, CLIENT_CDN_URL } from "@/lib/sdk-cdn";
  */
 
 export const install = {
-  browser: "npm install @wau-captcha/client",
-  react: "npm install @wau-captcha/react",
-  node: "npm install @wau-captcha/server",
+  browser: "npm install @waucaptcha-sdk/client",
+  react: "npm install @waucaptcha-sdk/react",
+  node: "npm install @waucaptcha-sdk/server",
   java: `<dependency>
     <groupId>com.waucaptcha</groupId>
-    <artifactId>wau-captcha-sdk</artifactId>
+    <artifactId>waucaptcha-sdk</artifactId>
     <version>1.1.0</version>
 </dependency>`,
-  gradle: `implementation("com.waucaptcha:wau-captcha-sdk:1.1.0")`,
+  gradle: `implementation("com.waucaptcha:waucaptcha-sdk:1.1.0")`,
 };
 
 export const widgetScript = (baseUrl: string) => `<script
@@ -33,13 +33,13 @@ export const sriCommand = (version: string) => `# In a clone of github.com/wau-c
 node scripts/sri.mjs ${version}
 
 # Or with curl and openssl:
-curl -s https://cdn.jsdelivr.net/npm/@wau-captcha/client@${version}/dist/wau-captcha.global.js \\
+curl -s https://cdn.jsdelivr.net/npm/@waucaptcha-sdk/client@${version}/dist/wau-captcha.global.js \\
   | openssl dgst -sha384 -binary | openssl base64 -A`;
 
-export const auditSignatures = `npm install @wau-captcha/server
+export const auditSignatures = `npm install @waucaptcha-sdk/server
 npm audit signatures`;
 
-export const widgetBundler = (baseUrl: string) => `import { renderWidget } from "@wau-captcha/client";
+export const widgetBundler = (baseUrl: string) => `import { renderWidget } from "@waucaptcha-sdk/client";
 
 const widget = renderWidget(document.querySelector("#captcha"), {
   siteKey: "pk_…",
@@ -52,7 +52,7 @@ const widget = renderWidget(document.querySelector("#captcha"), {
   },
 });`;
 
-export const reactPage = (baseUrl: string) => `import { WauCaptcha } from "@wau-captcha/react";
+export const reactPage = (baseUrl: string) => `import { WauCaptcha } from "@waucaptcha-sdk/react";
 import { signUp } from "./actions";
 
 export default function SignUpPage() {
@@ -67,7 +67,7 @@ export default function SignUpPage() {
 
 export const reactAction = (baseUrl: string) => `"use server";
 
-import { BehaviorVerdict, WauCaptchaServer } from "@wau-captcha/server";
+import { BehaviorVerdict, WauCaptchaServer } from "@waucaptcha-sdk/server";
 
 export async function signUp(formData: FormData) {
   const captcha = new WauCaptchaServer({
@@ -85,7 +85,7 @@ export async function signUp(formData: FormData) {
 
 export const reactModal = (baseUrl: string) => `"use client";
 
-import { ChallengeType, WauCaptcha, WauCaptchaMode } from "@wau-captcha/react";
+import { ChallengeType, WauCaptcha, WauCaptchaMode } from "@waucaptcha-sdk/react";
 
 export function SignUpCaptcha() {
   return (
@@ -100,7 +100,7 @@ export function SignUpCaptcha() {
   );
 }`;
 
-export const clientCustom = (baseUrl: string) => `import { ChallengeType, WauCaptchaClient } from "@wau-captcha/client";
+export const clientCustom = (baseUrl: string) => `import { ChallengeType, WauCaptchaClient } from "@waucaptcha-sdk/client";
 
 const captcha = new WauCaptchaClient({ siteKey: "pk_…", baseUrl: "${baseUrl}" });
 
@@ -118,7 +118,7 @@ if (result.success) {
   // Wrong answer: the challenge is used up, fetch a new one.
 }`;
 
-export const nodeVerify = (baseUrl: string) => `import { BehaviorVerdict, ErrorCode, WauCaptchaServer } from "@wau-captcha/server";
+export const nodeVerify = (baseUrl: string) => `import { BehaviorVerdict, ErrorCode, WauCaptchaServer } from "@waucaptcha-sdk/server";
 
 const wau = new WauCaptchaServer({
   secretKey: process.env.WAU_SECRET_KEY,
