@@ -64,9 +64,9 @@ const en = {
     imageComment: "image is base64: use `data:${mime_type};base64,${image}` as the <img> src",
     verifyComment: "Browser: send the answer the user typed",
     tokenComment: "Send the token with your form when success is true",
-    sdkComment: "@wau-captcha/client also sends behaviour data and the proof of work; keys that require behaviour refuse answers without them",
+    sdkComment: "@waucaptcha-sdk/client also sends behaviour data and the proof of work; keys that require behaviour refuse answers without them",
     siteVerifyComment: "Your server: verify the one-time token",
-    serverSdkComment: "Or with a server SDK: @wau-captcha/server (Node.js) or com.waucaptcha:wau-captcha-sdk (Java)",
+    serverSdkComment: "Or with a server SDK: @waucaptcha-sdk/server (Node.js) or com.waucaptcha:waucaptcha-sdk (Java)",
   },
   notFound: {
     title: "API key not found",
@@ -141,9 +141,9 @@ const vi: Translation<typeof en> = {
     imageComment: "image là base64: dùng `data:${mime_type};base64,${image}` làm src của <img>",
     verifyComment: "Trình duyệt: gửi đáp án người dùng nhập",
     tokenComment: "Gửi token kèm form của bạn khi success = true",
-    sdkComment: "@wau-captcha/client còn gửi dữ liệu hành vi và proof of work; khóa bắt buộc hành vi sẽ từ chối câu trả lời thiếu chúng",
+    sdkComment: "@waucaptcha-sdk/client còn gửi dữ liệu hành vi và proof of work; khóa bắt buộc hành vi sẽ từ chối câu trả lời thiếu chúng",
     siteVerifyComment: "Máy chủ của bạn: xác minh token một lần",
-    serverSdkComment: "Hoặc dùng SDK máy chủ: @wau-captcha/server (Node.js) hoặc com.waucaptcha:wau-captcha-sdk (Java)",
+    serverSdkComment: "Hoặc dùng SDK máy chủ: @waucaptcha-sdk/server (Node.js) hoặc com.waucaptcha:waucaptcha-sdk (Java)",
   },
   notFound: {
     title: "Không tìm thấy khóa API",
