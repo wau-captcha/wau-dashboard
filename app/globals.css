@@ -345,7 +345,7 @@
     --code-window-gutter: #b0bec5;
     --code-window-chrome: #90a4ae;
     --code-window-chrome-hover: #37474f;
-    --code-window-line: 16px;
+    --code-window-line: 19px;
 
     /* 16px 16px 15px 14px from the outer edge in both themes: the dark border is transparent. */
     border: 1px solid var(--code-window-border);
@@ -376,7 +376,7 @@
 
   @media (width >= 40rem) {
     .code-window {
-      --code-window-line: 17px;
+      --code-window-line: 20px;
       font-size: 13px;
     }
   }
