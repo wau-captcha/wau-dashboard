@@ -61,11 +61,11 @@ const en = {
     },
     node: {
       title: "Verify on a Node.js server",
-      body: "Redeem the token with @waucaptcha-sdk/server (Node.js 18 or later), and check result.hostname, the website the challenge was solved on, against your own domain. A thrown WauCaptchaError means the token could not be checked; treat it as a failure.",
+      body: "Redeem the token with @waucaptcha-sdk/server (Node.js 18 or later), and check result.hostname, the website the challenge was solved on, against your own domains with hostnameMatches, which also reads them written with https:// or a port. A thrown WauCaptchaError means the token could not be checked; treat it as a failure.",
     },
     java: {
       title: "Verify on a Java server",
-      body: "Redeem the token with com.waucaptcha:waucaptcha-sdk (Java 17 or later, no dependencies), and check result.hostname(), the website the challenge was solved on, against your own domain. result.challengeType() is auto_check for a visitor who passed without a puzzle. The client is immutable and safe to share between threads; a WauCaptchaException means the token could not be checked, so treat it as a failure.",
+      body: "Redeem the token with com.waucaptcha:waucaptcha-sdk (Java 17 or later, no dependencies), and check result.hostname(), the website the challenge was solved on, against your own domains with result.hostnameMatches, which also reads them written with https:// or a port. result.challengeType() is auto_check for a visitor who passed without a puzzle. The client is immutable and safe to share between threads; a WauCaptchaException means the token could not be checked, so treat it as a failure.",
       challenges: "The same client fetches and answers challenges of every type but auto_check, whose answer only the browser SDK can give, with the site key, and sends the site key and the proof of work as the browser SDK does. Keys that require behaviour data, the default for new keys, refuse answers sent without a Behavior, so these calls suit tests and desktop apps; on a website, use the JavaScript widget and verify its token in Java.",
     },
     verifyPackage: {
@@ -140,11 +140,11 @@ const vi: Translation<typeof en> = {
     },
     node: {
       title: "Xác minh trên máy chủ Node.js",
-      body: "Đổi token bằng @waucaptcha-sdk/server (Node.js 18 trở lên), và so result.hostname, website nơi challenge được giải, với tên miền của bạn. Nếu gặp WauCaptchaError tức là không kiểm tra được token; hãy coi đó là thất bại.",
+      body: "Đổi token bằng @waucaptcha-sdk/server (Node.js 18 trở lên), và đối chiếu result.hostname, website nơi challenge được giải, với các tên miền của bạn bằng hostnameMatches, hàm này nhận cả tên miền viết kèm https:// hay cổng. Nếu gặp WauCaptchaError tức là không kiểm tra được token; hãy coi đó là thất bại.",
     },
     java: {
       title: "Xác minh trên máy chủ Java",
-      body: "Đổi token bằng com.waucaptcha:waucaptcha-sdk (Java 17 trở lên, không phụ thuộc thư viện ngoài), và so result.hostname(), website nơi challenge được giải, với tên miền của bạn. result.challengeType() là auto_check với khách qua mà không phải giải câu đố nào. Client bất biến và dùng chung an toàn giữa nhiều luồng; gặp WauCaptchaException tức là không kiểm tra được token, nên hãy coi đó là thất bại.",
+      body: "Đổi token bằng com.waucaptcha:waucaptcha-sdk (Java 17 trở lên, không phụ thuộc thư viện ngoài), và đối chiếu result.hostname(), website nơi challenge được giải, với các tên miền của bạn bằng result.hostnameMatches, hàm này nhận cả tên miền viết kèm https:// hay cổng. result.challengeType() là auto_check với khách qua mà không phải giải câu đố nào. Client bất biến và dùng chung an toàn giữa nhiều luồng; gặp WauCaptchaException tức là không kiểm tra được token, nên hãy coi đó là thất bại.",
       challenges: "Cũng client đó lấy và trả lời challenge của mọi loại trừ auto_check, loại mà chỉ SDK trình duyệt mới đưa ra được câu trả lời, bằng site key, gửi kèm site key và proof of work như SDK trình duyệt. Khóa bắt buộc dữ liệu hành vi, mặc định với khóa mới, từ chối câu trả lời gửi không kèm Behavior, nên các lời gọi này hợp với kiểm thử và ứng dụng desktop; trên website, hãy dùng widget JavaScript rồi xác minh token bằng Java.",
     },
     verifyPackage: {

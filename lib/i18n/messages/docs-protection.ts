@@ -5,7 +5,7 @@ const en = {
   siteBinding: {
     title: "Bind a key to your websites",
     body: "Add your domains on the key's page. Challenges are then issued only to pages on those websites, an answer must come from the website that fetched its challenge and name the same site key, and /siteverify returns the website as hostname.",
-    compare: "On your server, compare hostname with your own domain and refuse the token when they differ:",
+    compare: "On your server, check hostname against your own domains and refuse the token when it is none of them. hostnameMatches (@waucaptcha-sdk/server 1.7.0 or later) and result.hostnameMatches (Java) do it: they take the domains as a list or as one string with commas between them, such as an environment variable, and read https://Shop.example.com/, shop.example.com:443 and shop.example.com as the same; *.example.com stands for the subdomains of example.com:",
     forgeable:
       "The browser sets Origin, so domain binding stops other websites from using your key in their visitors' browsers. A script outside a browser can send any Origin it likes: bots are caught by the behaviour verdict and the service's own signals, not by the domain list.",
   },
@@ -92,7 +92,7 @@ const vi: Translation<typeof en> = {
   siteBinding: {
     title: "Gắn khóa với website của bạn",
     body: "Thêm tên miền ở trang của khóa. Khi đó challenge chỉ được cấp cho các trang thuộc những website đó, câu trả lời phải đến từ chính website đã lấy challenge và ghi đúng site key, và /siteverify trả về website đó trong hostname.",
-    compare: "Ở máy chủ, so hostname với tên miền của bạn và từ chối token khi chúng khác nhau:",
+    compare: "Ở máy chủ, đối chiếu hostname với các tên miền của bạn và từ chối token khi nó không thuộc tên miền nào. hostnameMatches (@waucaptcha-sdk/server 1.7.0 trở lên) và result.hostnameMatches (Java) làm việc này: chúng nhận các tên miền dạng danh sách hoặc một chuỗi cách nhau bằng dấu phẩy, như một biến môi trường, và coi https://Shop.example.com/, shop.example.com:443 và shop.example.com là một; *.example.com là mọi tên miền con của example.com:",
     forgeable:
       "Origin do trình duyệt đặt, nên gắn tên miền ngăn website khác dùng khóa của bạn trong trình duyệt của khách truy cập. Script chạy ngoài trình duyệt gửi Origin nào cũng được: bot bị bắt nhờ kết luận hành vi và các tín hiệu do service tự thu thập, không phải nhờ danh sách tên miền.",
   },
