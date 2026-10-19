@@ -67,7 +67,7 @@ export default function SignUpPage() {
 
 export const reactAction = (baseUrl: string) => `"use server";
 
-import { BehaviorVerdict, WauCaptchaServer } from "@waucaptcha-sdk/server";
+import { BehaviorVerdict, WauCaptchaServer, hostnameMatches } from "@waucaptcha-sdk/server";
 
 export async function signUp(formData: FormData) {
   const captcha = new WauCaptchaServer({
@@ -75,8 +75,11 @@ export async function signUp(formData: FormData) {
     baseUrl: "${baseUrl}",
   });
   const result = await captcha.verifyToken(String(formData.get("wau-captcha-token") ?? ""));
-  // hostname is the website the captcha was solved on: it must be yours.
-  if (!result.success || result.hostname !== "shop.example.com") throw new Error("Please solve the captcha.");
+  // hostname is the website the captcha was solved on: it must be one of yours, listed in
+  // WAU_ALLOWED_HOSTNAMES, e.g. shop.example.com,https://www.shop.example.com
+  if (!result.success || !hostnameMatches(result.hostname, process.env.WAU_ALLOWED_HOSTNAMES)) {
+    throw new Error("Please solve the captcha.");
+  }
   // Sign-up accepts human only: suspicious is a scripted session, and not_measured means the
   // client sent no behaviour data (an SDK before 1.2.0 or a hand-written call), so it is untrusted.
   if (result.behavior.verdict !== BehaviorVerdict.HUMAN) throw new Error("Please try again.");
@@ -118,7 +121,7 @@ if (result.success) {
   // Wrong answer: the challenge is used up, fetch a new one.
 }`;
 
-export const nodeVerify = (baseUrl: string) => `import { BehaviorVerdict, ErrorCode, WauCaptchaServer } from "@waucaptcha-sdk/server";
+export const nodeVerify = (baseUrl: string) => `import { BehaviorVerdict, ErrorCode, WauCaptchaServer, hostnameMatches } from "@waucaptcha-sdk/server";
 
 const wau = new WauCaptchaServer({
   secretKey: process.env.WAU_SECRET_KEY,
@@ -128,8 +131,11 @@ const wau = new WauCaptchaServer({
 app.post("/signup", async (req, res) => {
   try {
     const result = await wau.verifyToken(req.body["wau-captcha-token"]);
-    // hostname is the website the captcha was solved on: compare it with yours.
-    if (!result.success || result.hostname !== "shop.example.com") return res.status(400).send("Please solve the captcha.");
+    // hostname is the website the captcha was solved on: it must be one of yours, listed in
+    // WAU_ALLOWED_HOSTNAMES, e.g. shop.example.com,https://www.shop.example.com
+    if (!result.success || !hostnameMatches(result.hostname, process.env.WAU_ALLOWED_HOSTNAMES)) {
+      return res.status(400).send("Please solve the captcha.");
+    }
     // result.behavior: { verdict, score, reasons }. not_measured means no behaviour data was sent:
     // untrusted. Decide about suspicious per form; for sign-up, accept human only.
     if (result.behavior.verdict !== BehaviorVerdict.HUMAN) return res.status(400).send("Please try again.");
@@ -155,8 +161,9 @@ WauCaptchaClient wau = WauCaptchaClient.builder()
 boolean captchaPassed(String token) {
     try {
         SiteVerifyResult result = wau.verifyToken(token);
-        // hostname is the website the captcha was solved on: compare it with yours.
-        if (!result.success() || !result.hostname().equals("shop.example.com")) return false;
+        // hostname is the website the captcha was solved on: it must be one of yours, listed in
+        // WAU_ALLOWED_HOSTNAMES, e.g. shop.example.com,https://www.shop.example.com
+        if (!result.hostnameMatches(System.getenv("WAU_ALLOWED_HOSTNAMES"))) return false;
         // result.behavior(): verdict, score, reasons. NOT_MEASURED means no behaviour data was sent:
         // untrusted. Decide about SUSPICIOUS per form; for sign-up, accept HUMAN only.
         return result.behavior().verdict() == BehaviorVerdict.HUMAN;
@@ -222,13 +229,18 @@ export const autoCheckWidget = (baseUrl: string) => `<div
   data-appearance="interaction-only"></div>`;
 
 export const autoCheckServer = `const result = await wau.verifyToken(token);
-if (!result.success || result.hostname !== "shop.example.com") throw new Error("Please solve the captcha.");
+if (!result.success || !hostnameMatches(result.hostname, process.env.WAU_ALLOWED_HOSTNAMES)) {
+  throw new Error("Please solve the captcha.");
+}
 // Passed auto_check on its signals alone, without a puzzle: a sign-up asks for one instead.
 if (result.behavior.reasons.includes("first_visit")) {
   // e.g. show the form again with challengeType slide_puzzle
 }`;
 
-export const hostnameCheck = `const result = await wau.verifyToken(token);
-if (!result.success || result.hostname !== "shop.example.com") {
+export const hostnameCheck = `import { hostnameMatches } from "@waucaptcha-sdk/server";
+
+// WAU_ALLOWED_HOSTNAMES=shop.example.com,https://www.shop.example.com,*.shop.example.com
+const result = await wau.verifyToken(token);
+if (!result.success || !hostnameMatches(result.hostname, process.env.WAU_ALLOWED_HOSTNAMES)) {
   // Unknown token, or solved on another website: refuse the request.
 }`;
