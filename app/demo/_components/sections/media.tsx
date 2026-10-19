@@ -2,6 +2,7 @@ import { ScanEye } from "lucide-react";
 import Image from "next/image";
 import { AnimatedImage } from "@/components/ui/animated-image";
 import { AutoCheckPreview } from "@/components/ui/auto-check-preview";
+import { Diagram } from "@/components/ui/diagram";
 import { Figure } from "@/components/ui/figure";
 import { JumpPreview } from "@/components/ui/jump-preview";
 import { MediaCard } from "@/components/ui/media-card";
@@ -23,6 +24,19 @@ export function MediaSection() {
             <Image key={src} src={src} alt="Challenge image_distort mẫu" width={200} height={70} unoptimized className="h-auto w-full max-w-[300px] rounded-md" />
           ))}
         </Figure>
+      </DemoBlock>
+
+      <DemoBlock title="Diagram" description="Sơ đồ rộng, một bản vẽ cho giao diện sáng và một cho giao diện tối. Không thu nhỏ dưới 48rem: trên điện thoại khung cuộn ngang; liên kết dưới khung mở kích thước đầy đủ.">
+        <Diagram
+          light="/diagrams/wau-flow-vi-light.svg"
+          dark="/diagrams/wau-flow-vi-dark.svg"
+          width={1460}
+          height={1158}
+          alt="Sơ đồ một lần xác minh gồm 12 bước, giữa website, wau-challenge, wau-verify và Redis"
+          caption="Một lần xác minh diễn ra thế nào."
+          openLabel="Mở kích thước đầy đủ"
+          className="max-w-4xl"
+        />
       </DemoBlock>
 
       <DemoBlock title="AnimatedImage" description="Khung tĩnh có nút phát; ảnh động nặng chỉ tải khi người xem bấm.">

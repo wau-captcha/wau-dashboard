@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/ui/code-block";
+import { Diagram } from "@/components/ui/diagram";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { CLIENT_CDN_VERSION } from "@/lib/sdk-cdn";
 import {
@@ -24,6 +25,15 @@ export function IntegrationSections({ text, baseUrl }: { text: Sections; baseUrl
     <>
       <DocSection id="overview" title={text.overview.title}>
         <Prose>{text.overview.body}</Prose>
+        <Diagram
+          light={text.overview.diagram.light}
+          dark={text.overview.diagram.dark}
+          width={1460}
+          height={1158}
+          alt={text.overview.diagram.alt}
+          caption={text.overview.diagram.caption}
+          openLabel={text.overview.diagram.open}
+        />
         <SubHeading>{text.overview.keysTitle}</SubHeading>
         <Bullets items={[text.overview.siteKey, text.overview.secretKey, text.overview.keysWhere]} />
       </DocSection>
