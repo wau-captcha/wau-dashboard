@@ -13,6 +13,13 @@ const en = {
     overview: {
       title: "How it works",
       body: "A captcha check takes three calls. Your page fetches a challenge with the public site key, the person answers it and gets a one-time token, and your server redeems the token with the secret key before accepting the request.",
+      diagram: {
+        light: "/diagrams/wau-flow-en-light.svg",
+        dark: "/diagrams/wau-flow-en-dark.svg",
+        alt: "Diagram of a verification in 12 steps. Your site's frontend fetches a challenge from wau-challenge with the site key, sends the answer to wau-verify, which has wau-challenge check it, and gets a one-time token. Your backend redeems the token at /siteverify with the secret key and gets success, the challenge type and the hostname. Challenges and grants live in a Redis Cluster and each works once.",
+        caption: "The numbers follow the calls in order; wau-challenge and wau-verify sit behind api.waucaptcha.com.",
+        open: "Open at full size",
+      },
       keysTitle: "Your keys",
       siteKey: "Site key (pk_…) — public. Used in the browser to fetch challenges.",
       secretKey: "Secret key (sk_…) — private. Used by your server to redeem tokens. Never ship it to a browser.",
@@ -92,6 +99,13 @@ const vi: Translation<typeof en> = {
     overview: {
       title: "Cách hoạt động",
       body: "Một lần kiểm tra captcha gồm ba lời gọi. Trang của bạn lấy challenge bằng site key công khai, người dùng trả lời và nhận token dùng một lần, rồi máy chủ của bạn đổi token bằng secret key trước khi chấp nhận yêu cầu.",
+      diagram: {
+        light: "/diagrams/wau-flow-vi-light.svg",
+        dark: "/diagrams/wau-flow-vi-dark.svg",
+        alt: "Sơ đồ một lần xác minh gồm 12 bước. Frontend của website lấy challenge từ wau-challenge bằng site key, gửi câu trả lời tới wau-verify, nơi nhờ wau-challenge kiểm tra, và nhận token dùng một lần. Backend của bạn đổi token ở /siteverify bằng secret key và nhận về success, loại challenge và hostname. Challenge và grant nằm trong Redis Cluster và mỗi cái chỉ dùng được một lần.",
+        caption: "Các số theo đúng thứ tự các lời gọi; wau-challenge và wau-verify nằm sau api.waucaptcha.com.",
+        open: "Mở kích thước đầy đủ",
+      },
       keysTitle: "Khóa của bạn",
       siteKey: "Site key (pk_…) — công khai. Dùng ở trình duyệt để lấy challenge.",
       secretKey: "Secret key (sk_…) — bí mật. Dùng ở máy chủ để đổi token. Không bao giờ đưa lên trình duyệt.",
