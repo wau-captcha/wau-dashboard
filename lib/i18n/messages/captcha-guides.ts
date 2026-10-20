@@ -99,12 +99,12 @@ const en = {
       bestFor: "Touch screens, and people who find reading distorted text hard",
     },
     object_rotate: {
-      tagline: "An object stands beside an arrow on the ground: turn it until it faces the arrow, in two rounds.",
-      alt: "An object_rotate challenge: a dog on the ground and, beside it, an arrow pointing where it should face",
-      caption: "A real challenge, both rounds: try the buttons or the arrow keys. In each round one of the eight frames shows the object facing the arrow; here it is frame 3.",
+      tagline: "An arrow on the ground points a way in one panel: turn the object in the other until it faces that way, in two rounds.",
+      alt: "An object_rotate challenge: on the left an arrow on the ground, on the right a horse to turn until it faces the way the arrow points",
+      caption: "A real challenge, both rounds: try the buttons or the arrow keys. In each round one of the eight frames shows the object facing the way the arrow points; here it is frame 3.",
       does: [
-        "Looks at the object and at the arrow on the ground beside it.",
-        "Turns the object with Rotate left and Rotate right, or with the arrow keys, until its front faces the arrow, and presses Done.",
+        "Looks at the arrow on the ground in the left panel, and at the object in the right one: the two never overlap.",
+        "Turns the object with Rotate left and Rotate right, or with the arrow keys, until its front faces the way the arrow points, and presses Done.",
         "Does the same with another object in round 2; the presses of both rounds go out together.",
       ],
       why: [
@@ -330,11 +330,11 @@ const vi: Translation<typeof en> = {
       bestFor: "Màn hình cảm ứng, và người thấy khó đọc chữ bị bóp méo",
     },
     object_rotate: {
-      tagline: "Một vật thể đứng cạnh mũi tên trên mặt đất: xoay nó cho tới khi mặt trước hướng theo mũi tên, qua hai lượt.",
-      alt: "Một challenge object_rotate: con chó đứng trên mặt đất, bên cạnh là mũi tên chỉ hướng nó cần quay về",
-      caption: "Một challenge thật, đủ hai lượt: hãy thử các nút hoặc phím mũi tên. Ở mỗi lượt, một trong tám khung hình cho thấy vật thể hướng theo mũi tên; ở đây là khung 3.",
+      tagline: "Ở một ô, mũi tên trên mặt đất chỉ một hướng: xoay vật thể ở ô kia cho tới khi mặt trước hướng theo đúng hướng đó, qua hai lượt.",
+      alt: "Một challenge object_rotate: bên trái là mũi tên trên mặt đất, bên phải là con ngựa cần xoay cho tới khi quay về hướng mũi tên chỉ",
+      caption: "Một challenge thật, đủ hai lượt: hãy thử các nút hoặc phím mũi tên. Ở mỗi lượt, một trong tám khung hình cho thấy vật thể quay về hướng mũi tên chỉ; ở đây là khung 3.",
       does: [
-        "Nhìn vật thể và mũi tên trên mặt đất bên cạnh nó.",
+        "Nhìn mũi tên trên mặt đất ở ô bên trái và vật thể ở ô bên phải: hai thứ không bao giờ chồng lên nhau.",
         "Xoay vật thể bằng nút Xoay trái và Xoay phải, hoặc phím mũi tên, cho tới khi mặt trước hướng theo mũi tên, rồi bấm Xong.",
         "Làm như vậy với một vật thể khác ở lượt 2; các lần bấm của cả hai lượt được gửi cùng lúc.",
       ],

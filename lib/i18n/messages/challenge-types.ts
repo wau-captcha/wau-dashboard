@@ -21,7 +21,7 @@ const en = {
     },
     object_rotate: {
       label: "Rotate to arrow",
-      description: "Two rounds: turn an object a step at a time until it faces the arrow on the ground.",
+      description: "Two rounds: turn an object a step at a time until it faces the way the arrow in the panel beside it points.",
     },
     auto_check: {
       label: "Auto check",
@@ -55,7 +55,7 @@ const vi: Translation<typeof en> = {
     },
     object_rotate: {
       label: "Xoay vật theo mũi tên",
-      description: "Hai lượt: xoay vật thể từng nấc cho tới khi mặt trước hướng theo mũi tên trên mặt đất.",
+      description: "Hai lượt: xoay vật thể từng nấc cho tới khi mặt trước hướng theo mũi tên ở ô bên cạnh.",
     },
     auto_check: {
       label: "Xác minh tự động",

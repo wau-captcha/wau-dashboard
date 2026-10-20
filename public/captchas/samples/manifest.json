@@ -367,7 +367,7 @@
   {
     "file": "object_rotate-01-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":3,\"o\":\"dog\"},{\"t\":3,\"o\":\"car\"}]}",
+    "answer": "{\"r\":[{\"t\":3,\"o\":\"horse\"},{\"t\":3,\"o\":\"desk fan\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-01-2.jpg",
@@ -375,18 +375,18 @@
     "targets": [
       {
         "frame": 3,
-        "object": "dog"
+        "object": "horse"
       },
       {
         "frame": 3,
-        "object": "car"
+        "object": "desk fan"
       }
     ]
   },
   {
     "file": "object_rotate-02-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":5,\"o\":\"desk lamp\"},{\"t\":3,\"o\":\"cat\"}]}",
+    "answer": "{\"r\":[{\"t\":5,\"o\":\"watering can\"},{\"t\":4,\"o\":\"tractor\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-02-2.jpg",
@@ -394,68 +394,68 @@
     "targets": [
       {
         "frame": 5,
-        "object": "desk lamp"
+        "object": "watering can"
       },
       {
-        "frame": 3,
-        "object": "cat"
+        "frame": 4,
+        "object": "tractor"
       }
     ]
   },
   {
     "file": "object_rotate-03-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":4,\"o\":\"armchair\"},{\"t\":4,\"o\":\"cat\"}]}",
+    "answer": "{\"r\":[{\"t\":6,\"o\":\"sneaker\"},{\"t\":7,\"o\":\"tank\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-03-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 4,
-        "object": "armchair"
+        "frame": 6,
+        "object": "sneaker"
       },
       {
-        "frame": 4,
-        "object": "cat"
+        "frame": 7,
+        "object": "tank"
       }
     ]
   },
   {
     "file": "object_rotate-04-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":7,\"o\":\"office chair\"},{\"t\":7,\"o\":\"desk fan\"}]}",
+    "answer": "{\"r\":[{\"t\":2,\"o\":\"cow\"},{\"t\":6,\"o\":\"person\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-04-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 7,
-        "object": "office chair"
+        "frame": 2,
+        "object": "cow"
       },
       {
-        "frame": 7,
-        "object": "desk fan"
+        "frame": 6,
+        "object": "person"
       }
     ]
   },
   {
     "file": "object_rotate-05-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":4,\"o\":\"teapot\"},{\"t\":3,\"o\":\"tank\"}]}",
+    "answer": "{\"r\":[{\"t\":1,\"o\":\"office chair\"},{\"t\":1,\"o\":\"camera\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-05-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 4,
-        "object": "teapot"
+        "frame": 1,
+        "object": "office chair"
       },
       {
-        "frame": 3,
-        "object": "tank"
+        "frame": 1,
+        "object": "camera"
       }
     ]
   }
