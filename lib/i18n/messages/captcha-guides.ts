@@ -100,7 +100,7 @@ const en = {
     },
     object_rotate: {
       tagline: "An arrow on the ground points a way in one panel: turn the object in the other until it faces that way, in two rounds.",
-      alt: "An object_rotate challenge: on the left an arrow on the ground, on the right a horse to turn until it faces the way the arrow points",
+      alt: "An object_rotate challenge: on the left an arrow on the ground, on the right an armchair to turn until it faces the way the arrow points",
       caption: "A real challenge, both rounds: try the buttons or the arrow keys. In each round one of the eight frames shows the object facing the way the arrow points; here it is frame 3.",
       does: [
         "Looks at the arrow on the ground in the left panel, and at the object in the right one: the two never overlap.",
@@ -108,7 +108,7 @@ const en = {
         "Does the same with another object in round 2; the presses of both rounds go out together.",
       ],
       why: [
-        "The answer is only in the pixels: there is no text to read, and nothing in the page says which frame faces the arrow. Each round is drawn fresh: one of 28 objects, with a camera, light, colours and an arrow of its own.",
+        "The answer is only in the pixels: there is no text to read, and nothing in the page says which frame faces the arrow. Each round is drawn fresh: one of 10 boxy objects, vehicles and furniture, with a camera, light, colours and an arrow of its own.",
         "Two right rounds in a row are needed, so presses at random pass about 1 time in 64.",
         "The presses must come at a person's pace, lead to the frame that is sent, and fit in the time since the challenge was issued.",
         "A script trained on the objects could learn which way each one faces, so, like slide_puzzle and animal_jump, much of its value lies in the behaviour and timing checks.",
@@ -331,7 +331,7 @@ const vi: Translation<typeof en> = {
     },
     object_rotate: {
       tagline: "Ở một ô, mũi tên trên mặt đất chỉ một hướng: xoay vật thể ở ô kia cho tới khi mặt trước hướng theo đúng hướng đó, qua hai lượt.",
-      alt: "Một challenge object_rotate: bên trái là mũi tên trên mặt đất, bên phải là con ngựa cần xoay cho tới khi quay về hướng mũi tên chỉ",
+      alt: "Một challenge object_rotate: bên trái là mũi tên trên mặt đất, bên phải là chiếc ghế bành cần xoay cho tới khi quay về hướng mũi tên chỉ",
       caption: "Một challenge thật, đủ hai lượt: hãy thử các nút hoặc phím mũi tên. Ở mỗi lượt, một trong tám khung hình cho thấy vật thể quay về hướng mũi tên chỉ; ở đây là khung 3.",
       does: [
         "Nhìn mũi tên trên mặt đất ở ô bên trái và vật thể ở ô bên phải: hai thứ không bao giờ chồng lên nhau.",
@@ -339,7 +339,7 @@ const vi: Translation<typeof en> = {
         "Làm như vậy với một vật thể khác ở lượt 2; các lần bấm của cả hai lượt được gửi cùng lúc.",
       ],
       why: [
-        "Đáp án chỉ nằm trong các pixel: không có chữ để đọc, và không gì trên trang cho biết khung nào hướng theo mũi tên. Mỗi lượt được vẽ mới: một trong 28 vật thể, với góc máy, ánh sáng, màu sắc và mũi tên riêng.",
+        "Đáp án chỉ nằm trong các pixel: không có chữ để đọc, và không gì trên trang cho biết khung nào hướng theo mũi tên. Mỗi lượt được vẽ mới: một trong 10 vật thể dạng hộp, xe cộ và đồ nội thất, với góc máy, ánh sáng, màu sắc và mũi tên riêng.",
         "Cần hai lượt đúng liên tiếp, nên bấm ngẫu nhiên chỉ qua được khoảng 1 lần trong 64.",
         "Các lần bấm phải theo nhịp của người, dẫn tới đúng khung được gửi, và nằm gọn trong khoảng thời gian kể từ khi challenge được cấp.",
         "Script được huấn luyện trên các vật thể này có thể học được mỗi vật hướng về đâu, nên cũng như slide_puzzle và animal_jump, phần lớn giá trị của loại này nằm ở phần kiểm tra hành vi và thời gian.",
