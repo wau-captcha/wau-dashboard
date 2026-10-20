@@ -367,7 +367,7 @@
   {
     "file": "object_rotate-01-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":3,\"o\":\"horse\"},{\"t\":3,\"o\":\"desk fan\"}]}",
+    "answer": "{\"r\":[{\"t\":3,\"o\":\"armchair\"},{\"t\":3,\"o\":\"truck\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-01-2.jpg",
@@ -375,86 +375,86 @@
     "targets": [
       {
         "frame": 3,
-        "object": "horse"
+        "object": "armchair"
       },
       {
         "frame": 3,
-        "object": "desk fan"
+        "object": "truck"
       }
     ]
   },
   {
     "file": "object_rotate-02-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":5,\"o\":\"watering can\"},{\"t\":4,\"o\":\"tractor\"}]}",
+    "answer": "{\"r\":[{\"t\":3,\"o\":\"tank\"},{\"t\":1,\"o\":\"office chair\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-02-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 5,
-        "object": "watering can"
+        "frame": 3,
+        "object": "tank"
       },
       {
-        "frame": 4,
-        "object": "tractor"
+        "frame": 1,
+        "object": "office chair"
       }
     ]
   },
   {
     "file": "object_rotate-03-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":6,\"o\":\"sneaker\"},{\"t\":7,\"o\":\"tank\"}]}",
+    "answer": "{\"r\":[{\"t\":4,\"o\":\"tractor\"},{\"t\":1,\"o\":\"boat\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-03-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 6,
-        "object": "sneaker"
+        "frame": 4,
+        "object": "tractor"
       },
       {
-        "frame": 7,
-        "object": "tank"
+        "frame": 1,
+        "object": "boat"
       }
     ]
   },
   {
     "file": "object_rotate-04-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":2,\"o\":\"cow\"},{\"t\":6,\"o\":\"person\"}]}",
+    "answer": "{\"r\":[{\"t\":3,\"o\":\"car\"},{\"t\":7,\"o\":\"train engine\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-04-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 2,
-        "object": "cow"
+        "frame": 3,
+        "object": "car"
       },
       {
-        "frame": 6,
-        "object": "person"
+        "frame": 7,
+        "object": "train engine"
       }
     ]
   },
   {
     "file": "object_rotate-05-1.jpg",
     "type": "object_rotate",
-    "answer": "{\"r\":[{\"t\":1,\"o\":\"office chair\"},{\"t\":1,\"o\":\"camera\"}]}",
+    "answer": "{\"r\":[{\"t\":4,\"o\":\"bus\"},{\"t\":2,\"o\":\"camera\"}]}",
     "width": 300,
     "height": 150,
     "second_file": "object_rotate-05-2.jpg",
     "frame_count": 8,
     "targets": [
       {
-        "frame": 1,
-        "object": "office chair"
+        "frame": 4,
+        "object": "bus"
       },
       {
-        "frame": 1,
+        "frame": 2,
         "object": "camera"
       }
     ]
