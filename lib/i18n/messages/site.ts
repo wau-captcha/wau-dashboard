@@ -70,7 +70,7 @@ const en = {
       },
       objectRotate: {
         name: "Rotate to arrow",
-        body: "An object stands beside an arrow on the ground: turn it a step at a time until it faces the arrow, in two rounds. The arrow keys work too; both rounds must be right, and the pace of the presses is checked.",
+        body: "An arrow on the ground points a way in one panel: turn the object in the other a step at a time until it faces that way, in two rounds. The arrow keys work too; both rounds must be right, and the pace of the presses is checked.",
       },
       autoCheck: {
         name: "Auto check",
@@ -174,7 +174,7 @@ const vi: Translation<typeof en> = {
       },
       objectRotate: {
         name: "Xoay vật theo mũi tên",
-        body: "Một vật thể đứng cạnh mũi tên trên mặt đất: xoay nó từng nấc cho tới khi hướng theo mũi tên, qua hai lượt. Dùng được cả phím mũi tên; cả hai lượt phải đúng, và nhịp bấm cũng được kiểm tra.",
+        body: "Ở một ô, mũi tên trên mặt đất chỉ một hướng: xoay vật thể ở ô kia từng nấc cho tới khi quay về hướng đó, qua hai lượt. Dùng được cả phím mũi tên; cả hai lượt phải đúng, và nhịp bấm cũng được kiểm tra.",
       },
       autoCheck: {
         name: "Xác minh tự động",
