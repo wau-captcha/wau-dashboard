@@ -20,7 +20,7 @@ const en = {
       {
         title: "Who runs WAU Captcha",
         paragraphs: [
-          "WAU captcha runs waucaptcha.com, the website and dashboard, and api.waucaptcha.com, the captcha API. For any question about your data, write to waucaptcha.team@gmail.com.",
+          "WAU captcha runs waucaptcha.com, the website and dashboard, and api.waucaptcha.com, the captcha API. For any question about your data, write to contact@waucaptcha.com.",
         ],
       },
       {
@@ -106,7 +106,7 @@ const en = {
       {
         title: "Your choices",
         paragraphs: [
-          "Write to waucaptcha.team@gmail.com to get a copy of your data, to correct it or to have your account deleted. [RESPONSE TIME: e.g. within 30 days]",
+          "Write to contact@waucaptcha.com to get a copy of your data, to correct it or to have your account deleted. [RESPONSE TIME: e.g. within 30 days]",
         ],
       },
       {
@@ -206,7 +206,7 @@ const vi: Translation<typeof en> = {
       {
         title: "Ai vận hành WAU Captcha",
         paragraphs: [
-          "WAU captcha vận hành waucaptcha.com, tức trang web và bảng điều khiển, và api.waucaptcha.com, tức API captcha. Mọi câu hỏi về dữ liệu của bạn, hãy gửi tới waucaptcha.team@gmail.com.",
+          "WAU captcha vận hành waucaptcha.com, tức trang web và bảng điều khiển, và api.waucaptcha.com, tức API captcha. Mọi câu hỏi về dữ liệu của bạn, hãy gửi tới contact@waucaptcha.com.",
         ],
       },
       {
@@ -292,7 +292,7 @@ const vi: Translation<typeof en> = {
       {
         title: "Quyền của bạn",
         paragraphs: [
-          "Gửi thư tới waucaptcha.team@gmail.com để nhận bản sao dữ liệu, sửa dữ liệu hoặc yêu cầu xóa tài khoản. [THỜI GIAN PHẢN HỒI: ví dụ trong vòng 30 ngày]",
+          "Gửi thư tới contact@waucaptcha.com để nhận bản sao dữ liệu, sửa dữ liệu hoặc yêu cầu xóa tài khoản. [THỜI GIAN PHẢN HỒI: ví dụ trong vòng 30 ngày]",
         ],
       },
       {

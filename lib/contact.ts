@@ -2,7 +2,7 @@
 export const OPERATOR_NAME = "WAU captcha";
 
 /** For security reports, legal questions and requests about personal data. */
-export const CONTACT_EMAIL = "waucaptcha.team@gmail.com";
+export const CONTACT_EMAIL = "contact@waucaptcha.com";
 
 /** The public address of the website, which security.txt names as its canonical home. */
 export const SITE_URL = "https://waucaptcha.com";

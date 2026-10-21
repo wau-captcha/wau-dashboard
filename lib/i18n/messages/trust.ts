@@ -137,7 +137,7 @@ const en = {
     description: "Found a vulnerability? Tell us, and we will fix it.",
     reportTitle: "How to report",
     report:
-      "Write to waucaptcha.team@gmail.com with what you found, the steps to reproduce it and what it lets an attacker do. There is no PGP key for now; ask for another channel if you need one.",
+      "Write to contact@waucaptcha.com with what you found, the steps to reproduce it and what it lets an attacker do. There is no PGP key for now; ask for another channel if you need one.",
     scopeTitle: "In scope",
     scope: [
       "waucaptcha.com, the website and the dashboard",
@@ -303,7 +303,7 @@ const vi: Translation<typeof en> = {
     description: "Phát hiện lỗ hổng? Hãy báo cho chúng tôi, chúng tôi sẽ sửa.",
     reportTitle: "Cách báo cáo",
     report:
-      "Gửi thư tới waucaptcha.team@gmail.com, nêu điều bạn phát hiện, các bước để tái hiện và kẻ tấn công có thể làm gì với nó. Hiện chưa có khóa PGP; nếu cần kênh khác, hãy hỏi chúng tôi.",
+      "Gửi thư tới contact@waucaptcha.com, nêu điều bạn phát hiện, các bước để tái hiện và kẻ tấn công có thể làm gì với nó. Hiện chưa có khóa PGP; nếu cần kênh khác, hãy hỏi chúng tôi.",
     scopeTitle: "Trong phạm vi",
     scope: [
       "waucaptcha.com, trang web và bảng điều khiển",
