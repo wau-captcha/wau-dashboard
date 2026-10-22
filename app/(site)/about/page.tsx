@@ -43,6 +43,7 @@ export default async function AboutPage() {
     <div className="mx-auto grid w-full max-w-3xl gap-12 px-4 py-10 sm:px-6 sm:py-14">
       <div className="grid gap-4">
         <PageHeader title={text.title} description={text.description} />
+        <Alert tone="warning">{text.demo}</Alert>
         {text.body.map((paragraph) => (
           <Prose key={paragraph}>{paragraph}</Prose>
         ))}

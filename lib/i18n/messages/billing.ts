@@ -2,6 +2,10 @@ import type { Translation } from "../types";
 
 const en = {
   metaTitle: "Plans & billing",
+  demo: {
+    title: "This is a demo: please do not pay",
+    body: "WAU Captcha is a demo website, not a commercial service. The payment below is real and goes through SePay, but nothing here needs it.",
+  },
   metaDescription: "Your WAU Captcha plan, upgrades and payments.",
   title: "Plans & billing",
   description: "Buy a paid plan by the month or by the year with a bank transfer, and see your payments.",
@@ -50,6 +54,7 @@ const en = {
       "Plans are sold by the month or by the year. An upgrade starts as soon as it is paid and costs the full price: the time left on your current plan is not refunded. A renewal adds the period after your current end date. Plans cannot be downgraded; when a paid plan ends, the account goes back to Free.",
   },
   confirm: {
+    demo: "This is a demo website: you do not need to pay, and the payment is real.",
     upgradeTitle: (plan: string) => `Upgrade to ${plan}?`,
     renewTitle: { month: (plan: string) => `Renew ${plan} for one month?`, year: (plan: string) => `Renew ${plan} for one year?` },
     pay: {
@@ -85,6 +90,10 @@ const en = {
 
 const vi: Translation<typeof en> = {
   metaTitle: "Gói & thanh toán",
+  demo: {
+    title: "Đây là bản demo: xin đừng thanh toán",
+    body: "WAU Captcha là website demo, không phải dịch vụ thương mại. Thanh toán bên dưới là thật và đi qua SePay, nhưng không có gì ở đây cần đến nó.",
+  },
   metaDescription: "Gói WAU Captcha của bạn, nâng cấp và lịch sử thanh toán.",
   title: "Gói & thanh toán",
   description: "Mua gói trả phí theo tháng hoặc theo năm bằng chuyển khoản ngân hàng và xem các lần thanh toán.",
@@ -133,6 +142,7 @@ const vi: Translation<typeof en> = {
       "Gói được bán theo tháng hoặc theo năm. Nâng cấp có hiệu lực ngay khi thanh toán xong và phải trả đủ giá: thời gian còn lại của gói hiện tại không được hoàn. Gia hạn cộng thêm kỳ đã mua vào sau ngày hết hạn hiện tại. Không thể hạ gói; khi gói trả phí hết hạn, tài khoản trở về gói Free.",
   },
   confirm: {
+    demo: "Đây là website demo: bạn không cần thanh toán, và khoản thanh toán là thật.",
     upgradeTitle: (plan: string) => `Nâng cấp lên ${plan}?`,
     renewTitle: { month: (plan: string) => `Gia hạn ${plan} thêm một tháng?`, year: (plan: string) => `Gia hạn ${plan} thêm một năm?` },
     pay: {

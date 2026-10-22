@@ -66,6 +66,9 @@ export default async function BillingPage({
 
       <section className="grid gap-4">
         <PageHeader level={2} title={text.plans.title} description={text.plans.description} />
+        <Alert tone="warning" title={text.demo.title}>
+          {text.demo.body}
+        </Alert>
         <PlanChooser planSet={planSet} />
         <Alert tone="neutral">{text.plans.rules}</Alert>
       </section>
