@@ -108,16 +108,23 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
               </li>
             );
           })}
-          <li>
-            <MediaCard
-              href="/captchas/behavior"
-              title={t.captchas.overview.behaviorTitle}
-              description={t.captchas.overview.behaviorBody}
-              media={<ScanEye aria-hidden className="size-10 text-accent-foreground" />}
-              action={t.captchas.learnMore}
-            />
-          </li>
         </ul>
+      </section>
+
+      {/* Not a captcha type: the check behind all of them, so it stands apart from their list. */}
+      <section>
+        <Card>
+          <CardContent className="grid gap-3 py-6 md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:gap-6">
+            <ScanEye aria-hidden className="size-6 text-accent-foreground" />
+            <div className="grid gap-2">
+              <h2 className="font-brand text-section font-semibold tracking-tight text-foreground">{t.captchas.overview.behaviorTitle}</h2>
+              <p className="max-w-3xl text-body text-muted-foreground">{t.captchas.overview.behaviorBody}</p>
+              <Link href="/captchas/behavior" className={buttonVariants({ variant: "link", className: "justify-self-start px-0" })}>
+                {t.captchas.learnMore}
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </section>
     </>
   );
