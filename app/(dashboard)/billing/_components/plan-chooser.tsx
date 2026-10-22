@@ -3,6 +3,7 @@
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/ui/dialog";
@@ -187,6 +188,7 @@ export function PlanChooser({ planSet }: { planSet: PlanSet }) {
       >
         {chosen && (
           <div className="grid gap-2 text-body text-muted-foreground">
+            <Alert tone="warning">{text.confirm.demo}</Alert>
             {upgrade ? (
               <p>{text.confirm.upgradeRuns[chosenPeriod](chosen.plan.tier_name, when(addMonths(new Date(), months)))}</p>
             ) : (

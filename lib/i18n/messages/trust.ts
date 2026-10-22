@@ -57,6 +57,7 @@ const en = {
     json: "The same result as JSON",
   },
   about: {
+    demo: "WAU Captcha is a demo website, not a commercial service. Payments on the billing page still go through, but you do not need to pay: please don't.",
     metaTitle: "About",
     metaDescription:
       "What WAU Captcha is, what this website offers, why bots that solve its captchas for research and testing are welcome, and who runs it.",
@@ -223,6 +224,7 @@ const vi: Translation<typeof en> = {
     json: "Cùng kết quả dạng JSON",
   },
   about: {
+    demo: "WAU Captcha là website demo, không phải dịch vụ thương mại. Thanh toán ở trang gói vẫn chạy, nhưng bạn không cần thanh toán: xin đừng thanh toán.",
     metaTitle: "Giới thiệu",
     metaDescription:
       "WAU Captcha là gì, website này có những gì, vì sao bot giải captcha để nghiên cứu và thử nghiệm được hoan nghênh, và ai vận hành dịch vụ.",
