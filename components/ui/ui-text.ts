@@ -90,7 +90,7 @@ const en = {
   },
   autoCheckPreview: {
     /** The texts of the widget's auto_check box. */
-    checking: "Checking that you are human…",
+    checking: "Checking…",
     verified: "Verified",
     fallback: "One more step: please solve this challenge.",
     outcome: "Outcome",
@@ -201,7 +201,7 @@ const vi: Translation<UIText> = {
     frame: (frame) => `Khung ${frame}`,
   },
   autoCheckPreview: {
-    checking: "Đang kiểm tra bạn là người…",
+    checking: "Đang kiểm tra…",
     verified: "Đã xác minh",
     fallback: "Cần thêm một bước: hãy giải captcha này.",
     outcome: "Kết quả",
