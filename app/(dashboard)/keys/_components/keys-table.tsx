@@ -1,8 +1,8 @@
 "use client";
 
-import { Ellipsis, Eye, Pause, Play, Trash2 } from "lucide-react";
+import { Ellipsis, Eye, Pause, Play, Search, SearchX, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { KeyStatusBadge } from "@/app/_components/key-status-badge";
 import { Button } from "@/components/ui/button";
 import { DataTable, type DataTableColumn } from "@/components/ui/data-table";
@@ -13,18 +13,38 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EmptyState } from "@/components/ui/empty-state";
+import { TextInput } from "@/components/ui/text-input";
 import { toast } from "@/components/ui/toast";
 import type { ApiKey } from "@/lib/api/types";
 import { useI18n } from "@/lib/i18n/client";
 import { keyDisplayName } from "@/lib/key-name";
+import { matchesSearch } from "@/lib/search";
 import { deleteKeyAction, setKeyActiveAction } from "../actions";
 
+const PAGE_SIZES = [5, 10, 20, 50];
+
+/** Every key of the account, found by name or site key and shown a page at a time. */
 export function KeysTable({ keys }: { keys: ApiKey[] }) {
   const { t, format } = useI18n();
   const text = t.keys;
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [keyToDelete, setKeyToDelete] = useState<ApiKey | null>(null);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const found = useMemo(() => keys.filter((key) => matchesSearch(query, key.name, key.site_key)), [keys, query]);
+
+  function search(value: string) {
+    setQuery(value);
+    setPage(1);
+  }
+
+  function changePageSize(size: number) {
+    setPageSize(size);
+    setPage(1);
+  }
 
   function toggleActive(key: ApiKey) {
     startTransition(async () => {
@@ -105,15 +125,40 @@ export function KeysTable({ keys }: { keys: ApiKey[] }) {
   ];
 
   return (
-    <>
+    <div className="grid gap-3">
+      <div role="search" aria-label={text.list.searchLabel} className="w-full sm:w-80">
+        <TextInput
+          size="sm"
+          startAdornment={<Search />}
+          placeholder={text.list.searchPlaceholder}
+          aria-label={text.list.searchLabel}
+          autoComplete="off"
+          value={query}
+          onValueChange={search}
+          clearable
+        />
+      </div>
       <DataTable
         aria-label={text.list.tableLabel}
         columns={columns}
-        data={keys}
+        data={found}
         getRowId={(key) => key.id}
         loading={pending}
         onRowClick={(key) => router.push(`/keys/${key.id}`)}
         defaultSort={{ columnId: "create_date", direction: "desc" }}
+        pagination={{ page, pageSize, onPageChange: setPage, onPageSizeChange: changePageSize, pageSizeOptions: PAGE_SIZES }}
+        emptyState={
+          <EmptyState
+            icon={<SearchX />}
+            title={text.list.noMatchTitle}
+            description={text.list.noMatchDescription(query.trim())}
+            action={
+              <Button variant="outline" size="sm" onClick={() => search("")}>
+                {text.list.clearSearch}
+              </Button>
+            }
+          />
+        }
       />
       <ConfirmDialog
         open={keyToDelete !== null}
@@ -124,6 +169,6 @@ export function KeysTable({ keys }: { keys: ApiKey[] }) {
         confirmLabel={text.deleteDialog.confirm}
         onConfirm={confirmDelete}
       />
-    </>
+    </div>
   );
 }

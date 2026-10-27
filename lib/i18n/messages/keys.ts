@@ -10,6 +10,11 @@ const en = {
     emptyTitle: "No API keys yet",
     emptyDescription: "Create your first key to embed a captcha on your site.",
     tableLabel: "API keys",
+    searchLabel: "Search API keys",
+    searchPlaceholder: "Search by name or site key",
+    noMatchTitle: "No keys found",
+    noMatchDescription: (query: string) => `No key has “${query}” in its name or site key.`,
+    clearSearch: "Clear search",
   },
   create: {
     button: "Create API key",
@@ -63,6 +68,11 @@ const vi: Translation<typeof en> = {
     emptyTitle: "Chưa có khóa API",
     emptyDescription: "Tạo khóa đầu tiên để nhúng captcha vào trang của bạn.",
     tableLabel: "Danh sách khóa API",
+    searchLabel: "Tìm khóa API",
+    searchPlaceholder: "Tìm theo tên hoặc site key",
+    noMatchTitle: "Không tìm thấy khóa",
+    noMatchDescription: (query) => `Không có khóa nào có “${query}” trong tên hoặc site key.`,
+    clearSearch: "Xóa tìm kiếm",
   },
   create: {
     button: "Tạo khóa API",

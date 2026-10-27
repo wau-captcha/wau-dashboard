@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "./checkbox";
 import { EmptyState } from "./empty-state";
 import { useFormatter, useUIText } from "./locale";
+import { Pagination, type PaginationProps } from "./pagination";
 import { Skeleton } from "./skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, type TableDensity } from "./table";
 
@@ -55,7 +56,12 @@ export type DataTableProps<T> = {
   rowClassName?: (row: T) => string | undefined;
   density?: TableDensity;
   stickyHeader?: boolean;
-  /** Rendered under the table inside the same frame, e.g. <Pagination />. */
+  /**
+   * Pages the rows here, after sorting all of them, and shows a <Pagination /> under the table.
+   * When the server pages the rows, pass one page as `data` and a <Pagination /> as `footer`.
+   */
+  pagination?: Pick<PaginationProps, "page" | "pageSize" | "onPageChange" | "onPageSizeChange" | "pageSizeOptions">;
+  /** Rendered under the table inside the same frame, e.g. <Pagination />; replaces the one of `pagination`. */
   footer?: ReactNode;
   /** Classes for the outer frame. */
   className?: string;
@@ -90,7 +96,10 @@ function widthStyle(width: number | string | undefined): CSSProperties | undefin
   return { width: typeof width === "number" ? `${width}px` : width };
 }
 
-/** Table with sorting, row selection, loading and empty states. Pagination is rendered via `footer`. */
+/**
+ * Table with sorting, row selection, loading and empty states. It pages its rows with
+ * `pagination`; rows the server pages get their <Pagination /> through `footer`.
+ */
 export function DataTable<T>({
   columns,
   data,
@@ -110,6 +119,7 @@ export function DataTable<T>({
   rowClassName,
   density,
   stickyHeader,
+  pagination,
   footer,
   className,
   tableClassName,
@@ -123,7 +133,7 @@ export function DataTable<T>({
   const selectedIds = selectedRowIds ?? uncontrolledSelection;
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
 
-  const rows = useMemo(() => {
+  const sortedRows = useMemo(() => {
     if (manualSorting || !sortState) return data;
     const accessor = columns.find((column) => column.id === sortState.columnId)?.accessor;
     if (!accessor) return data;
@@ -137,6 +147,14 @@ export function DataTable<T>({
       return sortState.direction === "asc" ? result : -result;
     });
   }, [columns, data, manualSorting, sortState, format.intl]);
+
+  // A page past the last one, e.g. after rows were deleted, shows the last one.
+  const pageCount = pagination ? Math.max(1, Math.ceil(sortedRows.length / pagination.pageSize)) : 1;
+  const page = pagination ? Math.min(Math.max(1, pagination.page), pageCount) : 1;
+  const rows = pagination
+    ? sortedRows.slice((page - 1) * pagination.pageSize, page * pagination.pageSize)
+    : sortedRows;
+  const tableFooter = footer ?? (pagination && <Pagination {...pagination} page={page} total={sortedRows.length} />);
 
   const rowIds = rows.map((row, index) => getRowId(row, index));
   const selectableIds = selectable ? rowIds.filter((_, index) => isRowSelectable?.(rows[index]) ?? true) : [];
@@ -154,6 +172,8 @@ export function DataTable<T>({
           : null;
     if (sort === undefined) setUncontrolledSort(next);
     onSortChange?.(next);
+    // A new order starts on its first page.
+    if (pagination && page !== 1) pagination.onPageChange(1);
   }
 
   function setSelection(ids: string[]) {
@@ -175,11 +195,11 @@ export function DataTable<T>({
     <Table
       density={density}
       stickyHeader={stickyHeader}
-      framed={!footer}
+      framed={!tableFooter}
       aria-label={ariaLabel}
       aria-busy={loading || undefined}
       className={tableClassName}
-      containerClassName={footer ? undefined : className}
+      containerClassName={tableFooter ? undefined : className}
     >
       <TableHeader>
         <TableRow>
@@ -275,7 +295,15 @@ export function DataTable<T>({
                 key={id}
                 data-state={selected ? "selected" : undefined}
                 tabIndex={onRowClick ? 0 : undefined}
-                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                onClick={
+                  onRowClick
+                    ? (event) => {
+                        // A menu a row opens sits in a portal, outside the row, yet React still
+                        // bubbles its clicks here: only clicks inside the row open it.
+                        if (event.currentTarget.contains(event.target as Node)) onRowClick(row);
+                      }
+                    : undefined
+                }
                 onKeyDown={
                   onRowClick
                     ? (event) => {
@@ -310,12 +338,12 @@ export function DataTable<T>({
     </Table>
   );
 
-  if (!footer) return table;
+  if (!tableFooter) return table;
 
   return (
     <div data-slot="data-table" className={cn("overflow-hidden rounded-lg border border-border bg-table", className)}>
       {table}
-      <div className="border-t border-border">{footer}</div>
+      <div className="border-t border-border">{tableFooter}</div>
     </div>
   );
 }
