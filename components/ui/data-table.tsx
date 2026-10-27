@@ -275,7 +275,15 @@ export function DataTable<T>({
                 key={id}
                 data-state={selected ? "selected" : undefined}
                 tabIndex={onRowClick ? 0 : undefined}
-                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                onClick={
+                  onRowClick
+                    ? (event) => {
+                        // A menu a row opens sits in a portal, outside the row, yet React still
+                        // bubbles its clicks here: only clicks inside the row open it.
+                        if (event.currentTarget.contains(event.target as Node)) onRowClick(row);
+                      }
+                    : undefined
+                }
                 onKeyDown={
                   onRowClick
                     ? (event) => {

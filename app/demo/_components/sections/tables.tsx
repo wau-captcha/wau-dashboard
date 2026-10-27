@@ -146,7 +146,7 @@ function ApiKeysTable() {
       width: 56,
       align: "right",
       cell: (key) => (
-        // Keeps menu clicks (which bubble through the portal) from triggering the row click.
+        // Keeps a click on the menu button from opening the row.
         <div onClick={(event) => event.stopPropagation()}>
           <DropdownMenu>
             <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label={`Thao tác cho ${key.name}`} />}>
