@@ -121,10 +121,10 @@ const en = {
     },
     auto_check: {
       tagline: "Most visitors do nothing: the check runs in the background, and only those it is unsure of get a puzzle.",
-      alt: "An auto_check box as visitors see it: a spinner and “Checking that you are human…”, then a check mark and “Verified”",
+      alt: "An auto_check box as visitors see it: a spinner and “Checking…”, then a check mark and “Verified”",
       caption: "The box as visitors see it. Switch to the fallback to see what a visitor the check is unsure of gets instead: here, a slide_puzzle.",
       does: [
-        "Nothing, most of the time. Once the box comes into view it says “Checking that you are human…”, while the browser solves a proof of work and the SDK looks at the browser and at how the pointer moves on the page.",
+        "Nothing, most of the time. Once the box comes into view it says “Checking…”, while the browser solves a proof of work and the SDK looks at the browser and at how the pointer moves on the page.",
         "After a second and a half, or a little more, the box turns into “Verified” and the form has its token.",
         "A visitor the check is unsure of is never told why: “One more step: please solve this challenge.” and a challenge of the fallback type appear in the same place.",
       ],
@@ -352,10 +352,10 @@ const vi: Translation<typeof en> = {
     },
     auto_check: {
       tagline: "Phần lớn khách truy cập không phải làm gì: việc kiểm tra chạy ngầm, chỉ người mà nó chưa chắc chắn mới phải giải một câu đố.",
-      alt: "Một ô auto_check như khách truy cập thấy: biểu tượng xoay và “Đang kiểm tra bạn là người…”, rồi dấu tích và “Đã xác minh”",
+      alt: "Một ô auto_check như khách truy cập thấy: biểu tượng xoay và “Đang kiểm tra…”, rồi dấu tích và “Đã xác minh”",
       caption: "Ô kiểm tra như khách truy cập thấy. Chuyển sang phần dự phòng để xem người mà phép kiểm tra chưa chắc chắn nhận được gì thay vào đó: ở đây là một slide_puzzle.",
       does: [
-        "Phần lớn thời gian không phải làm gì. Khi ô kiểm tra xuất hiện trong khung nhìn, nó hiện “Đang kiểm tra bạn là người…”, trong lúc trình duyệt giải một proof of work và SDK xem xét trình duyệt cùng cách con trỏ di chuyển trên trang.",
+        "Phần lớn thời gian không phải làm gì. Khi ô kiểm tra xuất hiện trong khung nhìn, nó hiện “Đang kiểm tra…”, trong lúc trình duyệt giải một proof of work và SDK xem xét trình duyệt cùng cách con trỏ di chuyển trên trang.",
         "Sau một giây rưỡi, hoặc lâu hơn một chút, ô chuyển thành “Đã xác minh” và form đã có token.",
         "Người mà phép kiểm tra chưa chắc chắn không bao giờ được cho biết lý do: “Cần thêm một bước: hãy giải captcha này.” cùng một challenge thuộc loại dự phòng hiện ra ở đúng chỗ đó.",
       ],
