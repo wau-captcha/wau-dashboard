@@ -1,6 +1,5 @@
 import { KeyRound } from "lucide-react";
 import type { Metadata } from "next";
-import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { listApiKeys } from "@/lib/api/api-keys";
@@ -34,11 +33,7 @@ export default async function KeysPage() {
           action={<CreateKeyDialog disabled={false} limit={limit} />}
         />
       ) : (
-        <Card>
-          <CardContent className="p-0">
-            <KeysTable keys={keys} />
-          </CardContent>
-        </Card>
+        <KeysTable keys={keys} />
       )}
     </>
   );

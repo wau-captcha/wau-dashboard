@@ -39,7 +39,7 @@ CI and the Docker image use Node.js 24.
 | `(auth)` | `/login`, `/admin/login` | Google sign-in for users, and for administrators. |
 | | `/session-expired`, `/admin/session-expired` | Route handlers that sign out a browser whose token wau-services rejects. |
 | `(dashboard)` | `/overview` | Usage and the status of the user's API keys. |
-| | `/keys`, `/keys/[id]` | Create, pause and delete keys; one key's secrets, allowed domains and addresses, usage and activity. |
+| | `/keys`, `/keys/[id]` | Search and page through keys, create, pause and delete them; one key's secrets, allowed domains and addresses, usage and activity. |
 | | `/billing`, `/billing/history`, `/billing/history/[id]` | Plan and upgrades; payment history; one payment. |
 | | `/account` | Account details and the captcha types the user may use. |
 | `(admin)` | `/admin` | Admin overview: stats and usage. |

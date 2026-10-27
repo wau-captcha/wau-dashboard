@@ -90,6 +90,8 @@ function ApiKeysTable() {
   const [density, setDensity] = useState<TableDensity>("regular");
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
 
   const needle = query.trim().toLowerCase();
   const rows = apiKeys.filter(
@@ -189,7 +191,10 @@ function ApiKeysTable() {
           placeholder="Tìm website, người dùng, site key…"
           aria-label="Tìm khóa API"
           value={query}
-          onValueChange={setQuery}
+          onValueChange={(value) => {
+            setQuery(value);
+            setPage(1);
+          }}
           clearable
         />
         <Select
@@ -198,7 +203,10 @@ function ApiKeysTable() {
           aria-label="Lọc theo trạng thái"
           options={statusFilterOptions}
           value={status}
-          onValueChange={setStatus}
+          onValueChange={(value) => {
+            setStatus(value);
+            setPage(1);
+          }}
         />
         <div className="flex flex-wrap items-center gap-4 sm:ml-auto">
           <Switch label="Mô phỏng đang tải" checked={loading} onCheckedChange={setLoading} />
@@ -252,6 +260,16 @@ function ApiKeysTable() {
         onSelectedRowIdsChange={setSelected}
         defaultSort={{ columnId: "requests", direction: "desc" }}
         density={density}
+        pagination={{
+          page,
+          pageSize,
+          onPageChange: setPage,
+          onPageSizeChange: (size) => {
+            setPageSize(size);
+            setPage(1);
+          },
+          pageSizeOptions: [5, 10, 20],
+        }}
         onRowClick={(key) => toast.info(key.name, { description: `Mở chi tiết khóa ${key.siteKey.slice(0, 14)}…` })}
         emptyState={
           <EmptyState
@@ -265,6 +283,7 @@ function ApiKeysTable() {
                 onClick={() => {
                   setQuery("");
                   setStatus("all");
+                  setPage(1);
                 }}
               >
                 Xóa bộ lọc
@@ -328,7 +347,7 @@ export function TablesSection() {
     >
       <DemoBlock
         title="Khóa API"
-        description="Sắp xếp phía client, chọn nhiều dòng (khóa đã xóa không chọn được), bấm dòng để mở chi tiết, menu thao tác cuối dòng. Tìm “zzz” để thấy trạng thái rỗng."
+        description="Tìm kiếm, sắp xếp và phân trang phía client (pagination: bảng sắp xếp mọi dòng rồi mới cắt trang), chọn nhiều dòng (khóa đã xóa không chọn được), bấm dòng để mở chi tiết, menu thao tác cuối dòng. Tìm “zzz” để thấy trạng thái rỗng."
         contentClassName="bg-background"
       >
         <ApiKeysTable />
@@ -336,7 +355,7 @@ export function TablesSection() {
 
       <DemoBlock
         title="Nhật ký sử dụng"
-        description={`${usageLogs.length} bản ghi, sắp xếp và phân trang kiểu server (manualSorting), mật độ compact.`}
+        description={`${usageLogs.length} bản ghi, sắp xếp và phân trang kiểu server (manualSorting, Pagination trong footer), mật độ compact.`}
         contentClassName="bg-background"
       >
         <UsageLogsTable />
